@@ -1,0 +1,62 @@
+import axios from '../axios'
+
+/* 
+ * 科室管理模块
+ */
+
+
+// 查找所有一级科室
+export const findAll = (data) => {
+    return axios({
+        url: '/system/departmentOne/list',
+        method: 'get'
+    })
+}
+//根据一级科室id查询二级科室
+export const findDepartmentTwoByid = (data) => {
+    return axios({
+        url: '/system/departmentTwo/selectByDepartmentOneId',
+        method: 'get',
+        params:data
+    })
+}
+// 保存
+export const save = (data) => {
+    return axios({
+        url: '/system/role/save',
+        method: 'post',
+        data
+    })
+}
+// 删除
+export const batchDelete = (data) => {
+    return axios({
+        url: '/system/role/delete',
+        method: 'post',
+        data
+    })
+}
+// 分页查询
+export const findPage = (data) => {
+    return axios({
+        url: '/system/role/findPage',
+        method: 'post',
+        data
+    })
+}
+// 查询角色菜单集合
+export const findRoleMenus = (params) => {
+    return axios({
+        url: '/system/role/findRoleMenus',
+        method: 'get',
+        params
+    })
+}
+// 保存角色菜单集合
+export const saveRoleMenus = (data) => {
+    return axios({
+        url: '/system/role/saveRoleMenus',
+        method: 'post',
+        data
+    })
+}
