@@ -4,7 +4,7 @@ import Login from '@/views/Login'
 import Download from '@/views/Download'
 import Register from '@/views/Register'
 import ForgetPwd from '@/views/ForgetPwd'
-import UserRegister from '@/views/UserRegister'
+import UserRegister from '@/views/GongZhongHao/UserRegister'
 import NotFound from '@/views/Error/404'
 import Home from '@/views/Home'
 import Intro from '@/views/Intro/Intro'
@@ -12,6 +12,7 @@ import Generator from '@/views/Generator/Generator'
 import api from '@/http/api'
 import store from '@/store'
 import { getIFramePath, getIFrameUrl } from '@/utils/iframe'
+import MedicalRecordList from "@/views/GongZhongHao/MedicalRecordList";
 
 Vue.use(Router)
 
@@ -20,33 +21,33 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: '首页',
+      name: 'Home',
       component: Home,
       meta:{
         title:'上医林健康'
       },
       children: [
-        { 
-          path: '', 
-          name: '系统介绍', 
+        {
+          path: '',
+          name: 'Intro',
           component: Intro,
           meta: {
             icon: 'fa fa-home fa-lg'
           }
         },
-        { 
-          path: '/generator/generator', 
-          name: '代码生成', 
+        {
+          path: '/generator/generator',
+          name: '代码生成',
           component: Generator,
           meta: {
             icon: 'el-icon-mobile-phone'
-          } 
+          }
         }
       ]
     },
     {
       path: '/login',
-      name: '登录',
+      name: 'Login',
       component: Login,
       meta:{
         title:'上医林健康'
@@ -54,7 +55,7 @@ const router = new Router({
     },
     {
       path: '/download',
-      name: '下载',
+      name: 'Download',
       component: Download,
       meta:{
         title:'上医林健康-下载'
@@ -62,7 +63,7 @@ const router = new Router({
     },
     {
       path: '/register',
-      name: '注册',
+      name: 'Register',
       component: Register,
       meta:{
         title:'上医林健康-注册'
@@ -70,7 +71,7 @@ const router = new Router({
     },
     {
       path: '/forgetPwd',
-      name: '忘记密码',
+      name: 'ForgetPwd',
       component: ForgetPwd,
       meta:{
         title:'上医林健康-找回密码'
@@ -78,10 +79,18 @@ const router = new Router({
     },
     {
       path: '/userRegister',
-      name: '患者注册',
+      name: 'UserRegister',
       component: UserRegister,
       meta:{
         title:'上医林健康-患者注册'
+      }
+    },
+    {
+      path: '/medicalRecordList',
+      name: 'MedicalRecordList',
+      component: MedicalRecordList,
+      meta:{
+        title:'上医林健康-医疗记录列表'
       }
     },
     {
@@ -112,6 +121,8 @@ router.beforeEach((to, from, next) => {
     }else if(to.path === '/forgetPwd'){
       next()
     }else if(to.path === '/userRegister'){
+      next()
+    }else if(to.path === '/medicalRecordList'){
       next()
     }else if(to.path === '/auth'){
       window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxee2590252a0f8e99&redirect_uri=http%3a%2f%2fsoelaine.com%2fuserRegister&response_type=code&scope=snsapi_base&state=123#wechat_redirect';
