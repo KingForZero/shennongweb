@@ -878,6 +878,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
       },
       //查看药方
       yaofang:function (row) {
+        console.log("sss:"+row.pharmacyType)
         if(row.pharmacyType == '1'){
           //如果是合作药房则查询电子处方
         this.$api.healthHouseKeeper.selectByRecordIdPrescribing({recordId:row.recordId}).then((res) => {

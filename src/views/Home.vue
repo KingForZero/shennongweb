@@ -6,7 +6,7 @@
       <head-bar></head-bar>
       <!-- 主内容区域 -->
       <main-content></main-content>
-      <Chat></Chat>
+      <!--<Chat></Chat>-->
 
   </div>
 </template>
@@ -15,13 +15,13 @@
 import HeadBar from "./HeadBar/HeadBar"
 import NavBar from "./NavBar/NavBar"
 import MainContent from "./MainContent/MainContent"
-import Chat from "./Chat/Chat"
+// import Chat from "./Chat/Chat"
 export default {
   components:{
         HeadBar,
         NavBar,
         MainContent,
-        Chat
+        // Chat
   }
 };
 </script>
