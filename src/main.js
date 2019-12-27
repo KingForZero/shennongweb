@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import Vant from 'vant'
 import App from './App'
 import router from './router'
 import api from './http'
@@ -10,6 +11,7 @@ import $ from 'jquery'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'font-awesome/css/font-awesome.min.css'
 import '@/assets/iconfont/iconfont.css'
+import 'vant/lib/index.css';
 import htmlToPdf from '@/utils/html2pdf'
 import Icon from 'vue-svg-icon/Icon.vue'
 
@@ -17,6 +19,7 @@ Vue.component('icon', Icon)
 Vue.use(htmlToPdf)
 Vue.use(ElementUI)
 Vue.use(api)
+Vue.use(Vant)
 
 Vue.prototype.global = global
 
@@ -27,19 +30,19 @@ new Vue({
   store,
   render: h => h(App)
 });
-import websdk from 'easemob-websdk'
-let webIM = window.WebIM = websdk
-Vue.prototype.$WebIM = webIM
-const imConn = new webIM.connection({
-  isMultiLoginSessions: webIM.config.isMultiLoginSessions,
-  https: typeof webIM.config.https === 'boolean' ? webIM.config.https : location.protocol === 'https:',
-  url: webIM.config.xmppURL,
-  isAutoLogin: true,
-  heartBeatWait: webIM.config.heartBeatWait,
-  autoReconnectNumMax: webIM.config.autoReconnectNumMax,
-  autoReconnectInterval: webIM.config.autoReconnectInterval,
-  apiUrl: webIM.config.apiURL
-})
-Vue.prototype.$imConn = imConn
+// import websdk from 'easemob-websdk'
+// let webIM = window.WebIM = websdk
+// Vue.prototype.$WebIM = webIM
+// const imConn = new webIM.connection({
+//   isMultiLoginSessions: webIM.config.isMultiLoginSessions,
+//   https: typeof webIM.config.https === 'boolean' ? webIM.config.https : location.protocol === 'https:',
+//   url: webIM.config.xmppURL,
+//   isAutoLogin: true,
+//   heartBeatWait: webIM.config.heartBeatWait,
+//   autoReconnectNumMax: webIM.config.autoReconnectNumMax,
+//   autoReconnectInterval: webIM.config.autoReconnectInterval,
+//   apiUrl: webIM.config.apiURL
+// })
+// Vue.prototype.$imConn = imConn
 
 
