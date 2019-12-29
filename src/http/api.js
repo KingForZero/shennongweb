@@ -15,6 +15,7 @@ import * as pharmacy from './moudules/pharmacy'
 import * as doctor from './moudules/doctor'
 import * as project from './moudules/project'
 import * as portalmanage from './moudules/portalmanage'
+import * as gongZhongHao from './moudules/gongZhongHao'
 
 // 默认全部导出
 export default {
@@ -28,9 +29,10 @@ export default {
     department,
     assistant,
     healthHouseKeeper,
-	pharmacy,
+	  pharmacy,
     doctor,
     project,
-  portalmanage
+    portalmanage,
+    gongZhongHao
 
 }

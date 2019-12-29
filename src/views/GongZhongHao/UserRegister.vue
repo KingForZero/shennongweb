@@ -1,63 +1,40 @@
 <template>
   <div>
-    <van-nav-bar title="注册"/>
-    <div style="text-align: center">
-      <img style="width:135px" :src="logoUrl"/>
+    <div style="text-align: center;margin-bottom:30%">
+      <img style="width:100%" :src="logoUrl"/>
     </div>
-    <van-cell-group>
-      <van-field v-model="loginForm.name" required clearable label="姓名" placeholder="请输入姓名"/>
-      <div class="van-cell van-cell--required van-field">
-        <div class="van-cell__title van-field__label">
-          <span>性别</span>
-        </div>
-        <div class="van-cell__value">
-          <div class="van-field__body">
-            <van-radio-group v-model="loginForm.sex" style="display: flex">
-              <van-radio name="1">男</van-radio>
-              <van-radio name="2" style="margin-left: 20px">女</van-radio>
-            </van-radio-group>
+    <div class="van-address-edit">
+      <div class="van-address-edit__fields">
+          <van-field v-model="loginForm.name" required clearable label="姓名" placeholder="请输入姓名"/>
+          <div class="van-cell van-cell--required van-field">
+            <div class="van-cell__title van-field__label">
+              <span>性别</span>
+            </div>
+            <div class="van-cell__value">
+              <div class="van-field__body">
+                <van-radio-group v-model="loginForm.sex" style="display: flex">
+                  <van-radio name="0">男</van-radio>
+                  <van-radio name="1" style="margin-left: 20px">女</van-radio>
+                </van-radio-group>
+              </div>
+            </div>
           </div>
+          <van-field v-model="loginForm.age" required clearable label="年龄" type="number" placeholder="请输入年龄"/>
+          <van-field v-model="loginForm.tel" required clearable  label="手机号" type="tel" placeholder="请输入手机号"/>
+          <van-field v-model="loginForm.code" required clearable label="短信验证码" placeholder="请输入短信验证码">
+            <van-button slot="button" v-show="sendAuthCode" size="small" @click="getAuthCode" type="primary">发送验证码</van-button>
+            <van-button slot="button" v-show="!sendAuthCode" size="small" type="primary">{{auth_time}} 秒</van-button>
+          </van-field>
+        <div class="van-address-edit__buttons">
+          <button class="van-button  van-button--normal van-button--primary van-button--block van-button--round" @click="tijiao">
+            <span class="van-button__text">提交</span>
+          </button>
         </div>
       </div>
-      <van-field v-model="loginForm.age" required clearable label="年龄" type="number" placeholder="请输入年龄"/>
-      <van-field v-model="loginForm.tel" required clearable  label="手机号" type="tel" placeholder="请输入手机号"/>
-      <van-field v-model="loginForm.code" required clearable label="短信验证码" placeholder="请输入短信验证码">
-        <van-button slot="button" v-show="sendAuthCode" size="small" @click="getAuthCode" type="primary">发送验证码</van-button>
-        <van-button slot="button" v-show="!sendAuthCode" size="small" type="primary">{{auth_time}} 秒</van-button>
-      </van-field>
-    </van-cell-group>
-    <div style="text-align: center">
-      <van-button round type="primary" size="normal" style="width: 30%;margin-top: 60px" @click="tijiao">提交</van-button>
     </div>
+
+
   </div>
-
-
-
-<!--  <el-form :model="loginForm" :rules="fieldRules" ref="loginForm" label-position="left" label-width="0px" class="demo-ruleForm login-container">-->
-    <!-- <span class="tool-bar">
-      < 主题切换
-      <theme-picker style="float:right;" class="theme-picker" :default="themeColor" @onThemeChange="onThemeChange"></theme-picker>
-      <!- 语言切换 -->
-      <!-- <lang-selector class="lang-selector"></lang-selector>
-    </span> -->
-<!--    <img style="width:135px" :src="logoUrl"></img>-->
-<!--    <h2 class="title" >注册</h2>-->
-<!--    <el-form-item prop="tel">-->
-<!--      <el-input type="text" v-model="loginForm.tel" auto-complete="off" placeholder="电话"></el-input>-->
-<!--    </el-form-item>-->
-<!--    <el-form-item prop="code">-->
-<!--      <el-col :span="18">-->
-<!--        <el-input type="text" v-model="loginForm.code" auto-complete="off" placeholder="验证码"></el-input>-->
-<!--      </el-col>-->
-<!--      <el-col :span="6" >-->
-<!--        <el-button v-show="sendAuthCode"  type="primary" @click="getAuthCode" style="width:100%">发送</el-button>-->
-<!--    		<el-button v-show="!sendAuthCode" type="primary" style="width:100%">{{auth_time}} 秒</el-button>-->
-<!--      </el-col>-->
-<!--    </el-form-item>-->
-<!--    <el-form-item style="width:100%;">-->
-<!--      <el-button type="primary" style="width:48%;" @click.native.prevent="tijiao" >提交</el-button>-->
-<!--    </el-form-item>-->
-<!--  </el-form>-->
 </template>
 
 <script>
@@ -65,6 +42,7 @@ import { mapState } from 'vuex'
 import Cookies from "js-cookie"
 import ThemePicker from "@/components/ThemePicker"
 import LangSelector from "@/components/LangSelector"
+import { Toast } from 'vant';
 export default {
   name: 'Login',
   components:{
@@ -78,9 +56,13 @@ export default {
       logoUrl:require("../../assets/logo_kitty_blue.png"),
       loading: false,
       loginForm: {
-        tel: '',
-        openId: 'oULFM0cZmGlfC5nMaQnyeuSBNWAQ',
-        code:''
+        name: '',
+        sex:'',
+        age:'',
+        tel:'',
+        openId:'',
+        code:'',
+        fromId:''
       },
       fieldRules: {
         tel: [
@@ -113,33 +95,42 @@ export default {
         },
 
     tijiao() {
-      // this.$refs.loginForm.validate((valid) => {
-      //   if (valid) {
-      //   this.loading = true
-      //   let userInfo = {tel:this.loginForm.tel, openId:this.loginForm.openId,code:this.loginForm.code}
-      //   this.$api.user.cliengUser(userInfo).then((res) => {
-      //     if(res.code != 200) {
-      //       this.$message({
-      //         message: "注册成功，您可以正常使用业务",
-      //         type: 'error'
-      //       })
-      //     } else {
-      //      this.$message({
-      //         message: res.msg,
-      //         type: 'success'
-      //       })
-      //       //this.$router.push("/login")
-      //     }
-      //   }).catch((res) => {
-      //     this.$message({
-      //     message: res.message,
-      //     type: 'error'
-      //     })
-      //   })
-			// 	}
-			// })
 
-      this.$router.push({name: 'MedicalRecordList', params: {userId: "123456"}})
+      if(!this.loginForm.name){
+        Toast('请输入姓名')
+        return
+      }
+      if(!this.loginForm.sex){
+        Toast('请选择性别')
+        return
+      }
+      if(!this.loginForm.age){
+        Toast('请输入年龄')
+        return
+      }
+      if(!this.loginForm.tel){
+        Toast('请输入手机号')
+        return
+      }
+      if(!this.loginForm.code){
+        Toast('请输入验证码')
+        return
+      }
+
+        this.$api.user.cliengUser(this.loginForm).then((res) => {
+          if(res.code == 200) {
+            this.$router.push({name: 'MedicalRecordList', params: {userId: res.rows}})
+          } else {
+            Toast(res.msg)
+          }
+        }).catch((res) => {
+          this.$message({
+          message: res.message,
+          type: 'error'
+          })
+        })
+
+
     },
 
     fanhui() {
@@ -150,18 +141,9 @@ export default {
       this.$store.commit('setThemeColor', themeColor)
     }
   },
-  created(){
-    // let code = this.$route.query.code||'06167c1m1b2NUm0ddsXl1rr01m167c17'
-    // this.$api.assistant.getOpenId({code:code}).then((res) => {
-    //           if(res.code == '200'){
-    //             this.loginForm.openId = res.rows
-    //           }else{
-    //             this.$message({ message: res.msg, type: 'error' })
-    //           }
-    //       })
-  },
   mounted() {
-
+    let openId = this.$route.query.openId
+    Toast("openID:"+openId)
   },
   computed:{
     ...mapState({

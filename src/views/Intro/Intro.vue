@@ -1,5 +1,5 @@
 <template>
-  <div class="page-container" style="width:99%;margin-top:15px;">
+  <div class="page-container" style="width:99%;margin-top:15px;text-align: center">
     <el-carousel :interval="3000" type="card" height="500px" class="carousel">
       <el-carousel-item class="carousel-item-intro">
         <div><img src="@/assets/logo_kitty_blue.png" style="width:200px;height:120px;padding-top:15px;" /></div>

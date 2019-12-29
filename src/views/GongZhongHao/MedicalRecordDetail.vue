@@ -1,0 +1,399 @@
+<template>
+    <div>
+      <van-cell-group>
+        <van-cell title="姓名" :value="medicalRecord.userName" />
+        <van-cell title="电话" :value="medicalRecord.userTel"  />
+        <van-cell title="创建时间" :value="medicalRecord.createTime"  />
+        <van-cell title="状态" :value="medicalRecord.status"  />
+        <van-cell title="补充信息" v-if="medicalRecord.extraMsg" :value="medicalRecord.extraMsg"  />
+        <van-cell title="补充信息图片" v-if="medicalRecord.extraPic"/>
+
+        <div class="van-cell" v-if="medicalRecord.extraPic">
+          <div class="van-cell__value van-cell__value--alone">
+            <van-image
+              v-for="item in extraPicList"
+              :key="item.index"
+              width="5rem"
+              height="5rem"
+              fit="contain"
+              :src="item"
+            />
+          </div>
+        </div>
+
+        <van-cell title="主治医生" :value="medicalRecord.docName"  />
+        <van-cell title="临床诊断"  :value="clinical"  />
+        <van-cell title="嘱托"  :value="entrust"  />
+        <van-cell title="病历图片" v-if="medicalRecord.caseHistoryDoc" />
+        <div class="van-cell" v-if="medicalRecord.caseHistoryDoc">
+          <div class="van-cell__value van-cell__value--alone">
+            <van-image
+              v-for="item in caseHistoryDocPicList"
+              :key="item.index"
+              width="5rem"
+              height="5rem"
+              fit="contain"
+              :src="item"
+            />
+          </div>
+        </div>
+        <van-cell title="电子处方图片" v-if="medicalRecord.docPic" />
+          <div class="van-cell" v-if="medicalRecord.docPic">
+            <div class="van-cell__value van-cell__value--alone">
+              <van-image
+                v-for="item in docPicList"
+                :key="item.index"
+                width="5rem"
+                height="5rem"
+                fit="contain"
+                :src="item"
+              />
+            </div>
+          </div>
+        <van-cell title="药费" :value="medicalRecord.drugAmount" />
+        <van-cell title="加工费" :value="medicalRecord.processCost"  />
+        <van-cell title="服务费":value="medicalRecord.postage"  />
+        <van-cell title="折扣系数":value="medicalRecord.discount"  />
+        <van-cell title="邮寄地址" :value="medicalRecord.emsAddress"  />
+
+      </van-cell-group>
+      <van-tabbar>
+
+        <van-submit-bar
+          :price="medicalRecord.total"
+          :button-text="payText"
+          :disabled="isJY"
+          @submit="onSubmit"
+          style="background-color: #f2f3f5"
+        >
+         <span style="color: #1989fa" @click="show()">查看药品</span>
+        </van-submit-bar>
+      </van-tabbar>
+      <van-popup
+        v-model="isShow"
+        round
+        closeable
+        position="bottom"
+        :style="{ height: '70%' }"
+      >
+        <van-tabs v-model="active" style="margin: 30px 0">
+          <van-tab :title="title(item,index)" :key="index" v-for="(item, index) in medicalList">
+            <van-cell-group>
+              <van-cell v-for="item1 in item.medicineList" :key="item1.index" :title="item1.name" :value="item1.amount"  />
+            </van-cell-group>
+          </van-tab>
+        </van-tabs>
+      </van-popup>
+      <van-popup
+        v-model="isShowAdress"
+        round
+        closeable
+        position="bottom"
+        :style="{ height: '50%' }"
+      >
+        <van-address-list
+          v-model="chosenAddressId"
+          :list="addressList"
+          @edit="onEdit"
+          @add="onAdd"
+          @select="onSelect"
+          style="margin-bottom: 60px"
+        >
+        </van-address-list>
+      </van-popup>
+      <van-popup
+        v-model="isShow111"
+        round
+        position="bottom"
+        :style="{ height: '50%' }"
+      >
+        <van-area :area-list="areaList" :value="value" @cancel="quxiao" @confirm="firm" />
+      </van-popup>
+      <van-popup
+        v-model="isShowEditAddress"
+        round
+        position="bottom"
+        :style="{ height: '30%' }"
+      >
+        <div class="van-address-edit">
+          <div class="van-address-edit__fields">
+            <div role="button" tabindex="0" class="van-cell van-cell--clickable van-field" @click="editAd">
+              <div class="van-cell__title van-field__label">
+                <span>地区</span>
+              </div>
+              <div class="van-cell__value">
+                <div class="van-field__body">
+                  <input v-model="addressBefore" type="text" placeholder="选择省 / 市 / 区" readonly="readonly" class="van-field__control">
+                  <div class="van-field__right-icon">
+                    <i class="van-icon van-icon-arrow"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="van-cell van-address-edit-detail">
+              <div class="van-cell__value van-cell__value--alone">
+                <div class="van-cell van-field">
+                  <div class="van-cell__title van-field__label">
+                    <span>详细地址</span>
+                  </div>
+                  <div class="van-cell__value">
+                    <div class="van-field__body">
+                      <textarea v-model="address.detailAddress" rows="1" placeholder="街道门牌、楼层房间号等信息" class="van-field__control" style="height: 45px;">
+                      </textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="van-address-edit__buttons" style="padding: 13px 4px">
+            <button @click="baocun" class="van-button van-button--danger van-button--normal van-button--block van-button--round">
+              <span class="van-button__text">保存</span>
+            </button>
+          </div>
+        </div>
+
+      </van-popup>
+
+
+    </div>
+</template>
+
+<script>
+  import { Dialog } from 'vant';
+  import { imageUrl } from '@/utils/global'
+  import { timestampToTime } from "@/utils/datetime"
+  import medicalRecordEnum from "@/enums/MedicalRecordEnum"
+  import areaList from "@/utils/city"
+    export default {
+        name: "MedicalRecordDetail",
+      data(){
+          return{
+            value:"",
+            address:{
+              id:"",
+              userId:"",
+              provinceCode:"",
+              provinceName:"",
+              cityCode:"",
+              cityName:"",
+              countyCode:"",
+              countyName:"",
+              detailAddress:""
+            },
+            addressBefore:"",
+            addressBack:"",
+            areaList:areaList,
+            userId:"",
+            medicalRecord:{
+
+            },
+            //补充信息图片
+            extraPicList:[],
+            //病历图片
+            caseHistoryDocPicList:[],
+            //电子处方图片
+            docPicList:[],
+            //药品列表
+            medicalList:[{
+              name:"aa "
+            },{
+              name:"bb"
+            }],
+            clinical:'',
+            entrust:'',
+            isShow:false,
+            active:0,
+            payText:"不可支付",
+            isJY:false,
+            isShowAdress:false,
+            isShowEditAddress:false,
+            isShow111:false,
+            chosenAddressId: 0,
+            addressList: [],
+            addressListVO:[]
+          }
+      },
+      methods:{
+
+        title(item,index){
+          return "处方"+(index+1)+"共"+item.dosage+"剂"
+        },
+        show(){
+          this.isShow = true
+        },
+        getAddressList(userId){
+          this.$api.gongZhongHao.list({userId:userId}).then((res) => {
+            if(res.code == 200) {
+              //用于前后台数据交互
+              this.addressListVO = this.copyArray(res.rows)
+              let arr = res.rows
+              for(var i = 0;i<arr.length;i++) {
+                arr[i].id = i
+                arr[i].name = ""
+                arr[i].tel = ""
+                arr[i].address = arr[i].provinceName + arr[i].cityName + arr[i].countyName + arr[i].detailAddress
+              }
+              //用于页面组件调用
+              this.addressList = arr
+            }
+          })
+        },
+        onSubmit(){
+          if(this.userId){
+            this.getAddressList(this.userId)
+          }else{
+            Dialog.alert({
+              message: "暂无userId"
+            }).then(() => {
+              // on close
+            });
+          }
+
+          this.isShowAdress = true
+        },
+        copyArray(arr){
+          return JSON.parse(JSON.stringify(arr));
+        },
+        onSelect(item,index){
+
+        },
+        onEdit(item,index){
+          let arr = this.addressListVO
+          if(arr[index].countyCode){
+            this.value =  arr[index].countyCode
+          }else if(arr[index].cityCode){
+            this.value =  arr[index].cityCode
+          }else if(arr[index].provinceCode){
+            this.value =  arr[index].provinceCode
+          }
+          this.addressBefore = arr[index].provinceName+arr[index].cityName+arr[index].countyName
+          this.address = arr[index]
+          this.isShowEditAddress = true
+        },
+        onAdd(){
+          this.address = {}
+          this.addressBefore = ""
+          this.value = ""
+          this.isShowEditAddress = true
+        },
+        editAd(){
+          this.isShow111 = true
+        },
+        quxiao(){
+          this.isShow111 = false
+        },
+        firm(arr){
+          if(arr[0]){
+            this.address.provinceCode = arr[0].code
+            this.address.provinceName = arr[0].name
+          }
+          if(arr[1]){
+            this.address.cityCode = arr[1].code
+            this.address.cityName = arr[1].name
+          }
+          if(arr[2]){
+            this.address.countyCode = arr[2].code
+            this.address.countyName = arr[2].name
+          }
+          this.addressBefore = this.address.provinceName+this.address.cityName+this.address.countyName
+          this.isShow111 = false
+        },
+        baocun(){
+          this.address.userId = this.userId
+          console.log(this.address)
+          this.$api.gongZhongHao.edit(this.address).then((res) => {
+            if(res.code == 200) {
+              this.getAddressList(this.userId)
+              this.isShowEditAddress = false
+              Dialog.alert({
+                message: "保存成功"
+              }).then(() => {
+                // on close
+              });
+            }else{
+              Dialog.alert({
+                message: res.rows.msg
+              }).then(() => {
+                // on close
+              });
+            }
+          })
+        }
+      },
+      mounted(){
+        let recordId =  this.$route.params.recordId
+        //查询医疗记录详情
+        this.$api.gongZhongHao.selectByIdGZ({recordsId:recordId}).then((res) => {
+          if(res.code == 200) {
+            let data = res.rows
+            this.userId = data.userId
+            if(data.extraPic){
+              let imgStr = data.extraPic
+              let imgArr = imgStr.split(",")
+              for(var i = 0;i<imgArr.length;i++){
+                this.extraPicList.push(imageUrl+imgArr[i])
+              }
+            }
+            if(data.caseHistoryDoc){
+              let imgStr = data.caseHistoryDoc
+              let imgArr = imgStr.split(",")
+              for(var i = 0;i<imgArr.length;i++){
+                this.caseHistoryDocPicList.push(imageUrl+imgArr[i])
+              }
+            }
+            if(data.docPic){
+              let imgStr = data.docPic
+              let imgArr = imgStr.split(",")
+              for(var i = 0;i<imgArr.length;i++){
+                this.docPicList.push(imageUrl+imgArr[i])
+              }
+            }
+            if(data.createTime){
+              data.createTime = timestampToTime(data.createTime)
+
+            }
+            this.payText = "支付"
+            this.isJY = false
+            // if(data.recordState==8){
+            //   this.payText = "支付"
+            //   this.isJY = false
+            // }else if(data.recordState<8){
+            //   this.payText = "不可支付"
+            //   this.isJY = true
+            // }else{
+            //   this.payText = "已支付"
+            //   this.isJY = true
+            // }
+            data.status = medicalRecordEnum.status(data.recordState)
+            this.medicalRecord = data
+            //查询电子处方及药品信息
+            this.$api.gongZhongHao.selectByRecordIdWX({recordId:recordId}).then((res) => {
+              if(res.code == 200) {
+                this.medicalList = res.rows
+                if(res.rows[0]){
+                  this.clinical = res.rows[0].clinical
+                  this.entrust = res.rows[0].entrust
+                }
+              }
+            })
+          }else{
+            this.payText = "不可支付"
+            this.isJY = true
+            Dialog.alert({
+              message: res.rows.msg
+            }).then(() => {
+              // on close
+            });
+          }
+        })
+
+
+
+      }
+    }
+</script>
+
+<style scoped>
+
+</style>
