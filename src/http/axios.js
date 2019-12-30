@@ -20,7 +20,7 @@ export default function $axios(options) {
       config => {
         let url = config.url
         let token = Cookies.get('Authorization')
-        
+
         // 1. 请求开始的时候可以结合 vuex 开启全屏 loading 动画
         // console.log(store.state.loading)
         // console.log('准备发送请求...')

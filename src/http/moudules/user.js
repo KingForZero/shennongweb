@@ -1,6 +1,6 @@
 import axios from '../axios'
 
-/* 
+/*
  * 用户管理模块
  */
 
@@ -59,6 +59,7 @@ export const sendSmsCode = (data) => {
         params:data
     })
 }
+
 //忘记密码接口
 export const forgetPass = (data) => {
     return axios({
