@@ -75,34 +75,34 @@ export default {
             console.log(this.currentUser.id)
 
             let _self=this
-            this.$imConn.listen({
-              onTextMessage: function ( message ) {
-                console.log(message);
-                // alert("用户："+message.from+"发来消息，请点击聊天室选择"+message.from+"进行聊天")
-                _self.$message({message: "用户："+message.from+"发来消息，请点击聊天室选择"+message.from+"进行聊天", type: 'success'})
-                _self.messageData.push({data:message.from+":"+message.data})
-                // that.chatCont.push({id: 2, cont: message.data});
-              },
-              //接收到表情消息
-              onEmojiMessage: function (message) {
-                // 当为WebIM添加了Emoji属性后，若发送的消息含WebIM.Emoji里特定的字符串，connection就会自动将
-                // 这些字符串和其它文字按顺序组合成一个数组，每一个数组元素的结构为{type: 'emoji(或者txt)', data:''}
-                // 当type='emoji'时，data表示表情图像的路径，当type='txt'时，data表示文本消息
-                console.log('Emoji');
-                var data = message.data;
-                for(var i = 0 , l = data.length ; i < l ; i++){
-                  console.log(data[i]);
-                }
-              },
-              onPresence: function ( message ) {
-                // 这里需要弹出面板标识有人要添加您为好友
-                console.log(message)
-                // if(message.type == 'subscribe') {
-                //   that.privateUser = message.from;
-                //   that.privateUserPanel = true;
-                // }
-              }
-            });
+            // this.$imConn.listen({
+            //   onTextMessage: function ( message ) {
+            //     console.log(message);
+            //     // alert("用户："+message.from+"发来消息，请点击聊天室选择"+message.from+"进行聊天")
+            //     _self.$message({message: "用户："+message.from+"发来消息，请点击聊天室选择"+message.from+"进行聊天", type: 'success'})
+            //     _self.messageData.push({data:message.from+":"+message.data})
+            //     // that.chatCont.push({id: 2, cont: message.data});
+            //   },
+            //   //接收到表情消息
+            //   onEmojiMessage: function (message) {
+            //     // 当为WebIM添加了Emoji属性后，若发送的消息含WebIM.Emoji里特定的字符串，connection就会自动将
+            //     // 这些字符串和其它文字按顺序组合成一个数组，每一个数组元素的结构为{type: 'emoji(或者txt)', data:''}
+            //     // 当type='emoji'时，data表示表情图像的路径，当type='txt'时，data表示文本消息
+            //     console.log('Emoji');
+            //     var data = message.data;
+            //     for(var i = 0 , l = data.length ; i < l ; i++){
+            //       console.log(data[i]);
+            //     }
+            //   },
+            //   onPresence: function ( message ) {
+            //     // 这里需要弹出面板标识有人要添加您为好友
+            //     console.log(message)
+            //     // if(message.type == 'subscribe') {
+            //     //   that.privateUser = message.from;
+            //     //   that.privateUserPanel = true;
+            //     // }
+            //   }
+            // });
 
 
             console.log("环信登录用户名："+this.currentUser.tel,+"环信登录密码::"+this.currentUser.tel)
@@ -114,8 +114,8 @@ export default {
               appKey: '1153180327253026#shangyi'
             }
             console.log('登录信息',options)
-            this.$imConn.open(options)
-            console.log('环信登录成功',options)
+            // this.$imConn.open(options)
+            // console.log('环信登录成功',options)
             this.$store.commit('menuRouteLoaded', false) // 要求重新加载导航菜单
             this.$router.push('/')  // 登录成功，跳转到主页
           }

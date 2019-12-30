@@ -13,6 +13,7 @@ import api from '@/http/api'
 import store from '@/store'
 import { getIFramePath, getIFrameUrl } from '@/utils/iframe'
 import MedicalRecordList from "@/views/GongZhongHao/MedicalRecordList";
+import MedicalRecordDetail from "@/views/GongZhongHao/MedicalRecordDetail";
 
 Vue.use(Router)
 
@@ -29,7 +30,7 @@ const router = new Router({
       children: [
         {
           path: '',
-          name: 'Intro',
+          name: '介绍',
           component: Intro,
           meta: {
             icon: 'fa fa-home fa-lg'
@@ -94,6 +95,14 @@ const router = new Router({
       }
     },
     {
+      path: '/medicalRecordDetail',
+      name: 'MedicalRecordDetail',
+      component: MedicalRecordDetail,
+      meta:{
+        title:'上医林健康-医疗记录详情'
+      }
+    },
+    {
       path: '/404',
       name: 'notFound',
       component: NotFound
@@ -123,6 +132,8 @@ router.beforeEach((to, from, next) => {
     }else if(to.path === '/userRegister'){
       next()
     }else if(to.path === '/medicalRecordList'){
+      next()
+    }else if(to.path === '/medicalRecordDetail'){
       next()
     }else if(to.path === '/auth'){
       window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxee2590252a0f8e99&redirect_uri=http%3a%2f%2fsoelaine.com%2fuserRegister&response_type=code&scope=snsapi_base&state=123#wechat_redirect';

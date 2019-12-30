@@ -98,7 +98,7 @@ export default {
         sessionStorage.removeItem("user")
         sessionStorage.removeItem("employee")
         Cookies.remove("Authorization")
-        this.$imConn.close()
+        //this.$imConn.close()
         console.log("环信退出登录");
         this.mainTabs = []
         this.$router.push("/login")
