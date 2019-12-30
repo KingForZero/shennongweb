@@ -20,16 +20,24 @@ export default function $axios(options) {
       config => {
         let url = config.url
         let token = Cookies.get('Authorization')
-        
+        //获取公众号用户openId
+        let openId =  Cookies.get("openId")
+        if(openId){
+          config.headers.gzOpenId = openId
+        }
         // 1. 请求开始的时候可以结合 vuex 开启全屏 loading 动画
         // console.log(store.state.loading)
         // console.log('准备发送请求...')
         // 2. 带上token
         if (token) {
           config.headers.Authorization = token
+
         } else if(url == '/system/employee/sendSmsCode'||url=='/system/employee/forgetPass'||url=='/system/role/findAll'||url=='/system/employee/selectAssisant'|| url=='/system/clientUser/clientUser'||
           url == '/system/departmentOne/list' ||url == '/system/departmentTwo/selectByDepartmentOneId'||url == '/system/role/findById'||url == '/system/employee/add' ||url == '/pay/getOpenId'||
-          url == '/bussiness/medicalRecords/selectMedicalRecordsGZ' ||url == '/system/prescribing/selectByRecordIdWX'||url == '/system/address/add' ||url == '/system/address/edit'||url == '/system/address/list'){
+          url == '/bussiness/medicalRecords/selectMedicalRecordsGZ' ||url == '/system/prescribing/selectByRecordIdWX'||url == '/system/address/add' ||url == '/system/address/edit'||url == '/system/address/list'||
+        url == '/bussiness/medicalRecords/selectByIdGZ'){
+
+        }else if(openId){
 
         }else{
           // 重定向到登录页面

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div style="text-align: center;margin-bottom:30%">
-      <img style="width:100%" :src="logoUrl"/>
+    <div style="text-align: center;margin-bottom:8%">
+      <img style="width:62%" :src="logoUrl"/>
     </div>
     <div class="van-address-edit">
       <div class="van-address-edit__fields">
@@ -38,11 +38,11 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import Cookies from "js-cookie"
+
 import ThemePicker from "@/components/ThemePicker"
 import LangSelector from "@/components/LangSelector"
 import { Toast } from 'vant';
+import Cookies from "js-cookie"
 export default {
   name: 'Login',
   components:{
@@ -76,13 +76,13 @@ export default {
   },
   methods: {
     getAuthCode:function () {
-					// 	this.$api.user.sendSmsCode({tel:this.loginForm.tel}).then((res) => {
-          //     if(res.code==200){
-          //       this.$message({ message: '发送成功', type: 'success' })
-          //     }else{
-          //       this.$message({ message: '发送失败'+res.msg, type: 'error' })
-          //     }
-					// })
+						this.$api.user.sendSmsCode({tel:this.loginForm.tel}).then((res) => {
+              if(res.code==200){
+                Toast("发送成功")
+              }else{
+                Toast("发送失败")
+              }
+					})
             this.sendAuthCode = false;
             this.auth_time = 60;
             var auth_timetimer =  setInterval(()=>{
@@ -143,12 +143,32 @@ export default {
   },
   mounted() {
     let openId = this.$route.query.openId
-    Toast("openID:"+openId)
-  },
-  computed:{
-    ...mapState({
-      themeColor: state=>state.app.themeColor
-    })
+    let fromId = this.$route.query.fromId
+    if(openId){
+
+    }else{
+      let code = this.$route.query.code
+      if(code){
+        this.$api.assistant.getOpenId({code:code}).then((res) => {
+          if(res.code == '200'){
+            openId = res.rows
+          }else{
+            Toast(res.msg)
+          }
+        })
+      }
+
+    }
+    if(openId){
+      this.loginForm.openId = openId
+      Cookies.set('openId', openId)
+    }
+    if(fromId){
+      this.loginForm.fromId = fromId
+    }
+
+
+
   }
 }
 </script>

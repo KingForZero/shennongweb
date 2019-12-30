@@ -113,7 +113,7 @@
         v-model="isShowEditAddress"
         round
         position="bottom"
-        :style="{ height: '30%' }"
+        :style="{ height: '40%' }"
       >
         <div class="van-address-edit">
           <div class="van-address-edit__fields">
@@ -160,11 +160,13 @@
 </template>
 
 <script>
+  import wx from 'weixin-js-sdk';
   import { Dialog } from 'vant';
   import { imageUrl } from '@/utils/global'
   import { timestampToTime } from "@/utils/datetime"
   import medicalRecordEnum from "@/enums/MedicalRecordEnum"
   import areaList from "@/utils/city"
+  import Cookies from "js-cookie"
     export default {
         name: "MedicalRecordDetail",
       data(){
@@ -255,9 +257,6 @@
         copyArray(arr){
           return JSON.parse(JSON.stringify(arr));
         },
-        onSelect(item,index){
-
-        },
         onEdit(item,index){
           let arr = this.addressListVO
           if(arr[index].countyCode){
@@ -306,11 +305,7 @@
             if(res.code == 200) {
               this.getAddressList(this.userId)
               this.isShowEditAddress = false
-              Dialog.alert({
-                message: "保存成功"
-              }).then(() => {
-                // on close
-              });
+
             }else{
               Dialog.alert({
                 message: res.rows.msg
@@ -319,7 +314,72 @@
               });
             }
           })
+        },
+        onSelect(item,index){
+          let url = window.location.href
+          this.$api.gongZhongHao.getJsSdk({"url":url}).then((res) => {
+            debugger
+            if(res.code == 200) {
+              this.wxshare(res.rows)
+
+              let data = {
+                amount: 0.01,
+                MRecordId: this.medicalRecord.recordId,
+                openId: Cookies.get("openId"),
+                payType: 2,
+                address: item.address,
+                appId:res.rows.appId
+              }
+              this.$api.gongZhongHao.wxpay(data).then((res) => {
+                if(res.code == 200){
+                  wx.ready(function () {
+
+                    wx.chooseWXPay({
+                      appId:res.rows.appId,
+                      timestamp: res.rows.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+                      nonceStr: res.rows.nonceStr, // 支付签名随机串，不长于 32 位
+                      package: res.rows.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
+                      signType: res.rows.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+                      paySign: res.rows.paySign, // 支付签名
+                      success: function (res) {
+                        // 支付成功后的回调函数
+                        alert("支付成功")
+                      }
+                    });
+                  });
+                }
+              })
+
+            }else{
+              Dialog.alert({
+                message: res.rows.msg
+              }).then(() => {
+                // on close
+              });
+            }
+          })
+
+
+        },
+        wxshare(data) {
+          var appId = data.appId;
+          var timestamp = data.timestamp;
+          var nonceStr = data.nonceStr;
+          var signature = data.signature;
+          wx.config({
+            debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: appId, // 必填，公众号的唯一标识
+            timestamp: timestamp, // 必填，生成签名的时间戳
+            nonceStr: nonceStr, // 必填，生成签名的随机串
+            signature: signature, // 必填，签名，见附录1
+            jsApiList: ['chooseWXPay']
+          });
+          wx.error(function(res){
+            // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+          });
+
         }
+
       },
       mounted(){
         let recordId =  this.$route.params.recordId
@@ -355,16 +415,16 @@
             }
             this.payText = "支付"
             this.isJY = false
-            // if(data.recordState==8){
-            //   this.payText = "支付"
-            //   this.isJY = false
-            // }else if(data.recordState<8){
-            //   this.payText = "不可支付"
-            //   this.isJY = true
-            // }else{
-            //   this.payText = "已支付"
-            //   this.isJY = true
-            // }
+            if(data.recordState==8){
+              this.payText = "支付"
+              this.isJY = false
+            }else if(data.recordState<8){
+              this.payText = "不可支付"
+              this.isJY = true
+            }else{
+              this.payText = "已支付"
+              this.isJY = true
+            }
             data.status = medicalRecordEnum.status(data.recordState)
             this.medicalRecord = data
             //查询电子处方及药品信息
