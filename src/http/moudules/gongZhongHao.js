@@ -49,3 +49,27 @@ export const list = (data) => {
     params:data
   })
 }
+//获取jssdk签名
+export const getJsSdk = (data) => {
+  return axios({
+    url: '/wx/getJsSdk',
+    method: 'post',
+    params:data
+  })
+}
+//支付
+export const wxpay = (data) => {
+  return axios({
+    url: '/pay/wxpay',
+    method: 'post',
+    params:data
+  })
+}
+//取消医疗记录
+export const cancel = (data) => {
+  return axios({
+    url: '/bussiness/medicalRecords/cancel',
+    method: 'post',
+    params:data
+  })
+}
