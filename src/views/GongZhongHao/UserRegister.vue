@@ -119,7 +119,8 @@ export default {
 
         this.$api.user.cliengUser(this.loginForm).then((res) => {
           if(res.code == 200) {
-            this.$router.push({name: 'MedicalRecordList', params: {userId: res.rows}})
+            Cookies.set("isRegister","true");
+            this.$router.push({name: 'MedicalRecordList'})
           } else {
             Toast(res.msg)
           }
@@ -145,8 +146,13 @@ export default {
     let openId = this.$route.query.openId
     let fromId = this.$route.query.fromId
     if(openId){
+      //用户点击链接过来的
 
+    }else if(Cookies.get("openId")){
+      //由于没有注册从其他页面跳转过来的
+      openId = Cookies.get("openId")
     }else{
+      //用户点击按钮跳转过来的
       let code = this.$route.query.code
       if(code){
         this.$api.assistant.getOpenId({code:code}).then((res) => {

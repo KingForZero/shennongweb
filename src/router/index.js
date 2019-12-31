@@ -14,6 +14,7 @@ import store from '@/store'
 import { getIFramePath, getIFrameUrl } from '@/utils/iframe'
 import MedicalRecordList from "@/views/GongZhongHao/MedicalRecordList";
 import MedicalRecordDetail from "@/views/GongZhongHao/MedicalRecordDetail";
+import Cookies from "js-cookie"
 
 Vue.use(Router)
 
@@ -118,6 +119,7 @@ router.beforeEach((to, from, next) => {
   // 登录界面登录成功之后，会把用户信息保存在会话
   // 存在时间为会话生命周期，页面关闭即失效。
   let userName = sessionStorage.getItem('user')
+  let openId = Cookies.get("openId")
   if (to.path === '/login') {
       // 如果是访问登录界面，如果用户会话信息存在，代表已登录过，跳转到主页
       if(userName) {
@@ -135,8 +137,10 @@ router.beforeEach((to, from, next) => {
       next()
     }else if(to.path === '/medicalRecordDetail'){
       next()
-    }else if(to.path === '/auth'){
-      window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxee2590252a0f8e99&redirect_uri=http%3a%2f%2fsoelaine.com%2fuserRegister&response_type=code&scope=snsapi_base&state=123#wechat_redirect';
+    }else if(to.path === '/medicalRecordListGZ'){
+     //公众号医疗记录按钮跳转链接
+     //公众号获取用户授权openId
+      window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxee2590252a0f8e99&redirect_uri=http%3a%2f%2fsoelaine.com%2fmedicalRecordList&response_type=code&scope=snsapi_base&state=123#wechat_redirect';
     }else if(to.path === '/download'){
       next()
     }else{

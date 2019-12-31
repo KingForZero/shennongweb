@@ -2,6 +2,7 @@ import axios from 'axios';
 import config from './config';
 import Cookies from "js-cookie";
 import router from '@/router'
+import {Toast} from "vant";
 
 // 使用vuex做全局loading时使用
 // import store from '@/store'
@@ -22,8 +23,16 @@ export default function $axios(options) {
         let token = Cookies.get('Authorization')
         //获取公众号用户openId
         let openId =  Cookies.get("openId")
+        //判断公众号用户是否注册
+        let isRegister = Cookies.get("isRegister")
         if(openId){
           config.headers.gzOpenId = openId
+          if(isRegister == "true") {
+            console.log("已注册不跳转")
+          } else {
+            console.log("未注册跳转")
+            router.push('/userRegister')
+          }
         }
 
         // 1. 请求开始的时候可以结合 vuex 开启全屏 loading 动画
@@ -37,8 +46,6 @@ export default function $axios(options) {
           url == '/system/departmentOne/list' ||url == '/system/departmentTwo/selectByDepartmentOneId'||url == '/system/role/findById'||url == '/system/employee/add' ||url == '/pay/getOpenId'||
           url == '/bussiness/medicalRecords/selectMedicalRecordsGZ' ||url == '/system/prescribing/selectByRecordIdWX'||url == '/system/address/add' ||url == '/system/address/edit'||url == '/system/address/list'||
         url == '/bussiness/medicalRecords/selectByIdGZ'){
-
-        }else if(openId){
 
         }else{
           // 重定向到登录页面

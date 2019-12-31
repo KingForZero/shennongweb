@@ -1,6 +1,6 @@
 <template>
     <div>
-      <van-cell-group>
+      <van-cell-group style="padding-bottom: 20%">
         <van-cell title="姓名" :value="medicalRecord.userName" />
         <van-cell title="电话" :value="medicalRecord.userTel"  />
         <van-cell title="创建时间" :value="medicalRecord.createTime"  />
@@ -316,9 +316,9 @@
           })
         },
         onSelect(item,index){
-          let url = window.location.href
+          let url = window.location.href+"/"
           this.$api.gongZhongHao.getJsSdk({"url":url}).then((res) => {
-            debugger
+
             if(res.code == 200) {
               this.wxshare(res.rows)
 
@@ -343,7 +343,10 @@
                       paySign: res.rows.paySign, // 支付签名
                       success: function (res) {
                         // 支付成功后的回调函数
-                        alert("支付成功")
+                        this.getRecordDetail()
+                        this.isShowAdress = false
+                        this.payText = "不可支付"
+                        this.isJY = true
                       }
                     });
                   });
@@ -367,7 +370,7 @@
           var nonceStr = data.nonceStr;
           var signature = data.signature;
           wx.config({
-            debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
             appId: appId, // 必填，公众号的唯一标识
             timestamp: timestamp, // 必填，生成签名的时间戳
             nonceStr: nonceStr, // 必填，生成签名的随机串
@@ -378,78 +381,82 @@
             // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
           });
 
+        },
+        getRecordDetail(){
+          let recordId =  this.$route.query.recordId
+          let openId = this.$route.query.openId
+          if(openId){
+            Cookies.set("openId",openId)
+          }
+          //查询医疗记录详情
+          this.$api.gongZhongHao.selectByIdGZ({recordsId:recordId}).then((res) => {
+            if(res.code == 200) {
+              let data = res.rows
+              this.userId = data.userId
+              if(data.extraPic){
+                let imgStr = data.extraPic
+                let imgArr = imgStr.split(",")
+                for(var i = 0;i<imgArr.length;i++){
+                  this.extraPicList.push(imageUrl+imgArr[i])
+                }
+              }
+              if(data.caseHistoryDoc){
+                let imgStr = data.caseHistoryDoc
+                let imgArr = imgStr.split(",")
+                for(var i = 0;i<imgArr.length;i++){
+                  this.caseHistoryDocPicList.push(imageUrl+imgArr[i])
+                }
+              }
+              if(data.docPic){
+                let imgStr = data.docPic
+                let imgArr = imgStr.split(",")
+                for(var i = 0;i<imgArr.length;i++){
+                  this.docPicList.push(imageUrl+imgArr[i])
+                }
+              }
+              if(data.createTime){
+                data.createTime = timestampToTime(data.createTime)
+
+              }
+              this.payText = "支付"
+              this.isJY = false
+              if(data.recordState==8){
+                this.payText = "支付"
+                this.isJY = false
+              }else if(data.recordState<8){
+                this.payText = "不可支付"
+                this.isJY = true
+              }else{
+                this.payText = "已支付"
+                this.isJY = true
+              }
+              data.status = medicalRecordEnum.status(data.recordState)
+              this.medicalRecord = data
+              //查询电子处方及药品信息
+              this.$api.gongZhongHao.selectByRecordIdWX({recordId:recordId}).then((res) => {
+                if(res.code == 200) {
+                  this.medicalList = res.rows
+                  if(res.rows[0]){
+                    this.clinical = res.rows[0].clinical
+                    this.entrust = res.rows[0].entrust
+                  }
+                }
+              })
+            }else{
+              this.payText = "不可支付"
+              this.isJY = true
+              Dialog.alert({
+                message: res.rows.msg
+              }).then(() => {
+                // on close
+              });
+            }
+          })
         }
 
       },
       mounted(){
-        let recordId =  this.$route.params.recordId
-        //查询医疗记录详情
-        this.$api.gongZhongHao.selectByIdGZ({recordsId:recordId}).then((res) => {
-          if(res.code == 200) {
-            let data = res.rows
-            this.userId = data.userId
-            if(data.extraPic){
-              let imgStr = data.extraPic
-              let imgArr = imgStr.split(",")
-              for(var i = 0;i<imgArr.length;i++){
-                this.extraPicList.push(imageUrl+imgArr[i])
-              }
-            }
-            if(data.caseHistoryDoc){
-              let imgStr = data.caseHistoryDoc
-              let imgArr = imgStr.split(",")
-              for(var i = 0;i<imgArr.length;i++){
-                this.caseHistoryDocPicList.push(imageUrl+imgArr[i])
-              }
-            }
-            if(data.docPic){
-              let imgStr = data.docPic
-              let imgArr = imgStr.split(",")
-              for(var i = 0;i<imgArr.length;i++){
-                this.docPicList.push(imageUrl+imgArr[i])
-              }
-            }
-            if(data.createTime){
-              data.createTime = timestampToTime(data.createTime)
-
-            }
-            this.payText = "支付"
-            this.isJY = false
-            if(data.recordState==8){
-              this.payText = "支付"
-              this.isJY = false
-            }else if(data.recordState<8){
-              this.payText = "不可支付"
-              this.isJY = true
-            }else{
-              this.payText = "已支付"
-              this.isJY = true
-            }
-            data.status = medicalRecordEnum.status(data.recordState)
-            this.medicalRecord = data
-            //查询电子处方及药品信息
-            this.$api.gongZhongHao.selectByRecordIdWX({recordId:recordId}).then((res) => {
-              if(res.code == 200) {
-                this.medicalList = res.rows
-                if(res.rows[0]){
-                  this.clinical = res.rows[0].clinical
-                  this.entrust = res.rows[0].entrust
-                }
-              }
-            })
-          }else{
-            this.payText = "不可支付"
-            this.isJY = true
-            Dialog.alert({
-              message: res.rows.msg
-            }).then(() => {
-              // on close
-            });
-          }
-        })
-
-
-
+        this.getRecordDetail()
       }
     }
 </script>

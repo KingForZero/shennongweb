@@ -73,3 +73,11 @@ export const cancel = (data) => {
     params:data
   })
 }
+//根据openId查询用户是否已经注册
+export const selectByOpenId = (data) => {
+  return axios({
+    url: "/system/clientUser/selectByOpenId",
+    method: 'post',
+    params:data
+  })
+}

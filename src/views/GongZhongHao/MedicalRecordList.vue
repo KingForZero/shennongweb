@@ -1,29 +1,34 @@
 <template>
   <div>
-    <div v-if="list.length>0" v-for="item in list" :key="item.index" class="van-cell-group van-hairline--top-bottom van-panel" @click="detail(item.recordId)">
-      <div class="van-cell van-panel__header">
-        <div class="van-cell__title">
+    <div v-if="list.length>0">
+      <div  v-for="item in list" :key="item.index" class="van-cell-group van-hairline--top-bottom van-panel" @click="detail(item.recordId)">
+        <div class="van-cell van-panel__header">
+          <div class="van-cell__title">
             <span >主治医师：{{item.docName}}</span>
-          <div style="margin-top: 30px">
-            <div class="van-cell__label">总费用：{{item.total}}</div>
-            <div class="van-cell__label">{{item.createTime}}</div>
+            <div style="margin-top: 30px">
+              <div class="van-cell__label">总费用：{{item.total}}</div>
+              <div class="van-cell__label">{{item.createTime}}</div>
+            </div>
           </div>
-        </div>
-        <div class="van-cell__value van-panel__header-value">
-          <span style="color: black">{{item.status}}</span>
-          <div class="van-cell__label" style="margin-top: 41px">
-            <!--<button class="van-button van-button&#45;&#45;primary van-button&#45;&#45;plain van-button&#45;&#45;small" v-if="item.isPay" @click.stop="pay(item.recordId)">-->
+          <div class="van-cell__value van-panel__header-value">
+            <span style="color: black">{{item.status}}</span>
+            <div class="van-cell__label" style="margin-top: 41px">
+              <!--<button class="van-button van-button&#45;&#45;primary van-button&#45;&#45;plain van-button&#45;&#45;small" v-if="item.isPay" @click.stop="pay(item.recordId)">-->
               <!--<span class="van-button__text">支付</span>-->
-            <!--</button>-->
-            <button class="van-button van-button--danger van-button--plain van-button--small" v-if="item.isCancel" @click.stop="qx(item.recordId)">
-              <span class="van-button__text">取消</span>
-            </button>
+              <!--</button>-->
+              <button class="van-button van-button--danger van-button--plain van-button--small" v-if="item.isCancel" @click.stop="qx(item.recordId)">
+                <span class="van-button__text">取消</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div v-else-if="list.length == 0">
-      <div class="van-multi-ellipsis--l2">您尚未建立医疗记录，请联系医生为您开方</div>
+    <div v-else>
+      <div class="van-doc-demo-block">
+        <div class="van-doc-demo-block__title">您尚未建立医疗记录，请联系医生为您开方</div>
+
+      </div>
     </div>
   </div>
 
@@ -46,7 +51,7 @@
       methods:{
           //进入医疗记录详情
         detail(recordId){
-          this.$router.push({name: 'MedicalRecordDetail', params: {recordId: recordId}})
+          this.$router.push({path: '/medicalRecordDetail', query: {recordId: recordId}})
         },
         //支付
         pay(recordId){
@@ -92,21 +97,26 @@
               }
             })
           }
+          console.log("list的长度"+this.list.length)
         }
       },
       mounted() {
-          let openId = "oULFM0cZmGlfC5nMaQnyeuSBNWAQ"
-        Cookies.set("openId",openId)
-        let code = this.$route.query.code
-        if(code){
-          this.$api.assistant.getOpenId({code:code}).then((res) => {
-            if(res.code == '200'){
-              openId = res.rows
-              Cookies.set("openId",openId)
-            }else{
-              Toast(res.msg)
-            }
-          })
+        if(Cookies.get("openId")){
+
+        }else{
+          let code = this.$route.query.code
+          if(code){
+            this.$api.assistant.getOpenId({code:code}).then((res) => {
+              if(res.code == '200'){
+                //该用户是否已注册
+                let isRegister = res.rows.isRegister
+                Cookies.set("openId",res.rows.openid)
+                Cookies.set("isRegister",isRegister)
+              }else{
+                //Toast(res.msg)
+              }
+            })
+          }
         }
         this.getList()
       }
