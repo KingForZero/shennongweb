@@ -21,7 +21,7 @@
           </div>
           <van-field v-model="loginForm.age" required clearable label="年龄" type="number" placeholder="请输入年龄"/>
           <van-field v-model="loginForm.tel" required clearable  label="手机号" type="tel" placeholder="请输入手机号"/>
-          <van-field v-model="loginForm.code" required clearable label="短信验证码" placeholder="请输入短信验证码">
+          <van-field v-model="loginForm.code" type="number" required clearable label="短信验证码" placeholder="请输入短信验证码">
             <van-button slot="button" v-show="sendAuthCode" size="small" @click="getAuthCode" type="primary">发送验证码</van-button>
             <van-button slot="button" v-show="!sendAuthCode" size="small" type="primary">{{auth_time}} 秒</van-button>
           </van-field>
@@ -119,7 +119,6 @@ export default {
 
         this.$api.user.cliengUser(this.loginForm).then((res) => {
           if(res.code == 200) {
-            Cookies.set("isRegister","true");
             this.$router.push({name: 'MedicalRecordList'})
           } else {
             Toast(res.msg)
@@ -143,14 +142,14 @@ export default {
     }
   },
   mounted() {
-    let openId = this.$route.query.openId
-    let fromId = this.$route.query.fromId
+    let openId = this.$route.query.openId || Cookies.get("openId")
+    debugger
+    let fromId = this.$route.query.fromId || Cookies.get("fromId")
+    if(fromId){
+      this.loginForm.fromId = fromId
+    }
     if(openId){
-      //用户点击链接过来的
 
-    }else if(Cookies.get("openId")){
-      //由于没有注册从其他页面跳转过来的
-      openId = Cookies.get("openId")
     }else{
       //用户点击按钮跳转过来的
       let code = this.$route.query.code
@@ -163,15 +162,13 @@ export default {
           }
         })
       }
-
     }
     if(openId){
       this.loginForm.openId = openId
       Cookies.set('openId', openId)
     }
-    if(fromId){
-      this.loginForm.fromId = fromId
-    }
+
+
 
 
 

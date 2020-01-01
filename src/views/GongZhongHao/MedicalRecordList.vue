@@ -79,7 +79,6 @@
         },
         getList(){
           let openId =  Cookies.get("openId")
-          if(openId){
             this.$api.gongZhongHao.selectMedicalRecordsGZ({openId:openId}).then((res) => {
               if(res.code == 200) {
                 var arr = res.rows;
@@ -96,29 +95,28 @@
                 this.list = res.rows
               }
             })
-          }
           console.log("list的长度"+this.list.length)
         }
       },
-      mounted() {
-        if(Cookies.get("openId")){
-
-        }else{
+      created() {
           let code = this.$route.query.code
           if(code){
             this.$api.assistant.getOpenId({code:code}).then((res) => {
               if(res.code == '200'){
-                //该用户是否已注册
-                let isRegister = res.rows.isRegister
                 Cookies.set("openId",res.rows.openid)
-                Cookies.set("isRegister",isRegister)
+                //获取邀请人id
+                debugger
+                if(res.rows.fromId){
+                  Cookies.set("fromId",res.rows.fromId)
+                }
+
               }else{
                 //Toast(res.msg)
               }
             })
           }
-        }
-        this.getList()
+          this.getList()
+
       }
 
     }

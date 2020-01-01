@@ -60,7 +60,7 @@
       <van-tabbar>
 
         <van-submit-bar
-          :price="medicalRecord.total"
+          :price="medicalRecord.total*100"
           :button-text="payText"
           :disabled="isJY"
           @submit="onSubmit"
@@ -97,7 +97,7 @@
           @edit="onEdit"
           @add="onAdd"
           @select="onSelect"
-          style="margin-bottom: 60px"
+          style="margin-bottom: 60px;margin-top: 20px"
         >
         </van-address-list>
       </van-popup>
@@ -286,7 +286,7 @@
           if(arr[0]){
             this.address.provinceCode = arr[0].code
             this.address.provinceName = arr[0].name
-          }
+        }
           if(arr[1]){
             this.address.cityCode = arr[1].code
             this.address.cityName = arr[1].name
@@ -323,7 +323,7 @@
               this.wxshare(res.rows)
 
               let data = {
-                amount: 0.01,
+                amount: this.medicalRecord.total,
                 MRecordId: this.medicalRecord.recordId,
                 openId: Cookies.get("openId"),
                 payType: 2,
@@ -345,7 +345,7 @@
                         // 支付成功后的回调函数
                         this.getRecordDetail()
                         this.isShowAdress = false
-                        this.payText = "不可支付"
+                        this.payText = "已支付"
                         this.isJY = true
                       }
                     });

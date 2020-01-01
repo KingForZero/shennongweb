@@ -23,46 +23,47 @@ export default function $axios(options) {
         let token = Cookies.get('Authorization')
         //获取公众号用户openId
         let openId =  Cookies.get("openId")
-        //判断公众号用户是否注册
-        let isRegister = Cookies.get("isRegister")
         if(openId){
           config.headers.gzOpenId = openId
-          if(isRegister == "true") {
-            console.log("已注册不跳转")
-          } else {
-            console.log("未注册跳转")
-            router.push('/userRegister')
+          if(url == "/system/clientUser/clientUser"){
+
+          }else{
+            $.ajax({
+              type: "post",
+              url: "http://39.106.123.28/sh/system/clientUser/selectByOpenId",
+              data: {openId:openId},
+              dataType: "json",
+              async:false,
+              success: function(data){
+                if(data.code == 200){
+                }else {
+                  router.push('/userRegister')
+                }
+              }
+            });
+
+          }
+
+        }else{
+          // 1. 请求开始的时候可以结合 vuex 开启全屏 loading 动画
+          // console.log(store.state.loading)
+          // console.log('准备发送请求...')
+          // 2. 带上token
+          if (token) {
+            config.headers.Authorization = token
+
+          } else if(url == '/system/employee/sendSmsCode'||url=='/system/employee/forgetPass'||url=='/system/role/findAll'||url=='/system/employee/selectAssisant'|| url=='/system/clientUser/clientUser'||
+            url == '/system/departmentOne/list' ||url == '/system/departmentTwo/selectByDepartmentOneId'||url == '/system/role/findById'||url == '/system/employee/add' ||url == '/pay/getOpenId'){
+
+          }else{
+            // 重定向到登录页面
+            router.push('/login')
           }
         }
 
-        // 1. 请求开始的时候可以结合 vuex 开启全屏 loading 动画
-        // console.log(store.state.loading)
-        // console.log('准备发送请求...')
-        // 2. 带上token
-        if (token) {
-          config.headers.Authorization = token
 
-        } else if(url == '/system/employee/sendSmsCode'||url=='/system/employee/forgetPass'||url=='/system/role/findAll'||url=='/system/employee/selectAssisant'|| url=='/system/clientUser/clientUser'||
-          url == '/system/departmentOne/list' ||url == '/system/departmentTwo/selectByDepartmentOneId'||url == '/system/role/findById'||url == '/system/employee/add' ||url == '/pay/getOpenId'||
-          url == '/bussiness/medicalRecords/selectMedicalRecordsGZ' ||url == '/system/prescribing/selectByRecordIdWX'||url == '/system/address/add' ||url == '/system/address/edit'||url == '/system/address/list'||
-        url == '/bussiness/medicalRecords/selectByIdGZ'){
 
-        }else{
-          // 重定向到登录页面
-          router.push('/login')
-        }
-        // 3. 根据请求方法，序列化传来的参数，根据后端需求是否序列化
-        if (config.method === 'post') {
-          // if (config.data.__proto__ === FormData.prototype
-          //   || config.url.endsWith('path')
-          //   || config.url.endsWith('mark')
-          //   || config.url.endsWith('patchs')
-          // ) {
 
-          // } else {
-            // config.data = qs.stringify(config.data)
-          // }
-        }
 
         return config
       },
