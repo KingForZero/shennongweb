@@ -25,7 +25,7 @@
       </el-form>
     </div>
     <div class="toolbar" style="float:right;padding-top:10px;padding-right:15px;">
-      
+
     </div>
     <!--表格内容栏-->
     <el-table :data="medicalRecordPage.rows" style="width: 100%">
@@ -61,7 +61,7 @@
 					</el-table>
 					<!--分页栏-->
 					<div class="toolbar" style="padding:10px;">
-					<el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshMedicalRecord" 
+					<el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshMedicalRecord"
 						:current-page="medicalRecordPage.pageNum" :page-size="medicalRecordPage.pageSize" :total="medicalRecordPage.total" style="float:right;">
 					</el-pagination>
 					</div>
@@ -97,7 +97,7 @@
                 <el-form-item label="请输入年龄" prop="userAge">
                   <el-input v-model="recordForm.userAge"></el-input>
                 </el-form-item>
-               
+
             </el-form>
             <div slot="footer" class="dialog-footer">
               <el-button :size="size" @click.native="isShowRecord = false">{{$t('action.cancel')}}</el-button>
@@ -126,7 +126,7 @@
                       required: true, message: '药名不能为空', trigger: 'blur'
                     }">
                       <el-input type="number" v-model="item.number" v-on:input="((val)=>{handlerNumber(val, index)})">
-                      </el-input> 
+                      </el-input>
                    </el-form-item>
                 </el-col>
                 <el-col :span="4">
@@ -173,7 +173,7 @@
                   </template>
                 </el-table-column>
               </el-table>
-              
+
           </el-dialog>
            <el-dialog  title="新增既往病史"  width="40%" :visible.sync="isShowAddHistory" :close-on-click-modal="false">
             <el-form :model="historyForm" label-width="80px"  ref="historyForm" :size="size" label-position="right">
@@ -312,7 +312,7 @@
                       <el-form-item label="">
                         <el-input type="textarea" :rows="4" v-model="healthRecord.keeperRemarks"></el-input>
                       </el-form-item>
-                      
+
                     </el-col>
                   </el-row>
                   <el-button type="primary" @click.native="isShowDetail = false">返回</el-button>
@@ -336,7 +336,7 @@
                       <el-form-item label="用户电话：" >
                          <span>{{medicalRecord.userTel}}</span>
                       </el-form-item>
-                      
+
                     </el-col>
                     <el-col :span="8">
                       <el-form-item label="状态：">
@@ -423,7 +423,7 @@
                     </el-col>
                   </el-row>
                   <el-row>
-                    
+
                   </el-row>
                     <el-row>
                       <el-col :span="8">
@@ -454,8 +454,8 @@
                           </el-select>
                         </el-form-item>
                       </el-col>
-                      
-                      
+
+
                     </el-row>
                     <el-row>
                       <el-col :span="8">
@@ -463,7 +463,7 @@
                           <el-select v-model="medicalRecord.medicalType" placeholder="请选择中药种类" @change="handleChangeMedicalType1">
                             <el-option label="饮片" value="1" :disabled="isYP1"></el-option>
                             <el-option label="颗粒" value="2" :disabled="isKL1"></el-option>
-                            <el-option label="中成药" value="3" :disabled="isZCY1"></el-option>
+<!--                            <el-option label="中成药" value="3" :disabled="isZCY1"></el-option>-->
                           </el-select>
                         </el-form-item>
                       </el-col>
@@ -478,7 +478,7 @@
                             <el-option label="打粉" value="5"></el-option>
                             <el-option label="膏方" value="6"></el-option>
                             <el-option label="汤剂" value="7"></el-option>
-                            
+
                           </el-select>
                         </el-form-item>
                       </el-col>
@@ -582,7 +582,7 @@
                   <div  v-for="(item,index) in chufang" :key="index">
                     <el-form label-width="100px" class="demo" :model="item"  ref="prescribiing">
                   <h2 align="left">第{{index+1}}张处方</h2>
-                    
+
                     <el-row :gutter="15">
                       <el-col :span="8">
                         <el-form-item label="处方类型：" prop="medicalType" :rules="{
@@ -601,11 +601,11 @@
     }">
                           <el-select v-model="item.pharmacy" placeholder="请选择药房" @change="handleChangePharmacylType($event,item)">
                             <el-option label="桐君堂" value="1"></el-option>
-                            <el-option label="康仁堂" value="2"></el-option>
+<!--                            <el-option label="康仁堂" value="2"></el-option>-->
                             <el-option label="天江药业" value="3"></el-option>
                           </el-select>
                         </el-form-item>
-                        
+
                       </el-col>
                       <el-col :span="8">
                         <el-form-item label="中药种类：" prop="medicalType" :rules="{
@@ -614,13 +614,13 @@
                           <el-select v-model="item.medicalType" placeholder="请选择中药种类" @change="handleChangeMedicalType($event,item)">
                             <el-option label="饮片" value="1" :disabled="item.isYP"></el-option>
                             <el-option label="颗粒" value="2" :disabled="item.isKL"></el-option>
-                            <el-option label="中成药" value="3" :disabled="item.isZCY"></el-option>
+<!--                            <el-option label="中成药" value="3" :disabled="item.isZCY"></el-option>-->
                           </el-select>
                         </el-form-item>
                       </el-col>
                     </el-row>
                     <el-row :gutter="15">
-                      
+
                       <el-col :span="8">
                         <el-form-item label="加工方式：" v-if="item.isShowMadeType" prop="madeType" >
                           <el-select v-model="item.madeType" placeholder="请选择加工方式"  @change="handleChangeMadeType($event,item)">
@@ -632,7 +632,7 @@
                             <el-option label="打粉" value="5"></el-option>
                             <el-option label="膏方" value="6"></el-option>
                             <el-option label="汤剂" value="7"></el-option>
-                            
+
                           </el-select>
                         </el-form-item>
                       </el-col>
@@ -652,7 +652,7 @@
                       </el-col>
                     </el-row>
                     <el-row :gutter="15">
-                      
+
                       <el-col :span="8">
                         <el-form-item label="药费：" >
                           <el-input :disabled="true" v-model="item.amount">
@@ -675,7 +675,7 @@
                         </el-form-item>
                       </el-col>
                     </el-row>
-                    
+
                     <el-row :gutter="15">
                       <el-col :span="16">
                         <el-form-item label="临床诊断：" >
@@ -693,11 +693,11 @@
                         <el-button @click="bc(item,index)" v-if="bzShow(medicalRecord.recordState)" type="primary" plain>保存</el-button>
                         <el-button @click="addChuFang" v-if="bzShow(medicalRecord.recordState)"  type="primary" plain>新增处方</el-button>
                         <el-button @click="deleteChuFang(item,index)" v-if="bzShow(medicalRecord.recordState)"  type="primary" plain>删除处方</el-button>
-            
+
                         <el-button @click="add(item)" type="primary">查看药品</el-button>
                       </el-col>
                     </el-row>
-                    
+
                     <!-- <h2 align="left">药品信息</h2> -->
                         <!--工具栏-->
                       <!-- <div class="toolbar" style="float:left;padding-top:10px;padding-left:15px;">
@@ -734,7 +734,7 @@
                       </el-table>
                       <!--分页栏-->
                         <!-- <div class="toolbar" style="padding:10px;">
-                          <el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshMedicalPageRequest" 
+                          <el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshMedicalPageRequest"
                             :current-page="medicalPage.pageNum" :page-size="medicalPage.pageSize" :total="medicalPage.total" style="float:right;">
                           </el-pagination>
                         </div>  -->
@@ -826,7 +826,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
             value: '2,3,4,5,6,7,8,9,91,10,11,12',
             label: '全部'
           },
-          
+
           {
             value: '2',
             label: '待医生处理'
@@ -883,7 +883,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
           userName: '',
           compare:'',
           recordState:'2,3,4,5,6,7,8,9,91,10,11,12'
-        }, 
+        },
         columnFilters:{
           employeeId:{
             name:'employeeId',
@@ -1003,7 +1003,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
        }
 					})
        }
-       
+
      },
         telChange(val){
          this.$api.user.selectClientUserByTel({userTel:val}).then((res) => {
@@ -1012,7 +1012,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
 							} else {
 								this.$message({message: '查询用户信息失败, ' + res.msg, type: 'error'})
 							}
-							
+
 						})
       },
       	reject(row){
@@ -1024,7 +1024,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
         if("1"===targetName.paneName){
           document.getElementById('yuancheng').src=this.frameUrl;
         }
-        
+
         if("fourth"===targetName.paneName){
           if(this.chufang.length==0){
             this.chufang = [{
@@ -1046,7 +1046,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
       },
       //根据docId查询个人药房
       selectYaoFang(){
-       
+
       },
 
       //查看既往病史
@@ -1059,10 +1059,10 @@ import InquirySheet from "@/views/Core/InquirySheet"
 							} else {
 								this.$message({message: '操作失败, ' + res.msg, type: 'error'})
 							}
-							
+
 						})
         this.isShowHistory = true
-        
+
       },
       closeDialog(){
         this.medicalForm.medicalList = [{
@@ -1107,7 +1107,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
               this.$api.user.selectYaoFang({docId:docId}).then((res) => {
 							if(res.code == 200) {
                this.pharmacyList = res.rows
-               
+
                if(res.rows.length == 0){
                   this.medicalRecord.pharmacyType='1'
                    this.$message({message: '您没有个人药房, 请选择合作药房' , type: 'error'})
@@ -1126,11 +1126,11 @@ import InquirySheet from "@/views/Core/InquirySheet"
                         }
                       ]
                }
-              
+
 							} else {
 								this.$message({message: '个人药房查询失败, ' + res.msg, type: 'error'})
 							}
-							
+
 						})
         }else if(val == '1'){
            this.isShowMedical = true
@@ -1194,7 +1194,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
           item.isShowMadeType = false
           this.compute(item)
         }
-         this.zhongyi(val)
+         // this.zhongyi(val)
       },
       handleChangeMedicalType1(val){
         this.$forceUpdate()
@@ -1208,7 +1208,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
       handleChangeMadeType1(val){
         this.$forceUpdate()
       },
-      
+
       //计算加工费的方法
       compute(item){
         if(item.weight){
@@ -1262,9 +1262,9 @@ import InquirySheet from "@/views/Core/InquirySheet"
                   }else{
                     item.processCost = parseInt(Number(item.weight)/1000)*10
                   }
-                  
+
                 }else{
-                  item.processCost = 10 
+                  item.processCost = 10
                 }
               }else if(item.madeType == '6'){
                 if(Number(item.weight)>6000){
@@ -1337,7 +1337,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
 							} else {
 								this.$message({message: '操作失败, ' + res.msg, type: 'error'})
 							}
-							
+
 						})
 					})
 				}
@@ -1359,7 +1359,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
 
       },
       addChuFang(){
-         
+
         this.chufang.push({
             recordId:this.medicalRecord.recordId,
             doctorId:this.medicalRecord.docId,
@@ -1373,7 +1373,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
         })
       },
       bc(item,index){
-       
+
         this.$refs["prescribiing"][index].validate((valid) => {
           if (valid) {
             //新增电子处方
@@ -1392,7 +1392,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
             return false;
           }
         });
-          
+
       },
       //      验证只能输入正整数
       handleClick(){
@@ -1427,7 +1427,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
     },
     //加载中医库
     zhongyi(type){
-      
+
       if(type == 3){
         type = 4
       }
@@ -1441,53 +1441,51 @@ import InquirySheet from "@/views/Core/InquirySheet"
                 }
               })
 
-            }	
+            }
           })
     },
-    
+
       //点击会员id触发的事件
       xiangqing:function(index,row){
       this.recordStatus = row.recordState
       this.isShowDetail = true
       this.frameUrl = "https://dkaimed.com/dkang/user.do/queryReportNoPower?phone="+row.userTel
-      
+
        //查询电子处方
       this.$api.healthHouseKeeper.selectByRecordIdPrescribing({recordId:row.recordId}).then((res) => {
             if(res.code == '200'){
-              if(res.rows.length >0 ){
-                this.chufang = res.rows
-                for(var i = 0; i<this.chufang.length;i++){
-                  if(this.chufang[i].medicalType == '1'){
-                      this.chufang[i].isShowMadeType = true
-                    }else if(this.chufang[i].medicalType == '2'){
-                      this.chufang[i].isShowMadeType = false
-                    }
-                    if(this.chufang[i].pharmacy){
-                      this.zhongyi(this.chufang[i].pharmacy)
-                    }
-                    //查看药方
-                    if(this.chufang[i].id){
-                      this.countAmonut(this.chufang[i])
-                      //this.findMedicalPage(null)
-                    }
-                }
+              this.chufang = res.rows
+              for(var i = 0; i<this.chufang.length;i++){
+                if(this.chufang[i].medicalType == '1'){
+                    this.chufang[i].isShowMadeType = true
+                  }else if(this.chufang[i].medicalType == '2'){
+                    this.chufang[i].isShowMadeType = false
+                  }
+                  if(this.chufang[i].pharmacy){
+                    this.zhongyi(this.chufang[i].pharmacy)
+                  }
+                  //查看药方
+                  if(this.chufang[i].id){
+                    this.countAmonut(this.chufang[i])
+                    //this.findMedicalPage(null)
+                  }
               }
-            }	
+            }
             //查询个人档案
             this.$api.assistant.selectHealthRecord({userId:row.userId}).then((res) => {
               if(res.code == '200'){
                 this.healthRecord = res.rows
-               
-                
-                
-              }	
+
+
+
+              }
             }),
             //查询医疗记录
             this.$api.healthHouseKeeper.selectById({recordsId:row.recordId}).then((res) => {
               if(res.code == '200'){
-                
-                
-                
+
+
+
                 if(res.rows.pharmacyType == '1'){
                    this.isShowMedical = true
                     this.isShowMadeType1 = false
@@ -1516,7 +1514,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
                         } else {
                           this.$message({message: '个人药房查询失败, ' + res.msg, type: 'error'})
                         }
-                        
+
                       })
                 }
                 if(res.rows.medicalType == '1' ){
@@ -1553,35 +1551,35 @@ import InquirySheet from "@/views/Core/InquirySheet"
                   //  [{name: 'food.jpg', url: 'https://xxx.cdn.com/xxx.jpg'}]
                   this.fileList2  =files2
                 }
-                
-                }	
+
+                }
             })
-            
+
           })
-          
+
 			//查询问诊单
 			 this.$api.healthHouseKeeper.selectInquirySheetById({id:row.surveyId}).then((res) => {
             if(res.code == '200'){
               this.inquirySheet = res.rows
-            }	
+            }
           })
           // //查询我的医生
           // this.$api.healthHouseKeeper.selectMyDoctor().then((res) => {
           //   if(res.code == '200'){
           //     this.myDoctor = res.rows
-          //   }	
+          //   }
           // })
-     
+
         //查看药方
         this.recordId = row.recordId
-	
-  
+
+
 		},
   		reject(row){
 			this.$alert(row.reject, '审核不通过原因', {
 				confirmButtonText: '确定'
 				});
-      
+
       },
       mark(row,value){
           row.compare = value
@@ -1621,7 +1619,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
           this.$api.healthHouseKeeper.selectInquirySheetById({id:id}).then((res) => {
             if(res.code == '200'){
               this.inquirySheet = res.rows
-            }	
+            }
           })
           this.isShowSheet = true
         },
@@ -1648,7 +1646,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
             })
 
       },
-      
+
       uploadUrl(){
         //return baseUrl+"/system/upload";
         return "http://39.106.123.28/sh/system/upload"
@@ -1673,7 +1671,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
                 } else {
                   this.$message({message: '操作失败, ' + res.msg, type: 'error'})
                 }
-                
+
               })
             })
       },
@@ -1716,7 +1714,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
 
 
 
-			  this.isShow = true	
+			  this.isShow = true
 		  },
       //判断是否是初诊
         firstFormatter:function(row){
@@ -1729,7 +1727,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
             break;
           }
         },
-	
+
       //查看药方
       yaofang:function (value) {
         this.recordId = value
@@ -1753,7 +1751,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
         this.$api.healthHouseKeeper.selectByContion(this.medicalRecordPage).then((res) => {
           if(res.code == '200'){
             this.medicalRecordPage = res
-          }	
+          }
         })
       },
       // 获取药方分页数据
@@ -1858,7 +1856,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
       if(row.auditTime){
         return timestampToTime(row.createTime)
       }else{
-        
+
       }
 		},
 		dataFormatter:function(row) {
@@ -1872,7 +1870,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
       if(row.createTime){
         return timestampToTime(row.createTime)
       }else{
-        
+
       }
 		},
 		activeFormatter:function(row){
@@ -1895,7 +1893,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
 					break;
 				default :
 						return '未知'
-				
+
 			}
           	return format(row[column.property])
       	},
@@ -2140,12 +2138,12 @@ import InquirySheet from "@/views/Core/InquirySheet"
           this.userList = [];
         }
       }
-    
-		
+
+
     },
     mounted() {
       this.findMedicalRecord(null)
-      
+
 
     },
     filters:{
