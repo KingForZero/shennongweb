@@ -31,7 +31,7 @@
 				<el-input v-model="dataForm.name" auto-complete="off"></el-input>
 			</el-form-item>
 				<el-form-item label="性别" prop="sex">
-				<el-radio-group v-model="dataForm.sex" style="margin-left: -509px;">
+				<el-radio-group v-model="dataForm.sex">
                     <el-radio label="0">男</el-radio>
                     <el-radio label="1">女</el-radio>
                   </el-radio-group>
@@ -44,13 +44,19 @@
 				<el-input v-model="dataForm.sort" type="number"></el-input>
 			</el-form-item>
 			<el-form-item label="是否启用" prop="status">
-				<el-radio-group v-model="dataForm.status" style="margin-left: -509px;">
+				<el-radio-group v-model="dataForm.status" >
                     <el-radio label="0">禁用</el-radio>
                     <el-radio label="1">启用</el-radio>
                   </el-radio-group>
 			</el-form-item>
+      <el-form-item label="是否显示" prop="show">
+        <el-radio-group v-model="dataForm.isShow" >
+          <el-radio label="0">显示</el-radio>
+          <el-radio label="1">不显示</el-radio>
+        </el-radio-group>
+      </el-form-item>
 			<el-form-item label="审核状态" prop="state">
-				<el-radio-group v-model="dataForm.state" style="margin-left: -358px;">
+				<el-radio-group v-model="dataForm.state" >
                     <el-radio label="1">未审核</el-radio>
                     <el-radio label="2">审核通过</el-radio>
                     <el-radio label="3">审核驳回</el-radio>
@@ -80,6 +86,18 @@
 				<i v-else class="el-icon-plus avatar-uploader-icon"></i>
 			</el-upload>
 			</el-form-item>
+      <el-form-item label="企业微信" prop="contactMeQr">
+        <el-upload
+          accept="image/*"
+          class="avatar-uploader"
+          :action="uploadUrl()"
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess2"
+          :before-upload="beforeAvatarUpload2" style="width:28%">
+          <img v-if="dataForm.contactMeQr" :src="headSrc(dataForm.contactMeQr)" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
+      </el-form-item>
 			<el-form-item label="密码" prop="password">
 				<el-input v-model="dataForm.password" type="password" auto-complete="off"></el-input>
 			</el-form-item>
@@ -252,6 +270,7 @@ export default {
 				docType:'',
 				docIntegral:'',
 				docMark:'',
+        show:"",
 				docHospital:'',
 				docDepartmentOne:'',
 				docDepartment:'',
@@ -259,6 +278,7 @@ export default {
 				registrationFee:'',
 				assisantId:'',
 				sign:'',
+        contactMeQr:"",
 				employeeRoles:[]
 			},
 			deptData: [],
@@ -307,6 +327,22 @@ export default {
 				}
 				return isJPG && isLt2M;
 			},
+    handleAvatarSuccess2(res, file) {
+      this.dataForm.contactMeQr = res.rows;
+      this.$forceUpdate()
+    },
+    beforeAvatarUpload2(file) {
+      const isJPG = file.type === 'image/jpeg'||file.type === 'image/png';
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG或者PNG 格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!');
+      }
+      return isJPG && isLt2M;
+    },
 		changeDepartmentTwo: function(data){
 			 
 			this.$api.department.findDepartmentTwoByid({"departmentOneId":data}).then((res) => {

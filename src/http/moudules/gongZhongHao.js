@@ -7,7 +7,14 @@ export const selectMedicalRecordsGZ = (data) => {
     params:data
   })
 }
-
+//创建医疗记录
+export const addByGZhao = (data) => {
+  return axios({
+    url: '/bussiness/medicalRecords/addByGZhao',
+    method: 'post',
+    data
+  })
+}
 //根据医疗记录id查询电子处方以及每个电子处方包含的药材
 export const selectByRecordIdWX = (data) => {
   return axios({
@@ -68,7 +75,7 @@ export const wxpay = (data) => {
 //取消医疗记录
 export const cancel = (data) => {
   return axios({
-    url: '/bussiness/medicalRecords/cancel',
+    url: '/bussiness/medicalRecords/cancelGZ',
     method: 'post',
     params:data
   })
@@ -81,3 +88,28 @@ export const selectByOpenId = (data) => {
     params:data
   })
 }
+//查询医生列表
+export const selectDocListWeb = (data) => {
+  return axios({
+    url: "/system/employee/selectDocListGZ",
+    method: 'post',
+    params:data
+  })
+}
+//根据id查询
+export const selectById = (data) => {
+  return axios({
+    url: "/system/employee/selectById",
+    method: 'post',
+    params:data
+  })
+}
+//我的医生列表
+export const selectMyDocGZ = (data) => {
+  return axios({
+    url: "/system/clientUser/selectMyDocGZ",
+    method: 'post',
+    params:data
+  })
+}
+

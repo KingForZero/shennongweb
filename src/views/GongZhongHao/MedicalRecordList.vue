@@ -1,35 +1,37 @@
 <template>
   <div>
-    <div v-if="list.length>0">
-      <div  v-for="item in list" :key="item.index" class="van-cell-group van-hairline--top-bottom van-panel" @click="detail(item.recordId)">
-        <div class="van-cell van-panel__header">
-          <div class="van-cell__title">
-            <span >主治医师：{{item.docName}}</span>
-            <div style="margin-top: 30px">
-              <div class="van-cell__label">总费用：{{item.total}}</div>
-              <div class="van-cell__label">{{item.createTime}}</div>
+    <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+        @load="onLoad"
+      >
+        <div  v-for="item in list" :key="item.index" class="van-cell-group van-hairline--top-bottom van-panel" @click="detail(item.recordId)">
+          <div class="van-cell van-panel__header">
+            <div class="van-cell__title">
+              <span >主治医师：{{item.docName}}</span>
+              <div style="margin-top: 30px">
+                <div class="van-cell__label">总费用：{{item.total}}</div>
+                <div class="van-cell__label">{{item.createTime}}</div>
+              </div>
             </div>
-          </div>
-          <div class="van-cell__value van-panel__header-value">
-            <span style="color: black">{{item.status}}</span>
-            <div class="van-cell__label" style="margin-top: 41px">
-              <!--<button class="van-button van-button&#45;&#45;primary van-button&#45;&#45;plain van-button&#45;&#45;small" v-if="item.isPay" @click.stop="pay(item.recordId)">-->
-              <!--<span class="van-button__text">支付</span>-->
-              <!--</button>-->
-              <button class="van-button van-button--danger van-button--plain van-button--small" v-if="item.isCancel" @click.stop="qx(item.recordId)">
-                <span class="van-button__text">取消</span>
-              </button>
+            <div class="van-cell__value van-panel__header-value">
+              <span style="color: black">{{item.status}}</span>
+              <div class="van-cell__label" style="margin-top: 41px">
+                <!--<button class="van-button van-button&#45;&#45;primary van-button&#45;&#45;plain van-button&#45;&#45;small" v-if="item.isPay" @click.stop="pay(item.recordId)">-->
+                <!--<span class="van-button__text">支付</span>-->
+                <!--</button>-->
+                <button class="van-button van-button--danger van-button--plain van-button--small" v-if="item.isCancel" @click.stop="qx(item.recordId)">
+                  <span class="van-button__text">取消</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div v-else>
-      <div class="van-doc-demo-block">
-        <div class="van-doc-demo-block__title">您尚未建立医疗记录，请联系医生为您开方</div>
+      </van-list>
+    </van-pull-refresh>
 
-      </div>
-    </div>
   </div>
 
 </template>
@@ -45,7 +47,8 @@
           return{
             list:[],
             loading:false,
-            finished:false
+            finished:false,
+            refreshing:false
           }
         },
       methods:{
@@ -66,7 +69,7 @@
             // on confirm
             this.$api.gongZhongHao.cancel({recordsId:recordId}).then((res) => {
               if(res.code == 200) {
-                this.getList()
+                this.onRefresh()
                 Toast("操作成功")
               }else{
                 Toast(res.msg)
@@ -77,8 +80,22 @@
           });
 
         },
-        getList(){
+        onRefresh() {
+          // 清空列表数据
+          this.finished = false;
+
+          // 重新加载数据
+          // 将 loading 设置为 true，表示处于加载状态
+          this.loading = true;
+          this.onLoad();
+        },
+        onLoad(){
+          if (this.refreshing) {
+            this.list = [];
+            this.refreshing = false;
+          }
           let openId =  Cookies.get("openId")
+          this.loading = false;
             this.$api.gongZhongHao.selectMedicalRecordsGZ({openId:openId}).then((res) => {
               if(res.code == 200) {
                 var arr = res.rows;
@@ -93,6 +110,7 @@
                   }
                 }
                 this.list = res.rows
+                this.finished = true;
               }
             })
           console.log("list的长度"+this.list.length)
@@ -105,7 +123,6 @@
               if(res.code == '200'){
                 Cookies.set("openId",res.rows.openid)
                 //获取邀请人id
-                debugger
                 if(res.rows.fromId){
                   Cookies.set("fromId",res.rows.fromId)
                 }
@@ -115,7 +132,6 @@
               }
             })
           }
-          this.getList()
 
       }
 

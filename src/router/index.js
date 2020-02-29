@@ -14,6 +14,9 @@ import store from '@/store'
 import { getIFramePath, getIFrameUrl } from '@/utils/iframe'
 import MedicalRecordList from "@/views/GongZhongHao/MedicalRecordList";
 import MedicalRecordDetail from "@/views/GongZhongHao/MedicalRecordDetail";
+import DoctorList from "@/views/GongZhongHao/DoctorList";
+import DoctorDetail from "@/views/GongZhongHao/DoctorDetail";
+import Teletext from "@/views/GongZhongHao/Teletext";
 import Cookies from "js-cookie"
 
 Vue.use(Router)
@@ -104,6 +107,29 @@ const router = new Router({
       }
     },
     {
+      path: '/doctorList',
+      name: 'DoctorList',
+      component: DoctorList,
+      meta:{
+        title:'上医林健康-医生列表'
+      }
+    },
+    {
+      path: '/doctorDetail',
+      name: 'DoctorDetail',
+      component: DoctorDetail,
+      meta:{
+        title:'上医林健康-医生详情'
+      }
+    },{
+      path: '/teletext',
+      name: 'Teletext',
+      component: Teletext,
+      meta:{
+        title:'上医林健康-图文问诊'
+      }
+    },
+    {
       path: '/404',
       name: 'notFound',
       component: NotFound
@@ -137,10 +163,24 @@ router.beforeEach((to, from, next) => {
       next()
     }else if(to.path === '/medicalRecordDetail'){
       next()
+    }else if(to.path === '/doctorList'){
+      next()
+    }else if(to.path === '/doctorDetail'){
+      next()
+    }else if(to.path === '/teletext'){
+      next()
     }else if(to.path === '/medicalRecordListGZ'){
-     //公众号医疗记录按钮跳转链接
+     //公众号我的订单按钮跳转链接
      //公众号获取用户授权openId
       window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxee2590252a0f8e99&redirect_uri=http%3a%2f%2fsoelaine.com%2fmedicalRecordList&response_type=code&scope=snsapi_base&state=123#wechat_redirect';
+    }else if(to.path === '/docList'){
+      //公众号在线咨询按钮跳转链接
+      //公众号获取用户授权openId
+      window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxee2590252a0f8e99&redirect_uri=http%3a%2f%2fsoelaine.com%2fdoctorList&response_type=code&scope=snsapi_base&state=123#wechat_redirect';
+    }else if(to.path === '/myDoc'){
+      //公众号我的医生按钮跳转链接
+      //公众号获取用户授权openId
+      window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxee2590252a0f8e99&redirect_uri=http%3a%2f%2fsoelaine.com%2fdoctorList&response_type=code&scope=snsapi_base&state=1#wechat_redirect';
     }else if(to.path === '/download'){
       next()
     }else{
