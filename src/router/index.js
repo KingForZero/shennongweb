@@ -17,6 +17,8 @@ import MedicalRecordDetail from "@/views/GongZhongHao/MedicalRecordDetail";
 import DoctorList from "@/views/GongZhongHao/DoctorList";
 import DoctorDetail from "@/views/GongZhongHao/DoctorDetail";
 import Teletext from "@/views/GongZhongHao/Teletext";
+import HealthAssessment from "@/views/GongZhongHao/HealthAssessment";
+
 import Cookies from "js-cookie"
 
 Vue.use(Router)
@@ -130,6 +132,14 @@ const router = new Router({
       }
     },
     {
+      path: '/healthAssessment',
+      name: 'HealthAssessment',
+      component: HealthAssessment,
+      meta:{
+        title:'上医林健康-健康评估'
+      }
+    },
+    {
       path: '/404',
       name: 'notFound',
       component: NotFound
@@ -168,6 +178,8 @@ router.beforeEach((to, from, next) => {
     }else if(to.path === '/doctorDetail'){
       next()
     }else if(to.path === '/teletext'){
+      next()
+    }else if(to.path === '/healthAssessment'){
       next()
     }else if(to.path === '/medicalRecordListGZ'){
      //公众号我的订单按钮跳转链接

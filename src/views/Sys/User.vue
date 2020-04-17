@@ -14,7 +14,7 @@
 			</el-form-item>
 		</el-form>
 	</div>
-	
+
 	<!--表格内容栏-->
 	<kt-table permsEdit="sys:user:edit" permsDelete="sys:user:delete"
 		:data="pageResult" :columns="columns"
@@ -108,7 +108,7 @@
 				<el-input v-model="dataForm.age" auto-complete="off"></el-input>
 			</el-form-item>
 			<el-form-item label="角色" prop="employeeRoles">
-				<el-select v-model="dataForm.employeeRoles" multiple placeholder="请选择" 
+				<el-select v-model="dataForm.employeeRoles" multiple placeholder="请选择"
 					 style="width: 100%;" @change="isDocFun">
 					<el-option v-for="item in roles" :key="item.id"
 						:label="item.remark" :value="item.id">
@@ -125,9 +125,9 @@
 			</template>
 			<template v-if="isDoc">
 				<el-form-item label="选择助理" prop="assisantId" :rules="[
-      { required: true, message: '请选择助理', trigger: 'blur' } 
+      { required: true, message: '请选择助理', trigger: 'blur' }
     ]">
-					<el-select v-model="dataForm.assisantId"   placeholder="请选择" 
+					<el-select v-model="dataForm.assisantId"   placeholder="请选择"
 					 style="width: 100%;" >
 					<el-option v-for="item in assisantList" :key="item.id"
 						:label="item.name" :value="item.id">
@@ -135,7 +135,7 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item label="选择类别" prop="docType" :rules="[
-      { required: true, message: '请选择类别', trigger: 'blur' } 
+      { required: true, message: '请选择类别', trigger: 'blur' }
     ]">
 					<el-radio-group v-model="dataForm.docType" @change="typeFun">
 						<el-radio label="1">康复调理</el-radio>
@@ -144,9 +144,9 @@
 					</el-radio-group>
 				</el-form-item>
 				<el-form-item label="一级科室" prop="docDepartment" v-if="isType" :rules="[
-      { required: true, message: '请选择科室', trigger: 'blur' } 
+      { required: true, message: '请选择科室', trigger: 'blur' }
     ]">
-					<el-select v-model="dataForm.docDepartment"  placeholder="请选择" 
+					<el-select v-model="dataForm.docDepartment"  placeholder="请选择"
 					 style="width: 100%;">
 					<el-option v-for="item in departMentOneList" :key="item.departmentOneId"
 						:label="item.departmentOneName" :value="item.departmentOneId">
@@ -154,7 +154,7 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item label="是否收费" prop="docLevel" :rules="[
-      { required: true, message: '请选择是否收费', trigger: 'blur' } 
+      { required: true, message: '请选择是否收费', trigger: 'blur' }
     ]">
 					<el-radio-group v-model="dataForm.docLevel" @change="isFeeFun">
 						<el-radio label="0">免费</el-radio>
@@ -163,7 +163,7 @@
 				</el-form-item>
 				<template v-if="isFee">
 					<el-form-item label="挂号费" prop="registrationFee" :rules="[
-      { required: true, message: '请输入挂号费', trigger: 'blur' } 
+      { required: true, message: '请输入挂号费', trigger: 'blur' }
     ]">
 						<el-input v-model="dataForm.registrationFee" auto-complete="off"></el-input>
 					</el-form-item>
@@ -187,10 +187,10 @@
 					<el-input v-model="dataForm.docHospital" auto-complete="off"></el-input>
 				</el-form-item>
 				<!-- <el-form-item label="医生资质证明" prop="graduateSchool">
-					
+
 				</el-form-item> -->
-			
-				
+
+
 			</template>
 		</el-form>
 		<div slot="footer" class="dialog-footer">
@@ -233,7 +233,7 @@ export default {
 			},
 			columns: [
 				{type:"index",label:"序号", minWidth:50},
-				{prop:"id", label:"ID", minWidth:60},
+				// {prop:"id", label:"ID", minWidth:60},
 				{prop:"name", label:"用户名", minWidth:120},
 				//{prop:"deptName", label:"机构", minWidth:120},
 				{prop:"roleNames", label:"角色", minWidth:100},
@@ -241,7 +241,7 @@ export default {
 				{prop:"tel", label:"手机", minWidth:100},
 				{prop:"status", label:"是否启用", minWidth:120, formatter:this.statusFormat},
 				{prop:"state", label:"审核状态", minWidth:60, formatter:this.stateFormat}
-				
+
 			],
 			filterColumns: [],
 			pageRequest: { pageNum: 1, pageSize: 10 },
@@ -344,24 +344,24 @@ export default {
       return isJPG && isLt2M;
     },
 		changeDepartmentTwo: function(data){
-			 
+
 			this.$api.department.findDepartmentTwoByid({"departmentOneId":data}).then((res) => {
 				// 加载角色集合
-				this.departMentTwoList = res.rows	
-				
+				this.departMentTwoList = res.rows
+
 			})
 		},
 		isFeeFun:function(data){
-			
+
 			if(data==0){
 				this.isFee = false
 			}else if(data == 1){
 				this.isFee = true
 			}
 		},
-		
+
 		typeFun:function(data){
-			
+
 			if(data==1){
 				this.isType = false
 			}else if(data == 2){
@@ -371,7 +371,7 @@ export default {
 		isDocFun:function(data){
 			if(this.currentIndex==data.length){
 				this.currentIndex = 0
-				
+
 				if(this.remarkArr.indexOf("医生")>-1){
 					this.isDoc = true
 				}else{
@@ -387,21 +387,21 @@ export default {
 				}else{
 					this.isKeeper = false
 				}
-				
+
 				this.remarkArr = []
 				return
 			}
 			let id = data[this.currentIndex]
-			
+
 			this.$api.role.findById({"roleId":id}).then((res) => {
 				this.remarkArr.push(res.rows.remark)
 				this.currentIndex++
 				//console.log(res.rows.remark)
 				this.isDocFun(data)
 			}).then(data!=null?data.callback:'')
-		
+
 			;
-			
+
 		},
 		// 获取分页数据
 		findPage: function (data) {
@@ -420,25 +420,25 @@ export default {
 		selectAssisant:function(){
 			this.$api.user.selectAssisant().then((res) => {
 				// 加载所有助理
-				this.assisantList = res.rows	
+				this.assisantList = res.rows
 			})
 		},
 		//加载一级科室
 		findDepartmentOneList:function(){
 			this.$api.department.findAll().then((res) => {
 				// 加载角色集合
-				this.departMentOneList = res.rows	
+				this.departMentOneList = res.rows
 			})
 		},
 		// 加载用户角色信息
 		findUserRoles: function () {
 			this.$api.role.findAll().then((res) => {
 				// 加载角色集合
-				this.roles = res.rows	
+				this.roles = res.rows
 			})
 		},
 		handleUserSelectChange:function (params) {
-			
+
 		},
 		// 批量删除
 		handleDelete: function (data) {
@@ -457,7 +457,7 @@ export default {
 			this.dialogVisible = true
 			this.operation = true
 			this.isDoc = false
-			
+
 		},
 		// 显示编辑界面
 		handleEdit: function (params) {
@@ -517,7 +517,7 @@ export default {
 		},
 		// 时间格式化
       	dateFormat: function (row, column, cellValue, index){
-		
+
           	return format(row[column.property])
       	},
 		// 处理表格列过滤显示
@@ -549,8 +549,8 @@ export default {
 					return "审核驳回"
 			}
       	},
-		
-		
+
+
 	},
 	mounted() {
 		//this.findDeptTree()
@@ -560,7 +560,7 @@ export default {
 </script>
 
 <style scoped>
-	
+
   .avatar-uploader .el-upload {
     border: 1px dashed #2e151515;
 	width: 30%;

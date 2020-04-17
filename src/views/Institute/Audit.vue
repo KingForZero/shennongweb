@@ -15,15 +15,15 @@
 			<el-form-item>
 				<kt-button icon="fa fa-plus" :label="$t('action.add')" perms="sys:user:add" type="primary" @click="handleAdd" />
 			</el-form-item>
-			
+
 		</el-form>
 	</div>
-	
+
 	<el-table :data="pageResult.rows" style="width: 100%">
 		<el-table-column type="index" label="序号" >
 		</el-table-column>
-		<el-table-column property="id" label="id" >
-		</el-table-column>
+<!--		<el-table-column property="id" label="id" >-->
+<!--		</el-table-column>-->
 		<el-table-column property="title" label="科研主题" >
 		</el-table-column>
 		<el-table-column property="fileUrl" label="课题文件" >
@@ -52,7 +52,7 @@
 	</el-table>
 	<!--分页栏-->
     <div class="toolbar" style="padding:10px;">
-      <el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshPageRequest" 
+      <el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshPageRequest"
         :current-page="pageRequest.pageNum" :page-size="pageRequest.pageSize" :total="pageResult.total" style="float:right;">
       </el-pagination>
     </div>
@@ -149,7 +149,7 @@ export default {
 					{ required: true, message: '请输入主题', trigger: 'blur' }
 				]
 			},
-			
+
 		}
 	},
 	methods: {
@@ -195,7 +195,7 @@ export default {
 				if (valid) {
 					this.$confirm('确认提交吗？', '提示', {}).then(() => {
 						this.editLoading = true
-						
+
 						this.$api.healthHouseKeeper.saveHealthGuidance(this.healthGuidanceForm).then((res) => {
 							this.editLoading = false
 							if(res.code == 200) {
@@ -211,7 +211,7 @@ export default {
 				}
 			})
 			},
-			
+
 			uploadUrl(){
 				return baseUrl+"/system/upload";
 			},
@@ -278,12 +278,12 @@ export default {
 				}
 			})
 		},
-	
+
 		refreshPageRequest: function(pageNum){
 			this.pageRequest.pageNum  = pageNum
 			this.findPage(this.pageRequest)
 		}
-		
+
 	},
 	mounted() {
 		this.findPage(null);
@@ -306,7 +306,7 @@ export default {
 	.demo .el-form-item__content{
 		text-align: left
 	}
-	
+
   .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
@@ -342,5 +342,5 @@ export default {
     margin-bottom: 0;
     width: 48%;
   }
-  
+
 </style>
