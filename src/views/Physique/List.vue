@@ -96,159 +96,235 @@
     <el-dialog title="中药调理" width="50%" :visible.sync="isMedical" :close-on-click-modal="false">
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="药膳方案" name="1">
-          <el-form :model="medicalConditionForm" label-width="80px"  ref="regimenForm" :size="size"
-                   label-position="right" style="text-align: center">
-            <el-form-item label="图片">
-              <el-upload
-                :action="uploadUrl()"
-                multiple
-                accept="image/png, image/jpeg"
-                :file-list="fileList"
-                list-type="picture-card"
-                :before-upload="beforeUploadPicture"
-                :on-preview="handlePictureCardPreview"
-                :on-remove="handleRemove"
-                :on-success="uploadSuccess"
-                :show-file-list="true">
-                <i class="el-icon-plus"></i>
-              </el-upload>
-            </el-form-item>
-            <el-form-item label="名称" prop="foodHealth">
-              <el-input type="textarea" v-model="medicalConditionForm.name" auto-complete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="清单"  prop="sport">
-              <el-input type="textarea" autosize v-model="medicalConditionForm.repertoire" auto-complete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="烹煮方法" prop="feeling">
-              <el-input type="textarea" autosize v-model="medicalConditionForm.cookingMethod" auto-complete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="功效" prop="dailyLife">
-              <el-input type="textarea" autosize v-model="medicalConditionForm.effect" auto-complete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="说明" prop="dailyLife">
-              <el-input type="textarea" autosize v-model="medicalConditionForm.explain" auto-complete="off"></el-input>
-            </el-form-item>
-            <!-- <div slot="footer" class="dialog-footer"> -->
-            <el-button :size="size" @click.native="isMedical = false">{{$t('action.cancel')}}</el-button>
-            <el-button :size="size" type="primary" @click.native="submitMedical" :loading="editLoading">{{$t('action.submit')
-              }}</el-button>
-            <!-- </div> -->
-          </el-form>
+          <el-table :data="pageTab1Result.rows" style="width: 100%">
+            <el-table-column type="index" label="序号" >
+            </el-table-column>
+            <!--		<el-table-column property="id" label="id" >-->
+            <!--		</el-table-column>-->
+            <el-table-column property="name" label="名称" width="200px">
+            </el-table-column>
+            <el-table-column property="effect" label="功效" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column property="explain" label="说明" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column property="status" label="操作">
+              <template slot-scope="scope">
+                <el-button  @click="edit1(scope.row)" type="text" size="small">编辑</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
         </el-tab-pane>
         <el-tab-pane label="养生茶饮" name="2">
-          <el-form :model="medicalConditionForm" label-width="80px"  ref="regimenForm" :size="size"
-                   label-position="right" style="text-align: center">
-            <el-form-item label="图片">
-              <el-upload
-                :action="uploadUrl()"
-                multiple
-                accept="image/png, image/jpeg"
-                :file-list="fileList"
-                list-type="picture-card"
-                :before-upload="beforeUploadPicture"
-                :on-preview="handlePictureCardPreview"
-                :on-remove="handleRemove"
-                :on-success="uploadSuccess"
-                :show-file-list="true">
-                <i class="el-icon-plus"></i>
-              </el-upload>
-            </el-form-item>
-            <el-form-item label="名称" prop="foodHealth">
-              <el-input type="textarea" v-model="medicalConditionForm.name" auto-complete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="清单" prop="sport">
-              <el-input type="textarea" autosize v-model="medicalConditionForm.repertoire" auto-complete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="烹煮方法" prop="feeling">
-              <el-input type="textarea" autosize v-model="medicalConditionForm.cookingMethod" auto-complete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="功效" prop="dailyLife">
-              <el-input type="textarea" autosize v-model="medicalConditionForm.effect" auto-complete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="说明" autosize prop="dailyLife">
-              <el-input type="textarea" v-model="medicalConditionForm.explain" auto-complete="off"></el-input>
-            </el-form-item>
-            <!-- <div slot="footer" class="dialog-footer"> -->
-            <el-button :size="size" @click.native="isMedical = false">{{$t('action.cancel')}}</el-button>
-            <el-button :size="size" type="primary" @click.native="submitMedical" :loading="editLoading">{{$t('action.submit')
-              }}</el-button>
-            <!-- </div> -->
-          </el-form>
+          <el-table :data="pageTab2Result.rows" style="width: 100%">
+            <el-table-column type="index" label="序号" >
+            </el-table-column>
+            <!--		<el-table-column property="id" label="id" >-->
+            <!--		</el-table-column>-->
+            <el-table-column property="name" label="名称" width="200px">
+            </el-table-column>
+            <el-table-column property="effect" label="功效" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column property="explain" label="说明" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column property="status" label="操作">
+              <template slot-scope="scope">
+                <el-button  @click="edit1(scope.row)" type="text" size="small">编辑</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
         </el-tab-pane>
         <el-tab-pane label="穴位调理" name="3">
-          <el-form :model="medicalConditionForm" label-width="80px"  ref="regimenForm" :size="size"
-                   label-position="right" style="text-align: center">
-            <el-form-item label="图片">
-              <el-upload
-                :action="uploadUrl()"
-                multiple
-                accept="image/png, image/jpeg"
-                :file-list="fileList"
-                list-type="picture-card"
-                :before-upload="beforeUploadPicture"
-                :on-preview="handlePictureCardPreview"
-                :on-remove="handleRemove"
-                :on-success="uploadSuccess"
-                :show-file-list="true">
-                <i class="el-icon-plus"></i>
-              </el-upload>
-            </el-form-item>
-            <el-form-item label="定位方法" prop="foodHealth">
-              <el-input type="textarea" autosize v-model="medicalConditionForm.positioningMethod"
-                        auto-complete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="操作方法" prop="sport">
-              <el-input type="textarea" autosize v-model="medicalConditionForm.operationMethod" auto-complete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="功效" prop="feeling">
-              <el-input type="textarea" autosize v-model="medicalConditionForm.effect" auto-complete="off"></el-input>
-            </el-form-item>
-            <!-- <div slot="footer" class="dialog-footer"> -->
-            <el-button :size="size" @click.native="isMedical = false">{{$t('action.cancel')}}</el-button>
-            <el-button :size="size" type="primary" @click.native="submitMedical" :loading="editLoading">{{$t('action.submit')
-              }}</el-button>
-            <!-- </div> -->
-          </el-form>
+          <el-table :data="pageTab3Result.rows" style="width: 100%">
+            <el-table-column type="index" label="序号" >
+            </el-table-column>
+            <!--		<el-table-column property="id" label="id" >-->
+            <!--		</el-table-column>-->
+            <el-table-column property="name" label="名称" width="200px">
+            </el-table-column>
+            <el-table-column property="effect" label="功效" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column property="explain" label="说明" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column property="status" label="操作">
+              <template slot-scope="scope">
+                <el-button  @click="edit1(scope.row)" type="text" size="small">编辑</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
         </el-tab-pane>
         <el-tab-pane label="常用中药" name="4">
-          <el-form :model="medicalConditionForm" label-width="80px"  ref="regimenForm" :size="size"
-                   label-position="right" style="text-align: center">
-
-            <el-form-item label="图片">
-              <el-upload
-                :action="uploadUrl()"
-                multiple
-                accept="image/png, image/jpeg"
-                :file-list="fileList"
-                list-type="picture-card"
-                :before-upload="beforeUploadPicture"
-                :on-preview="handlePictureCardPreview"
-                :on-remove="handleRemove"
-                :on-success="uploadSuccess"
-                :show-file-list="true">
-                <i class="el-icon-plus"></i>
-              </el-upload>
-            </el-form-item>
-            <el-form-item label="名称" prop="foodHealth">
-              <el-input type="textarea" v-model="medicalConditionForm.name" auto-complete="ofactiveNamef"></el-input>
-            </el-form-item>
-            <el-form-item label="药物组成" prop="sport">
-              <el-input type="textarea" autosize v-model="medicalConditionForm.repertoire" auto-complete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="功效"  prop="feeling">
-              <el-input type="textarea" autosize v-model="medicalConditionForm.effect" auto-complete="off"></el-input>
-            </el-form-item>
-
-            <!-- <div slot="footer" class="dialog-footer"> -->
-            <el-button :size="size" @click.native="isMedical = false">{{$t('action.cancel')}}</el-button>
-            <el-button :size="size" type="primary" @click.native="submitMedical"
-                       :loading="editLoading">{{$t('action.submit')
-              }}</el-button>
-            <!-- </div> -->
-          </el-form>
+          <el-table :data="pageTab4Result.rows" style="width: 100%">
+            <el-table-column type="index" label="序号" >
+            </el-table-column>
+            <!--		<el-table-column property="id" label="id" >-->
+            <!--		</el-table-column>-->
+            <el-table-column property="name" label="名称" width="200px">
+            </el-table-column>
+            <el-table-column property="effect" label="功效" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column property="explain" label="说明" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column property="status" label="操作">
+              <template slot-scope="scope">
+                <el-button  @click="edit1(scope.row)" type="text" size="small">编辑</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
         </el-tab-pane>
       </el-tabs>
+    </el-dialog>
 
+    <el-dialog :visible.sync="isShowTab1">
+      <el-form :model="medicalConditionForm" label-width="80px"  ref="regimenForm" :size="size"
+               label-position="right" style="text-align: center">
+        <el-form-item label="图片">
+          <el-upload
+            :action="uploadUrl()"
+            multiple
+            accept="image/png, image/jpeg"
+            :file-list="fileList"
+            list-type="picture-card"
+            :before-upload="beforeUploadPicture"
+            :on-preview="handlePictureCardPreview"
+            :on-remove="handleRemove"
+            :on-success="uploadSuccess"
+            :show-file-list="true">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="名称" prop="foodHealth">
+          <el-input type="textarea" v-model="medicalConditionForm.name" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="清单"  prop="sport">
+          <el-input type="textarea" autosize v-model="medicalConditionForm.repertoire" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="烹煮方法" prop="feeling">
+          <el-input type="textarea" autosize v-model="medicalConditionForm.cookingMethod" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="功效" prop="dailyLife">
+          <el-input type="textarea" autosize v-model="medicalConditionForm.effect" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="说明" prop="dailyLife">
+          <el-input type="textarea" autosize v-model="medicalConditionForm.explain" auto-complete="off"></el-input>
+        </el-form-item>
+        <!-- <div slot="footer" class="dialog-footer"> -->
+        <el-button :size="size" @click.native="isMedical = false">{{$t('action.cancel')}}</el-button>
+        <el-button :size="size" type="primary" @click.native="submitMedical" :loading="editLoading">{{$t('action.submit')
+          }}</el-button>
+        <!-- </div> -->
+      </el-form>
+    </el-dialog>
+    <el-dialog :visible.sync="isShowTab2">
+      <el-form :model="medicalConditionForm" label-width="80px"  ref="regimenForm" :size="size"
+               label-position="right" style="text-align: center">
+        <el-form-item label="图片">
+          <el-upload
+            :action="uploadUrl()"
+            multiple
+            accept="image/png, image/jpeg"
+            :file-list="fileList"
+            list-type="picture-card"
+            :before-upload="beforeUploadPicture"
+            :on-preview="handlePictureCardPreview"
+            :on-remove="handleRemove"
+            :on-success="uploadSuccess"
+            :show-file-list="true">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="名称" prop="foodHealth">
+          <el-input type="textarea" v-model="medicalConditionForm.name" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="清单" prop="sport">
+          <el-input type="textarea" autosize v-model="medicalConditionForm.repertoire" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="烹煮方法" prop="feeling">
+          <el-input type="textarea" autosize v-model="medicalConditionForm.cookingMethod" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="功效" prop="dailyLife">
+          <el-input type="textarea" autosize v-model="medicalConditionForm.effect" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="说明" autosize prop="dailyLife">
+          <el-input type="textarea" v-model="medicalConditionForm.explain" auto-complete="off"></el-input>
+        </el-form-item>
+        <!-- <div slot="footer" class="dialog-footer"> -->
+        <el-button :size="size" @click.native="isMedical = false">{{$t('action.cancel')}}</el-button>
+        <el-button :size="size" type="primary" @click.native="submitMedical" :loading="editLoading">{{$t('action.submit')
+          }}</el-button>
+        <!-- </div> -->
+      </el-form>
+    </el-dialog>
+    <el-dialog :visible.sync="isShowTab3">
+      <el-form :model="medicalConditionForm" label-width="80px"  ref="regimenForm" :size="size"
+               label-position="right" style="text-align: center">
+        <el-form-item label="图片">
+          <el-upload
+            :action="uploadUrl()"
+            multiple
+            accept="image/png, image/jpeg"
+            :file-list="fileList"
+            list-type="picture-card"
+            :before-upload="beforeUploadPicture"
+            :on-preview="handlePictureCardPreview"
+            :on-remove="handleRemove"
+            :on-success="uploadSuccess"
+            :show-file-list="true">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="定位方法" prop="foodHealth">
+          <el-input type="textarea" autosize v-model="medicalConditionForm.positioningMethod"
+                    auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="操作方法" prop="sport">
+          <el-input type="textarea" autosize v-model="medicalConditionForm.operationMethod" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="功效" prop="feeling">
+          <el-input type="textarea" autosize v-model="medicalConditionForm.effect" auto-complete="off"></el-input>
+        </el-form-item>
+        <!-- <div slot="footer" class="dialog-footer"> -->
+        <el-button :size="size" @click.native="isMedical = false">{{$t('action.cancel')}}</el-button>
+        <el-button :size="size" type="primary" @click.native="submitMedical" :loading="editLoading">{{$t('action.submit')
+          }}</el-button>
+        <!-- </div> -->
+      </el-form>
+    </el-dialog>
+    <el-dialog :visible.sync="isShowTab4">
+      <el-form :model="medicalConditionForm" label-width="80px"  ref="regimenForm" :size="size"
+               label-position="right" style="text-align: center">
+
+        <el-form-item label="图片">
+          <el-upload
+            :action="uploadUrl()"
+            multiple
+            accept="image/png, image/jpeg"
+            :file-list="fileList"
+            list-type="picture-card"
+            :before-upload="beforeUploadPicture"
+            :on-preview="handlePictureCardPreview"
+            :on-remove="handleRemove"
+            :on-success="uploadSuccess"
+            :show-file-list="true">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="名称" prop="foodHealth">
+          <el-input type="textarea" v-model="medicalConditionForm.name" auto-complete="ofactiveNamef"></el-input>
+        </el-form-item>
+        <el-form-item label="药物组成" prop="sport">
+          <el-input type="textarea" autosize v-model="medicalConditionForm.repertoire" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="功效"  prop="feeling">
+          <el-input type="textarea" autosize v-model="medicalConditionForm.effect" auto-complete="off"></el-input>
+        </el-form-item>
+
+        <!-- <div slot="footer" class="dialog-footer"> -->
+        <el-button :size="size" @click.native="isMedical = false">{{$t('action.cancel')}}</el-button>
+        <el-button :size="size" type="primary" @click.native="submitMedical"
+                   :loading="editLoading">{{$t('action.submit')
+          }}</el-button>
+        <!-- </div> -->
+      </el-form>
     </el-dialog>
     <el-dialog :visible.sync="isShowImage">
       <img width="100%" :src="dialogImageUrl" alt="">
@@ -274,6 +350,10 @@ export default {
 			return "http://39.106.123.28/images/"+row.fileUrl
 		},
       isShowImage:false,
+      isShowTab1:false,
+      isShowTab2:false,
+      isShowTab3:false,
+      isShowTab4:false,
       dialogImageUrl:"",
 			isBohui:false,
       isMedical:false,
@@ -291,6 +371,10 @@ export default {
 			filterColumns: [],
 			pageRequest: { pageNum: 1, pageSize: 10 },
 			pageResult: {},
+      pageTab1Result:{},
+      pageTab2Result:{},
+      pageTab3Result:{},
+      pageTab4Result:{},
 			filters:{
 
 			},
@@ -376,6 +460,23 @@ export default {
       //return baseUrl+"/system/upload";
       return "http://39.106.123.28/sh/system/upload"
     },
+    selectMecicalConditionList(physiqueId,type){
+      this.$api.physique.selectMedicalConditionById({id:physiqueId,type:type}).then((res) => {
+        if(res.code == 200) {
+          if(type == '1'){
+            this.pageTab1Result = res
+          }else if(type == '2'){
+            this.pageTab2Result = res
+          }else if(type == '3'){
+            this.pageTab3Result = res
+          }else if(type == '4'){
+            this.pageTab4Result = res
+          }
+        } else {
+          this.$message({message: '操作失败, ' + res.msg, type: 'error'})
+        }
+      })
+    },
 	  selectMecicalCondition(physiqueId,type){
       this.$api.physique.selectMedicalConditionById({id:physiqueId,type:type}).then((res) => {
         if(res.code == 200) {
@@ -400,7 +501,7 @@ export default {
       })
     },
     handleClick(tab, event) {
-      this.selectMecicalCondition(this.physiqueId,this.activeName)
+      this.selectMecicalConditionList(this.physiqueId,this.activeName)
     },
 		dateFormat: function (row, column, cellValue, index){
 			if(row[column.property]){
@@ -436,7 +537,7 @@ export default {
     openMedical(row){
 	    this.activeName = "1"
 	    this.physiqueId = row.physiqueId
-      this.selectMecicalCondition(this.physiqueId,this.activeName)
+      this.selectMecicalConditionList(this.physiqueId,this.activeName)
       this.isMedical = true
     },
     submitRegimen(){
