@@ -94,8 +94,10 @@
 	</el-dialog>
     <!--中药调理-->
     <el-dialog title="中药调理" width="50%" :visible.sync="isMedical" :close-on-click-modal="false">
+
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="药膳方案" name="1">
+          <el-button type="primary" @click="add">新增</el-button>
           <el-table :data="pageTab1Result.rows" style="width: 100%">
             <el-table-column type="index" label="序号" >
             </el-table-column>
@@ -109,12 +111,13 @@
             </el-table-column>
             <el-table-column property="status" label="操作">
               <template slot-scope="scope">
-                <el-button  @click="edit1(scope.row)" type="text" size="small">编辑</el-button>
+                <el-button  @click="edit1(scope.row.conditionId)" type="text" size="small">编辑</el-button>
               </template>
             </el-table-column>
           </el-table>
         </el-tab-pane>
         <el-tab-pane label="养生茶饮" name="2">
+          <el-button type="primary" @click="add">新增</el-button>
           <el-table :data="pageTab2Result.rows" style="width: 100%">
             <el-table-column type="index" label="序号" >
             </el-table-column>
@@ -128,12 +131,13 @@
             </el-table-column>
             <el-table-column property="status" label="操作">
               <template slot-scope="scope">
-                <el-button  @click="edit1(scope.row)" type="text" size="small">编辑</el-button>
+                <el-button  @click="edit1(scope.row.conditionId)" type="text" size="small">编辑</el-button>
               </template>
             </el-table-column>
           </el-table>
         </el-tab-pane>
         <el-tab-pane label="穴位调理" name="3">
+          <el-button type="primary" @click="add">新增</el-button>
           <el-table :data="pageTab3Result.rows" style="width: 100%">
             <el-table-column type="index" label="序号" >
             </el-table-column>
@@ -143,16 +147,15 @@
             </el-table-column>
             <el-table-column property="effect" label="功效" show-overflow-tooltip>
             </el-table-column>
-            <el-table-column property="explain" label="说明" show-overflow-tooltip>
-            </el-table-column>
             <el-table-column property="status" label="操作">
               <template slot-scope="scope">
-                <el-button  @click="edit1(scope.row)" type="text" size="small">编辑</el-button>
+                <el-button  @click="edit1(scope.row.conditionId)" type="text" size="small">编辑</el-button>
               </template>
             </el-table-column>
           </el-table>
         </el-tab-pane>
         <el-tab-pane label="常用中药" name="4">
+          <el-button type="primary" @click="add">新增</el-button>
           <el-table :data="pageTab4Result.rows" style="width: 100%">
             <el-table-column type="index" label="序号" >
             </el-table-column>
@@ -162,11 +165,9 @@
             </el-table-column>
             <el-table-column property="effect" label="功效" show-overflow-tooltip>
             </el-table-column>
-            <el-table-column property="explain" label="说明" show-overflow-tooltip>
-            </el-table-column>
             <el-table-column property="status" label="操作">
               <template slot-scope="scope">
-                <el-button  @click="edit1(scope.row)" type="text" size="small">编辑</el-button>
+                <el-button  @click="edit1(scope.row.conditionId)" type="text" size="small">编辑</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -208,7 +209,7 @@
           <el-input type="textarea" autosize v-model="medicalConditionForm.explain" auto-complete="off"></el-input>
         </el-form-item>
         <!-- <div slot="footer" class="dialog-footer"> -->
-        <el-button :size="size" @click.native="isMedical = false">{{$t('action.cancel')}}</el-button>
+        <el-button :size="size" @click.native="isShowTab1 = false">{{$t('action.cancel')}}</el-button>
         <el-button :size="size" type="primary" @click.native="submitMedical" :loading="editLoading">{{$t('action.submit')
           }}</el-button>
         <!-- </div> -->
@@ -248,7 +249,7 @@
           <el-input type="textarea" v-model="medicalConditionForm.explain" auto-complete="off"></el-input>
         </el-form-item>
         <!-- <div slot="footer" class="dialog-footer"> -->
-        <el-button :size="size" @click.native="isMedical = false">{{$t('action.cancel')}}</el-button>
+        <el-button :size="size" @click.native="isShowTab2 = false">{{$t('action.cancel')}}</el-button>
         <el-button :size="size" type="primary" @click.native="submitMedical" :loading="editLoading">{{$t('action.submit')
           }}</el-button>
         <!-- </div> -->
@@ -283,7 +284,7 @@
           <el-input type="textarea" autosize v-model="medicalConditionForm.effect" auto-complete="off"></el-input>
         </el-form-item>
         <!-- <div slot="footer" class="dialog-footer"> -->
-        <el-button :size="size" @click.native="isMedical = false">{{$t('action.cancel')}}</el-button>
+        <el-button :size="size" @click.native="isShowTab3 = false">{{$t('action.cancel')}}</el-button>
         <el-button :size="size" type="primary" @click.native="submitMedical" :loading="editLoading">{{$t('action.submit')
           }}</el-button>
         <!-- </div> -->
@@ -319,7 +320,7 @@
         </el-form-item>
 
         <!-- <div slot="footer" class="dialog-footer"> -->
-        <el-button :size="size" @click.native="isMedical = false">{{$t('action.cancel')}}</el-button>
+        <el-button :size="size" @click.native="isShowTab4 = false">{{$t('action.cancel')}}</el-button>
         <el-button :size="size" type="primary" @click.native="submitMedical"
                    :loading="editLoading">{{$t('action.submit')
           }}</el-button>
@@ -477,8 +478,20 @@ export default {
         }
       })
     },
-	  selectMecicalCondition(physiqueId,type){
-      this.$api.physique.selectMedicalConditionById({id:physiqueId,type:type}).then((res) => {
+    edit1(id){
+      if(this.activeName == '1'){
+        this.isShowTab1 = true
+      }else if(this.activeName == '2'){
+        this.isShowTab2 = true
+      }else if(this.activeName == '3'){
+        this.isShowTab3 = true
+      }else if(this.activeName == '4'){
+        this.isShowTab4 = true
+      }
+      this.selectMedicalConditionDetailById(id)
+    },
+    selectMedicalConditionDetailById(id){
+      this.$api.physique.selectMedicalConditionDetailById({id:id}).then((res) => {
         if(res.code == 200) {
           this.medicalConditionForm = res.rows
           this.medicalConditionForm.type = this.activeName
@@ -540,6 +553,31 @@ export default {
       this.selectMecicalConditionList(this.physiqueId,this.activeName)
       this.isMedical = true
     },
+    add(){
+      this.fileList = []
+      this.medicalConditionForm = {
+        conditionId:"",
+        physiqueId:this.physiqueId,
+        type:this.activeName,
+        image:"",
+        name:"",
+        repertoire:"",
+        cookingMethod:"",
+        effect:"",
+        explain:"",
+        operationMethod:"",
+        positioningMethod:"",
+      }
+      if(this.activeName == '1'){
+        this.isShowTab1 = true;
+      }else if(this.activeName == '2'){
+        this.isShowTab1 = true;
+      }else if(this.activeName == '3'){
+        this.isShowTab1 = true;
+      }else if(this.activeName == '4'){
+        this.isShowTab1 = true;
+      }
+    },
     submitRegimen(){
 			this.$api.physique.editReginmenById(this.regimenForm).then((res) => {
 				if(res.code == 200) {
@@ -557,6 +595,7 @@ export default {
         } else {
           this.$message({message: '操作失败, ' + res.msg, type: 'error'})
         }
+        this.selectMecicalConditionList(this.physiqueId,this.activeName)
       })
     },
 		handleAdd(){

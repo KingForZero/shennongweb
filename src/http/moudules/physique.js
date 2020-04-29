@@ -48,7 +48,7 @@ export const selectReginmenById = (data) => {
     })
   }
 
-//根据体质类型和id查询中药调理
+//根据体质类型和id查询中药调理列表
 export const selectMedicalConditionById = (data) => {
   return axios({
     url: '/system/physique/selectMedicalConditionById',
@@ -60,6 +60,14 @@ export const selectMedicalConditionById = (data) => {
 export const editMedicalCondition = (data) => {
   return axios({
     url: '/system/medicalCondition/edit',
+    method: 'post',
+    params:data
+  })
+}
+//根据id查询中药调理详情
+export const selectMedicalConditionDetailById = (data) => {
+  return axios({
+    url: '/system/medicalCondition/selectById',
     method: 'post',
     params:data
   })
