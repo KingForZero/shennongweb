@@ -273,6 +273,10 @@
             <i class="el-icon-plus"></i>
           </el-upload>
         </el-form-item>
+        <el-form-item label="名称" prop="foodHealth">
+          <el-input type="textarea" autosize v-model="medicalConditionForm.name"
+                    auto-complete="off"></el-input>
+        </el-form-item>
         <el-form-item label="定位方法" prop="foodHealth">
           <el-input type="textarea" autosize v-model="medicalConditionForm.positioningMethod"
                     auto-complete="off"></el-input>

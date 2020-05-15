@@ -12,7 +12,7 @@
           请根据近一年的体验和感觉,回答以下问题:
         </div>
         <div v-for="(item,index) in tabList" :key="index">
-          <div style="margin: 10px auto;">{{item.question}}</div>
+          <div style="margin: 10px auto;">{{index+1}}.{{item.question}}</div>
           <div class="result">
             <div style="border-radius:10px 0px 0px 10px;background:rgba(189,236,242,1);width: 25%"
                  :class="{answer:item.selectIndex==0}"
@@ -55,6 +55,7 @@
 <script>
   import { Notify } from 'vant';
   import { Dialog } from 'vant';
+  import Cookies from "js-cookie";
     export default {
         name: "PhysiqueQuestion",
         data(){
@@ -69,139 +70,139 @@
             tabListOne : [
               {
                 type:"A",
-                question:"1.您精力充沛吗（工作、学习强度耐受力）",
+                question:"您精力充沛吗（工作、学习强度耐受力）",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"A",
-                question:"2.您日常活动容易疲乏吗",
+                question:"您日常活动容易疲乏吗",
                 scoreSort:"desc",
                 selectIndex:-1
               },
               {
                 type:"A",
-                question:"3.您说话声音低弱无力吗",
+                question:"您说话声音低弱无力吗",
                 scoreSort:"desc",
                 selectIndex:-1
               },
               {
                 type:"A",
-                question:"4.您感到闷闷不乐、情绪低沉吗",
+                question:"您感到闷闷不乐、情绪低沉吗",
                 scoreSort:"desc",
                 selectIndex:-1
               },
               {
                 type:"A",
-                question:"5.您比一般人耐受不了寒冷(冬天的寒冷,夏天的冷空调、电扇)吗",
+                question:"您比一般人耐受不了寒冷(冬天的寒冷,夏天的冷空调、电扇)吗",
                 scoreSort:"desc",
                 selectIndex:-1
               },
               {
                 type:"A",
-                question:"6.您能适应外界自然和社会环境的变化吗",
+                question:"您能适应外界自然和社会环境的变化吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"A",
-                question:"7.您容易失眠吗",
+                question:"您容易失眠吗",
                 scoreSort:"desc",
                 selectIndex:-1
               },
               {
                 type:"A",
-                question:"8.您容易忘事(健忘)吗",
+                question:"您容易忘事(健忘)吗",
                 scoreSort:"desc",
                 selectIndex:-1
               },
               {
                 type:"B",
-                question:"9.你容易疲乏吗",
+                question:"你容易疲乏吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"B",
-                question:"10.您容易气短(呼吸短促,接不上气)吗",
+                question:"您容易气短(呼吸短促,接不上气)吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"B",
-                question:"11.您容易心慌吗",
+                question:"您容易心慌吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"B",
-                question:"12.您容易头晕或站起时晕眩吗",
+                question:"您容易头晕或站起时晕眩吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"B",
-                question:"13.您比别人容易患感冒吗",
+                question:"您比别人容易患感冒吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"B",
-                question:"14.您喜欢安静、懒得说话吗",
+                question:"您喜欢安静、懒得说话吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"B",
-                question:"15.您说话声音无力吗",
+                question:"您说话声音无力吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"B",
-                question:"16.您活动量稍大就容易出虚汗吗",
+                question:"您活动量稍大就容易出虚汗吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"C",
-                question:"17.您手脚发凉吗",
+                question:"您手脚发凉吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"C",
-                question:"18.您胃脘部、背部或腰膝部怕冷吗",
+                question:"您胃脘部、背部或腰膝部怕冷吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"C",
-                question:"19.您感到怕冷、衣服比别人穿得多吗",
+                question:"您感到怕冷、衣服比别人穿得多吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"C",
-                question:"20.您比一般人耐受不了寒冷(冬天的寒冷,夏天的冷空调、电扇等)吗",
+                question:"您比一般人耐受不了寒冷(冬天的寒冷,夏天的冷空调、电扇等)吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"C",
-                question:"21.您比别人容易患感冒吗?",
+                question:"您比别人容易患感冒吗?",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"C",
-                question:"22.您吃(喝)凉的东西会感到不舒服或者怕吃(喝)凉东西吗",
+                question:"您吃(喝)凉的东西会感到不舒服或者怕吃(喝)凉东西吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"C",
-                question:"23.你受凉或吃(喝)凉的东西后,容易腹泻(拉肚子)吗",
+                question:"你受凉或吃(喝)凉的东西后,容易腹泻(拉肚子)吗",
                 scoreSort:"asc",
                 selectIndex:-1
               }
@@ -210,139 +211,139 @@
             tabListTwo : [
               {
                 type:"D",
-                question:"1.您感到手脚心发热吗",
+                question:"您感到手脚心发热吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"D",
-                question:"2.您感觉身体、脸上发热吗",
+                question:"您感觉身体、脸上发热吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"D",
-                question:"3.您皮肤或☐唇干吗",
+                question:"您皮肤或☐唇干吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"D",
-                question:"4.您☐唇的颜色比般人红吗",
+                question:"您☐唇的颜色比般人红吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"D",
-                question:"5.您容易便秘或大便干燥吗",
+                question:"您容易便秘或大便干燥吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"D",
-                question:"6.您面部两颧潮红或偏红吗",
+                question:"您面部两颧潮红或偏红吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"D",
-                question:"7.您感到眼睛干涩吗",
+                question:"您感到眼睛干涩吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"D",
-                question:"8.你感到☐干咽燥,总想喝水吗",
+                question:"你感到☐干咽燥,总想喝水吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"E",
-                question:"9.您感到胸闷或腹部胀满吗",
+                question:"您感到胸闷或腹部胀满吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"E",
-                question:"10.您感到身体沉重不轻松或不爽快吗",
+                question:"您感到身体沉重不轻松或不爽快吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"E",
-                question:"11.您腹部肥满松软吗",
+                question:"您腹部肥满松软吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"E",
-                question:"12.您有额部油脂分泌多的现象吗",
+                question:"您有额部油脂分泌多的现象吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"E",
-                question:"13.您上眼睑比别人肿(轻微隆起的现象)吗",
+                question:"您上眼睑比别人肿(轻微隆起的现象)吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"E",
-                question:"14.您嘴里有黏黏的感觉吗",
+                question:"您嘴里有黏黏的感觉吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"E",
-                question:"15.您平时痰多,特别是咽喉部总感到有痰堵着吗",
+                question:"您平时痰多,特别是咽喉部总感到有痰堵着吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"E",
-                question:"16.您舌苔厚腻或有舌苔厚厚的感觉吗",
+                question:"您舌苔厚腻或有舌苔厚厚的感觉吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"F",
-                question:"17.您面部或鼻部有油腻感或者油亮发光吗",
+                question:"您面部或鼻部有油腻感或者油亮发光吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"F",
-                question:"18.你容易生痤疮或疮疖吗",
+                question:"你容易生痤疮或疮疖吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"F",
-                question:"19.您感到☐苦或嘴里有异味吗",
+                question:"您感到☐苦或嘴里有异味吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"F",
-                question:"20.您大便黏滞不爽、有解不尽的感觉吗",
+                question:"您大便黏滞不爽、有解不尽的感觉吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"F",
-                question:"21.您小便时尿道有发热感、尿色浓(深)吗",
+                question:"您小便时尿道有发热感、尿色浓(深)吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"F",
-                question:"22.您带下色黄(白带颜色发黄)吗(限女性回答)",
+                question:"您带下色黄(白带颜色发黄)吗(限女性回答)",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"F",
-                question:"23.您的阴囊部位潮湿吗(限男性回答)",
+                question:"您的阴囊部位潮湿吗(限男性回答)",
                 scoreSort:"asc",
                 selectIndex:-1
               }
@@ -351,127 +352,127 @@
             tabListThree : [
               {
                 type:"G",
-                question:"1.您的皮肤在不知不觉中会出现青紫瘀斑(皮下出血)吗",
+                question:"您的皮肤在不知不觉中会出现青紫瘀斑(皮下出血)吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"G",
-                question:"2.您两颧部有细微红丝吗",
+                question:"您两颧部有细微红丝吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"G",
-                question:"3.您身体上有哪里疼痛吗",
+                question:"您身体上有哪里疼痛吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"G",
-                question:"4.您面色晦黯或容易出现褐斑吗",
+                question:"您面色晦黯或容易出现褐斑吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"G",
-                question:"5.您容易有黑眼圈吗",
+                question:"您容易有黑眼圈吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"G",
-                question:"6.您容易忘事(健忘)吗",
+                question:"您容易忘事(健忘)吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"G",
-                question:"7.您☐唇颜色偏黯吗",
+                question:"您☐唇颜色偏黯吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"H",
-                question:"8.您感到闷闷不乐吗",
+                question:"您感到闷闷不乐吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"H",
-                question:"9.您容易精神紧张、焦虑不安吗",
+                question:"您容易精神紧张、焦虑不安吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"H",
-                question:"10.您多愁善感、感情脆弱吗",
+                question:"您多愁善感、感情脆弱吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"H",
-                question:"11.您容易感到害怕或受到惊吓吗",
+                question:"您容易感到害怕或受到惊吓吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"H",
-                question:"12.您胁肋部或乳房胀痛吗",
+                question:"您胁肋部或乳房胀痛吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"H",
-                question:"13.您无缘无故叹气吗",
+                question:"您无缘无故叹气吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"H",
-                question:"14.您咽喉部有异物感,且吐之不出、咽之不下吗",
+                question:"您咽喉部有异物感,且吐之不出、咽之不下吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"I",
-                question:"15.您没有感冒时也会打喷嚏吗",
+                question:"您没有感冒时也会打喷嚏吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"I",
-                question:"16.您没有感冒时也会鼻塞、流鼻涕吗",
+                question:"您没有感冒时也会鼻塞、流鼻涕吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"I",
-                question:"17.您有因季节变化、温度变化或异味等原因而咳喘的现象吗",
+                question:"您有因季节变化、温度变化或异味等原因而咳喘的现象吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"I",
-                question:"18.您容易过敏(对药物、食物、气味、花粉或在季节交替、气候变化时)吗",
+                question:"您容易过敏(对药物、食物、气味、花粉或在季节交替、气候变化时)吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"I",
-                question:"19.您的皮肤容易起尊麻疹(风团、风疹块、风疙瘩)吗",
+                question:"您的皮肤容易起尊麻疹(风团、风疹块、风疙瘩)吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"I",
-                question:"20.您的皮肤因过敏出现过紫癜(紫红色瘀点、瘀斑)吗",
+                question:"您的皮肤因过敏出现过紫癜(紫红色瘀点、瘀斑)吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"I",
-                question:"21.您的皮肤一抓就红,并出现抓痕吗",
+                question:"您的皮肤一抓就红,并出现抓痕吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
@@ -524,7 +525,6 @@
           let flag = true
           if(this.value == 1){
             this.tabListOne.filter((item,index) => {
-              console.log(index)
               if(item.selectIndex == -1){
                 Notify({ type: 'danger', message: '请填写第'+(index+1)+'个问题' })
                 flag = false
@@ -547,7 +547,6 @@
         },
         done(){
           Dialog.confirm({
-            title: '标题',
             message: '确认提交吗',
           }).then(() => {
               // on confirm
@@ -656,16 +655,16 @@
               })
               let a = this.sumScore(this.scoreA,8)
               let b = this.sumScore(this.scoreB,8)
-              let c = this.sumScore(this.scoreC,8)
+              let c = this.sumScore(this.scoreC,7)
               let d = this.sumScore(this.scoreD,8)
               let e = this.sumScore(this.scoreE,8)
-              let f = this.sumScore(this.scoreF,8)
-              let g = this.sumScore(this.scoreG,8)
-              let h = this.sumScore(this.scoreH,8)
-              let i = this.sumScore(this.scoreI,8)
+              let f = this.sumScore(this.scoreF,6)
+              let g = this.sumScore(this.scoreG,7)
+              let h = this.sumScore(this.scoreH,7)
+              let i = this.sumScore(this.scoreI,7)
               let tizhi = '';
               if(a >= 60 && b<40 && c<40 && d<40 && e<40 && f<40 && g<40 && h<40 && i<40){
-                tizhi = '平和体质'
+                tizhi = '平和质'
               }else {
                 if(b >= 40){
                   tizhi += '气虚体质 '
@@ -692,8 +691,27 @@
                   tizhi += '特禀质 '
                 }
               }
-              console.log(tizhi)
-              this.$router.push({path: '/physiqueReport'})
+              tizhi = '平和质,气虚体质,阳虚体质'
+              let numArr = []
+              numArr.push(b);
+              numArr.push(c);
+              numArr.push(d);
+              numArr.push(e);
+              numArr.push(f);
+              numArr.push(g);
+              numArr.push(h);
+              numArr.push(i);
+              let high = numArr.sort(function (a,b) {
+                return b-a;
+              })[0]
+              let openId = Cookies.get('openId')
+              this.$api.physique.savePhysique({openId:openId,physique:tizhi}).then((res) => {
+                if(res.code == 200) {
+
+                }
+              })
+
+              this.$router.push({path: '/physiqueReport',query: {tizhi: tizhi,high:high}})
 
             }
             }).catch(() => {
@@ -704,6 +722,12 @@
       },
       mounted() {
           this.tabList = this.tabListOne
+          let userSex = this.$route.query.userSex
+          if(userSex == '0'){
+            this.tabListTwo.splice(21,1)
+          }else if(userSex == '1'){
+            this.tabListTwo.splice(22,1)
+          }
       },
       watch: {
           'value':function(newVal) {

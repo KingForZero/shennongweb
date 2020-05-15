@@ -21,6 +21,14 @@ export const selectById = (data) => {
         params:data
     })
 }
+// 根据体质名称查询详情
+export const selectByName = (data) => {
+  return axios({
+    url: '/system/physique/selectByName',
+    method: 'post',
+    params:data
+  })
+}
 //编辑体质（不传id新增，传id更新）
 export const edit = (data) => {
     return axios({
@@ -33,6 +41,14 @@ export const edit = (data) => {
 export const selectReginmenById = (data) => {
   return axios({
     url: '/system/physique/selectReginmenById',
+    method: 'post',
+    params:data
+  })
+}
+// 根据体质名称查询养生保健方案
+export const selectReginmenByName = (data) => {
+  return axios({
+    url: '/system/physique/selectReginmenByName',
     method: 'post',
     params:data
   })
@@ -56,6 +72,14 @@ export const selectMedicalConditionById = (data) => {
     params:data
   })
 }
+//根据体质类型和名称查询中药调理列表
+export const selectMedicalConditionByName = (data) => {
+  return axios({
+    url: '/system/physique/selectMedicalConditionByName',
+    method: 'post',
+    params:data
+  })
+}
 //保存中药调理
 export const editMedicalCondition = (data) => {
   return axios({
@@ -72,3 +96,20 @@ export const selectMedicalConditionDetailById = (data) => {
     params:data
   })
 }
+//根据公众号openid查询患者档案
+export const selectMsgByGzOpenId = (data) => {
+  return axios({
+    url: '/system/clientUser/selectMsgByGzOpenId',
+    method: 'post',
+    params:data
+  })
+}
+//保存体质辨识结果
+export const savePhysique = (data) => {
+  return axios({
+    url: '/system/clientUser/savePhysique',
+    method: 'post',
+    params:data
+  })
+}
+

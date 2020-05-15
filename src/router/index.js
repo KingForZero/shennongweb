@@ -21,6 +21,7 @@ import HealthAssessment from "@/views/GongZhongHao/HealthAssessment";
 import PhysiqueQuestion from "@/views/GongZhongHao/PhysiqueQuestion";
 import PhysiqueReport from "@/views/GongZhongHao/PhysiqueReport";
 import HealthProgram from "@/views/GongZhongHao/HealthProgram";
+import Reginmen from "@/views/GongZhongHao/Reginmen";
 
 import Cookies from "js-cookie"
 
@@ -156,6 +157,13 @@ const router = new Router({
         title:'上医林健康-体质报告'
       }
     },{
+      path: '/reginmen',
+      name: 'Reginmen',
+      component: Reginmen,
+      meta:{
+        title:'上医林健康-体质报告'
+      }
+    },{
       path: '/healthProgram',
       name: 'HealthProgram',
       component: HealthProgram,
@@ -208,6 +216,8 @@ router.beforeEach((to, from, next) => {
     }else if(to.path === '/physiqueQuestion'){
       next()
     }else if(to.path === '/physiqueReport'){
+      next()
+    }else if(to.path === '/reginmen'){
       next()
     }else if(to.path === '/healthProgram'){
       next()
