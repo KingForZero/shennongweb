@@ -1,6 +1,9 @@
 <template>
   <div id="app">
     <router-view/>
+    <div style="text-align: center">
+      <a rel="nofollow" href="http://www.beian.miit.gov.cn" target="_blank">豫ICP备19006687号</a>
+    </div>
   </div>
 </template>
 
