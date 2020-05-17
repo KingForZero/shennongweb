@@ -20,6 +20,8 @@
             </div>
           </div>
           <van-field v-model="loginForm.age" required clearable label="年龄" type="number" placeholder="请输入年龄"/>
+          <van-field v-model="loginForm.height" required clearable label="身高cm" type="number" placeholder="请输入身高"/>
+          <van-field v-model="loginForm.weight" required clearable label="体重kg" type="number" placeholder="请输入体重"/>
           <van-field v-model="loginForm.tel" required clearable  label="手机号" type="tel" placeholder="请输入手机号"/>
           <van-field v-model="loginForm.code" type="number" required clearable label="短信验证码" placeholder="请输入短信验证码">
             <van-button slot="button" v-show="sendAuthCode" size="small" @click="getAuthCode" type="primary">发送验证码</van-button>
@@ -64,6 +66,8 @@ export default {
         code:'',
         fromId:''
       },
+      //跳转地址
+      rePath:'',
       fieldRules: {
         tel: [
           { required: true, message: '请输入电话', trigger: 'blur' }
@@ -95,7 +99,7 @@ export default {
         },
 
     tijiao() {
-
+      this.$router.push({path: this.rePath})
       if(!this.loginForm.name){
         Toast('请输入姓名')
         return
@@ -119,7 +123,7 @@ export default {
 
         this.$api.user.cliengUser(this.loginForm).then((res) => {
           if(res.code == 200) {
-            this.$router.push({name: 'MedicalRecordList'})
+            this.$router.push({path: this.rePath})
           } else {
             Toast(res.msg)
           }
@@ -142,8 +146,8 @@ export default {
     }
   },
   mounted() {
+    this.rePath = this.$route.query.rePath || ''
     let openId = this.$route.query.openId || Cookies.get("openId")
-    debugger
     let fromId = this.$route.query.fromId || Cookies.get("fromId")
     if(fromId){
       this.loginForm.fromId = fromId

@@ -33,14 +33,14 @@
 				<el-input v-model="dataForm.remark" auto-complete="off" type="textarea"></el-input>
 			</el-form-item>
 			<el-form-item label="类别 " prop="type">
-				<el-radio-group v-model="dataForm.type" style="margin-left: -509px;">
+				<el-radio-group v-model="dataForm.type" >
                     <el-radio label="0">其他</el-radio>
                     <el-radio label="1">合作药房</el-radio>
 					<el-radio label="2">个人药房</el-radio>
                   </el-radio-group>
 			</el-form-item>
 			<el-form-item  label="选择医生" prop="docId">
-                <el-select v-model="dataForm.docId" multiple placeholder="请选择" style="margin-left:-368px">
+                <el-select v-model="dataForm.docId" multiple placeholder="请选择">
                   <el-option
                   v-for="item in docList"
                   :key="item.id"
@@ -69,9 +69,9 @@
 			<el-checkbox v-model="checkAll" @change="handleCheckAll" :disabled="this.selectRole.id == null"><b>全选</b></el-checkbox>
 		</div>
 		<div style="float:right;padding-right:15px;padding-top:4px;padding-bottom:4px;">
-			<kt-button :label="$t('action.reset')" perms="sys:role:edit" type="primary" @click="resetSelection" 
+			<kt-button :label="$t('action.reset')" perms="sys:role:edit" type="primary" @click="resetSelection"
 				:disabled="this.selectRole.id == null"/>
-			<kt-button :label="$t('action.submit')" perms="sys:role:edit" type="primary" @click="submitAuthForm" 
+			<kt-button :label="$t('action.submit')" perms="sys:role:edit" type="primary" @click="submitAuthForm"
 				:disabled="this.selectRole.id == null" :loading="authLoading"/>
 		</div>
 	</div>
@@ -97,9 +97,9 @@ export default {
 			},
 			docList:[],
 			columns: [
-				
+
 				{type:"index",label:"序号", minWidth:50},
-				{prop:"id",label:"ID", minWidth:60},
+				// {prop:"id",label:"ID", minWidth:60},
 				{prop:"name", label:"角色名", minWidth:120},
 				{prop:"remark", label:"备注", minWidth:120},
 				{prop:"createBy", label:"创建人", minWidth:120},
@@ -153,16 +153,16 @@ export default {
 				this.pageRequest = data.pageRequest
 			}
 			this.pageRequest.columnFilters = {name: {name:'name', value:this.filters.name}}
-			
+
 			this.$api.role.findPage(this.pageRequest).then((res) => {
 				this.pageResult = res
 				this.findTreeData()
 			}).then(data!=null?data.callback:'')
-			
+
 		},
 		// 批量删除
 		handleDelete: function (data) {
-		
+
 			this.$api.role.batchDelete({id:data.params[0].id}).then(data.callback)
 		},
 		// 显示新增界面
@@ -200,7 +200,7 @@ export default {
 							} else {
 								this.$message({message: '操作失败, ' + res.msg, type: 'error'})
 							}
-							
+
 							this.findPage(null)
 						})
 					})
@@ -306,7 +306,7 @@ export default {
       	dateFormat: function (row, column, cellValue, index){
           	return format(row[column.property])
       	}
-		
+
 	},
 	mounted() {
 	}
@@ -322,6 +322,6 @@ export default {
 	text-align: left;
 	font-size: 16px;
 	color: rgb(20, 89, 121);
-	
+
 }
 </style>

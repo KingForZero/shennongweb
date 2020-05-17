@@ -17,6 +17,12 @@ import MedicalRecordDetail from "@/views/GongZhongHao/MedicalRecordDetail";
 import DoctorList from "@/views/GongZhongHao/DoctorList";
 import DoctorDetail from "@/views/GongZhongHao/DoctorDetail";
 import Teletext from "@/views/GongZhongHao/Teletext";
+import HealthAssessment from "@/views/GongZhongHao/HealthAssessment";
+import PhysiqueQuestion from "@/views/GongZhongHao/PhysiqueQuestion";
+import PhysiqueReport from "@/views/GongZhongHao/PhysiqueReport";
+import HealthProgram from "@/views/GongZhongHao/HealthProgram";
+import Reginmen from "@/views/GongZhongHao/Reginmen";
+
 import Cookies from "js-cookie"
 
 Vue.use(Router)
@@ -130,6 +136,42 @@ const router = new Router({
       }
     },
     {
+      path: '/healthAssessment',
+      name: 'HealthAssessment',
+      component: HealthAssessment,
+      meta:{
+        title:'上医林健康-健康评估'
+      }
+    },{
+      path: '/physiqueQuestion',
+      name: 'PhysiqueQuestion',
+      component: PhysiqueQuestion,
+      meta:{
+        title:'上医林健康-体质问卷'
+      }
+    },{
+      path: '/physiqueReport',
+      name: 'PhysiqueReport',
+      component: PhysiqueReport,
+      meta:{
+        title:'上医林健康-体质报告'
+      }
+    },{
+      path: '/reginmen',
+      name: 'Reginmen',
+      component: Reginmen,
+      meta:{
+        title:'上医林健康-体质报告'
+      }
+    },{
+      path: '/healthProgram',
+      name: 'HealthProgram',
+      component: HealthProgram,
+      meta:{
+        title:'上医林健康-体质报告'
+      }
+    },
+    {
       path: '/404',
       name: 'notFound',
       component: NotFound
@@ -169,7 +211,17 @@ router.beforeEach((to, from, next) => {
       next()
     }else if(to.path === '/teletext'){
       next()
-    }else if(to.path === '/medicalRecordListGZ'){
+    }else if(to.path === '/healthAssessment'){
+      next()
+    }else if(to.path === '/physiqueQuestion'){
+      next()
+    }else if(to.path === '/physiqueReport'){
+      next()
+    }else if(to.path === '/reginmen'){
+      next()
+    }else if(to.path === '/healthProgram'){
+      next()
+    } else if(to.path === '/medicalRecordListGZ'){
      //公众号我的订单按钮跳转链接
      //公众号获取用户授权openId
       window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxee2590252a0f8e99&redirect_uri=http%3a%2f%2fsoelaine.com%2fmedicalRecordList&response_type=code&scope=snsapi_base&state=123#wechat_redirect';

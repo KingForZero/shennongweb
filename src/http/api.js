@@ -16,6 +16,7 @@ import * as doctor from './moudules/doctor'
 import * as project from './moudules/project'
 import * as portalmanage from './moudules/portalmanage'
 import * as gongZhongHao from './moudules/gongZhongHao'
+import * as physique from './moudules/physique'
 
 // 默认全部导出
 export default {
@@ -33,6 +34,7 @@ export default {
     doctor,
     project,
     portalmanage,
-    gongZhongHao
+    gongZhongHao,
+    physique
 
 }

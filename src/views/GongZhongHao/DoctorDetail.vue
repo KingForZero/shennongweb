@@ -66,7 +66,9 @@
     name: 'DoctorDetail',
     data() {
       return {
-        data:{}
+        data:{
+
+        }
       }
     },
     methods: {

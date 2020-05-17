@@ -2,7 +2,7 @@ import axios from 'axios';
 import config from './config';
 import Cookies from "js-cookie";
 import router from '@/router'
-import {Toast} from "vant";
+import { Dialog } from 'vant';
 
 // 使用vuex做全局loading时使用
 // import store from '@/store'
@@ -15,7 +15,6 @@ export default function $axios(options) {
       timeout: config.timeout,
       withCredentials: config.withCredentials
     })
-
     // request 拦截器
     instance.interceptors.request.use(
       config => {
@@ -26,18 +25,27 @@ export default function $axios(options) {
         if(openId){
           config.headers.gzOpenId = openId
           if(url == "/system/clientUser/clientUser"){
-
+            //39.106.123.28/sh
           }else{
             $.ajax({
               type: "post",
-              url: "http://39.106.123.28/sh/system/clientUser/selectByGzOpenId",
+              url: "http://localhost:8080/system/clientUser/selectByGzOpenId",
               data: {openId:openId},
               dataType: "json",
               async:false,
               success: function(data){
                 if(data.code == 200){
                 }else {
-                  router.push('/userRegister')
+                  Dialog.alert({
+                    message: '您尚未注册，请先注册',
+                  }).then(() => {
+                    // on close
+                    let path = window.location.href
+                    let pathArr = path.split("/")
+                    //router.push('/userRegister')
+                    router.push({path: '/userRegister', query: {rePath: pathArr[pathArr.length-1]}})
+                  });
+
                 }
               }
             });
