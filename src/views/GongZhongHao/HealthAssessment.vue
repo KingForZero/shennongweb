@@ -26,6 +26,11 @@
         <div class="base">
           <div>手 机：{{healthRecord.userTel}}</div>
         </div>
+        <!--<div style="text-align: center;width: 40%;margin: 0 auto;padding-bottom: 26px">-->
+          <!--<van-button @click="editMsg" type="primary" block style="width: 100%;border-radius:40px"-->
+                      <!--color="#4dd0e1">修改信息-->
+          <!--</van-button>-->
+        <!--</div>-->
       </div>
       <div class="back1" >
         <div style="display: flex;padding: 12px">
@@ -39,12 +44,20 @@
         </div>
 
       </div>
-      <div style="text-align: center;width: 300px;margin: 0 auto">
+      <div style="text-align: center;width: 300px;margin: 0 auto;padding-bottom: 26px">
           <van-button @click="clickPhysique" type="primary" block style="width: 100%;border-radius:40px"
                       color="#4dd0e1">体质辨识问卷
           </van-button>
       </div>
       <van-dialog @confirm="confirm" v-model="show" title="慢性病史" show-cancel-button>
+        <van-field v-model="bingshi" clearable  placeholder="请输入病史"/>
+      </van-dialog>
+      <van-dialog @confirm="confirm" v-model="showMsg" title="修改信息" show-cancel-button>
+        <van-field v-model="bingshi" clearable  placeholder="请输入病史"/>
+        <van-field v-model="bingshi" clearable  placeholder="请输入病史"/>
+        <van-field v-model="bingshi" clearable  placeholder="请输入病史"/>
+        <van-field v-model="bingshi" clearable  placeholder="请输入病史"/>
+        <van-field v-model="bingshi" clearable  placeholder="请输入病史"/>
         <van-field v-model="bingshi" clearable  placeholder="请输入病史"/>
       </van-dialog>
     </div>
@@ -63,15 +76,20 @@
         data(){
           return{
             show:false,
+            showMsg:false,
             bingshi:'',
             result : [],
             healthRecord:{},
             tabList :
               ["高血压","糖尿病","慢性肠炎","高脂血症","胃溃疡","冠心病","慢性胃炎","阳痿早泄","脂肪肝","贫血","月经不调","痛经","十二指肠溃疡","慢性支气管炎","其他"],
-            chooseAfterValue:[]
+            chooseAfterValue:[],
+            reTest:''
           }
        },
       methods:{
+        editMsg(){
+          this.showMsg = true
+        },
         clickTab(item,index){
           if(item == '其他'){
             this.show = true
@@ -89,16 +107,47 @@
         confirm(){
           this.tabList.push(this.bingshi)
           this.chooseAfterValue.push(this.bingshi)
+        },
+        selectMsgByGzOpenId(){
+          this.$api.physique.selectMsgByGzOpenId({openId:Cookies.get("openId")}).then((res) => {
+            if(res.code == 200) {
+              this.healthRecord = res.rows
+              if(this.reTest == '1'){
+
+              }else{
+                if(res.rows.isPhysiqe == '1'){
+                  //如果已经测试过体质辨识则直接显示测试结果
+                  this.$router.push({path: '/physiqueReport',query: {tizhi: res.rows.physiqe,high:res.rows.highScore}})
+                }
+              }
+
+            }
+          })
         }
+
       },
       mounted() {
-          let openId = "oULFM0cZmGlfC5nMaQnyeuSBNWAQ"
-          Cookies.set("openId",openId)
-        this.$api.physique.selectMsgByGzOpenId({openId:openId}).then((res) => {
-          if(res.code == 200) {
-            this.healthRecord = res.rows
-          }
-        })
+      },
+      created() {
+        let code = this.$route.query.code
+        //获取是否是从重新测试跳转来的标识
+        this.reTest = this.$route.query.reTest
+        if(code){
+          this.$api.assistant.getOpenId({code:code}).then((res) => {
+            if(res.code == '200'){
+              Cookies.set("openId",res.rows.openid)
+              //获取邀请人id
+              if(res.rows.fromId){
+                Cookies.set("fromId",res.rows.fromId)
+              }
+
+              this.selectMsgByGzOpenId()
+            }else{
+              //Toast(res.msg)
+            }
+          })
+        }
+        this.selectMsgByGzOpenId()
 
       }
     }
@@ -108,7 +157,6 @@
 .back {
   margin:12px auto;
   width:90%;
-  height:200px;
   background:rgba(255,255,255,1);
   box-shadow:-5px -2px 39px 1px rgba(195,195,195,0.34);
   border-radius:10px;

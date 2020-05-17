@@ -10,13 +10,8 @@
           <div style="font-weight: bold">体质类型</div>
         </div>
         <div class="base">
-          <div class="tab"  v-for="(item,index) in tabList" :key="index">{{item}}
+          <div class="tab"  v-for="(item,index) in tabList" :key="index" @click="detail(item)">{{item}}
           </div>
-        </div>
-        <div style="text-align: center">
-          <van-button @click="detail" type="primary" size="small"  style="width: 20%;border-radius:40px"
-                      color="#4dd0e1">查看详情
-          </van-button>
         </div>
         <div v-for="item in detailArr">
           <div style="text-align: center">{{item.physiqueName}}</div>
@@ -54,7 +49,7 @@
                 :style="{'color':BMIColor}"><span>{{BMINum}}</span><span style="font-size: 25px">.{{BMINumDig}}</span></div>
             </div>
             <div class="mid">
-              <span>BMI指标检测结果</span>
+              <span>BMI检测结果</span>
             </div>
             <div class="bot">
               <span>您的标准体重应为 {{wS}}kg至{{wE}}kg</span>
@@ -63,9 +58,29 @@
           </div>
         </div>
       </div>
+      <div class="desc">注：健康指数0到100分，分值越高，健康状况越好。大于70分表示健康，50到70分表示亚健康，小于等于50分表示可能有疾病</div>
+      <div class="back" >
+        <div style="display: flex;">
+          <div style="width: 3px;height: 20px;background-color: #4DD0E1;margin-right: 4px;"></div>
+          <div style="font-weight: bold">疾病风险提示</div>
+        </div>
+        <div class="base">
+          <div>
+            <div>
+              <span v-for="(item,index) in riskArr" style="margin-right: 9px;">{{item.riskWarning}}</span>
+            </div>
 
-      <div style="text-align: center;width: 300px;margin: 0 auto">
-          <van-button @click="clickPhysique" type="primary" block style="width: 100%;border-radius:40px;"
+            <van-image  height="143" src="../../../static/risk.gif" />
+          </div>
+
+        </div>
+      </div>
+
+      <div style="text-align: center;width: 300px;margin: 0 auto;padding-bottom: 28px;display: flex; flex-direction: row;justify-content: space-around">
+        <van-button @click="reTest" type="primary" block style="width: 45%;border-radius:40px;padding-bottom: 26px;"
+                    color="#4dd0e1">重新测试
+        </van-button>
+          <van-button @click="clickPhysique" type="primary" block style="width: 45%;border-radius:40px;padding-bottom: 26px;"
                       color="#4dd0e1">查看养生方案
           </van-button>
       </div>
@@ -74,6 +89,7 @@
 
 <script>
     import {Toast} from "vant";
+    import Cookies from "js-cookie";
 
     export default {
         name: "PhysiqueReport",
@@ -105,10 +121,14 @@
             BMIPercent:"",
             wS:'',
             wE:'',
+            riskArr:[]
 
           }
        },
       methods:{
+        reTest(){
+          this.$router.push({path: 'healthAssessment',query:{reTest:'1'}})
+        },
         getHealthColor(){
           return "green"
         },
@@ -122,9 +142,9 @@
         clickPhysique(){
           this.$router.push({path: '/reginmen',query: {tizhi: this.tizhi}})
         },
-        detail(){
+        detail(item){
           if(this.tizhi){
-            this.$api.physique.selectByName({name:this.tizhi}).then((res) => {
+            this.$api.physique.selectByName({name:item}).then((res) => {
               if(res.code == 200) {
                 this.detailArr = res.rows
               }else{
@@ -155,14 +175,23 @@
           let w1 = Math.round((Number(height/100)*Number(height/100))*18.5)
           let w2 = Math.round((Number(height/100)*Number(height/100))*23)
           return w1+"-"+w2
+        },
+        //
+        getRiskWarning(){
+          this.$api.physique.selectRiskWarningByName({name:this.tizhi}).then((res) => {
+            if(res.code == 200) {
+              this.riskArr = res.rows
+            }else{
+              Toast(res.msg)
+            }
+          })
         }
       },
       mounted() {
           this.tizhi = this.$route.query.tizhi || ''
           this.tabList = this.tizhi.split(",")
           this.high = this.$route.query.high || 0
-          //this.healthPercent = this.GetPercent(this.high,100)
-          // this.healthPercent = '2%'
+          this.getRiskWarning()
           let num = 100-this.high
           this.healthNum = Math.round(num)
           if(num>70){
@@ -175,31 +204,36 @@
             this.healthMsg = "可能有疾病"
             this.healthColor = "grey"
           }
-          let height = "172"
-          let weight = "85"
-          let w = this.getWeightRange(height)
-          this.wS = w.split("-")[0]
-          this.wE = w.split("-")[1]
-          let BMI = Number(this.getBMI(height,weight)).toFixed(1)
-          BMI.toString().split(".")
-          this.BMINum =  BMI.toString().split(".")[0]
-          this.BMINumDig = BMI.toString().split(".")[1]
-          if(BMI<18.5){
-            this.BMIMsg = '过轻'
-            this.BMIColor = '#FFB540'
-          }else if(BMI<23 && BMI >= 18.5){
-            this.BMIMsg = '正常'
-            this.BMIColor = '#67c23a'
-          }else if(BMI<28 && BMI >= 23){
-            this.BMIMsg = '超重'
-            this.BMIColor = '#1989fa'
-          }else if(BMI<30 && BMI >= 28){
-            this.BMIMsg = '轻度肥胖'
-            this.BMIColor = '#f56c6c'
-          }else if(BMI >= 30){
-            this.BMIMsg = '重度肥胖'
-            this.BMIColor = '#ee0a24'
+        this.$api.physique.selectMsgByGzOpenId({openId:Cookies.get("openId")}).then((res) => {
+          if(res.code == 200) {
+            let height = res.rows.height
+            let weight = res.rows.weight
+            let w = this.getWeightRange(height)
+            this.wS = w.split("-")[0]
+            this.wE = w.split("-")[1]
+            let BMI = Number(this.getBMI(height,weight)).toFixed(1)
+            BMI.toString().split(".")
+            this.BMINum =  BMI.toString().split(".")[0]
+            this.BMINumDig = BMI.toString().split(".")[1]
+            if(BMI<18.5){
+              this.BMIMsg = '过轻'
+              this.BMIColor = '#FFB540'
+            }else if(BMI<23 && BMI >= 18.5){
+              this.BMIMsg = '正常'
+              this.BMIColor = '#67c23a'
+            }else if(BMI<28 && BMI >= 23){
+              this.BMIMsg = '超重'
+              this.BMIColor = '#1989fa'
+            }else if(BMI<30 && BMI >= 28){
+              this.BMIMsg = '轻度肥胖'
+              this.BMIColor = '#f56c6c'
+            }else if(BMI >= 30){
+              this.BMIMsg = '重度肥胖'
+              this.BMIColor = '#ee0a24'
+            }
           }
+        })
+
 
       }
     }
@@ -285,5 +319,11 @@
     color:rgba(0,0,0,1);
     opacity:0.6;
     font-size: 13px;
+  }
+  .desc{
+    font-weight: 400;
+    opacity: 0.5;
+    font-size: 12px;
+    margin: 0px 15px;
   }
 </style>

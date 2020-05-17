@@ -3,15 +3,15 @@
     <div style="text-align: center">
       <h3>在线咨询</h3>
     </div>
-    <div class="back" >
+    <div class="back" v-if="state != '1'">
       <div style="display: flex">
         <div style="width: 3px;height: 20px;background-color: #4DD0E1;margin-right: 4px;"></div>
         <div style="font-weight: bold">选择科室</div>
       </div>
       <div class="base1">
-        <div class="tab" :class="{choose:chooseAfterValue.indexOf(item)!=-1}" v-for="(item,index) in keshiList"
+        <div class="tab" :class="{choose:idx==index}" v-for="(item,index) in departMentOneList"
              :key="index"
-             @click="clickTab(item,index)">{{item}}</div>
+             @click="clickTab(item,index)">{{item.departmentOneName}}</div>
       </div>
     </div>
     <div class="back">
@@ -80,11 +80,18 @@
         loading: false,
         finished: false,
         map:"",
-        keshiList:["妇科","外科","内科","妇科","外科","内科","妇科","外科","内科","妇科","外科","内科",],
-        chooseAfterValue:[]
+        departMentOneList:[],
+        chooseAfterValue:[],
+        idx:-1,
+        //是否是从我的医生来的标识
+        state:""
       }
     },
     methods: {
+      clickTab(item,index){
+       this.idx = index
+      this.selectDocListWeb(item.departmentOneId)
+      },
       selectDocList(state){
         let openId = Cookies.get("openId")
           if(state == '1'){
@@ -101,24 +108,33 @@
               this.finished = true
             })
           }else{
-            //查询医生列表
-            this.$api.gongZhongHao.selectDocListWeb().then((res) => {
-              if(res.code == 200) {
-                let data = res.rows
-                for(let i = 0;i<data.length;i++){
-                  if(data[i].docHeadImg){
-                    data[i].docHeadImg = imageUrl+data[i].docHeadImg
-                  }
-
-                }
-                this.docList = data
-              }
-              this.loading = false
-              this.finished = true
-            })
+            this.selectDocListWeb()
           }
           },
+      selectDocListWeb(type){
+        //查询医生列表
+        this.$api.gongZhongHao.selectDocListWeb({type:type}).then((res) => {
+          if(res.code == 200) {
+            let data = res.rows
+            for(let i = 0;i<data.length;i++){
+              if(data[i].docHeadImg){
+                data[i].docHeadImg = imageUrl+data[i].docHeadImg
+              }
 
+            }
+            this.docList = data
+          }
+          this.loading = false
+          this.finished = true
+        })
+      },
+      //加载一级科室
+      findDepartmentOneList:function(){
+        this.$api.department.findAll().then((res) => {
+          // 加载角色集合
+          this.departMentOneList = res.rows
+        })
+      },
       click(id){
         this.$router.push({path: '/doctorDetail', query: {id: id}})
       },
@@ -127,10 +143,12 @@
       }
     },
     mounted() {
+      this.findDepartmentOneList()
     },
     created() {
       let code = this.$route.query.code
       let state = this.$route.query.state
+      this.state =state
       if(code){
          this.$api.assistant.getOpenId({code:code}).then((res) => {
           if(res.code == '200'){

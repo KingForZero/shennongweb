@@ -19,17 +19,19 @@ export default function $axios(options) {
     instance.interceptors.request.use(
       config => {
         let url = config.url
+        console.log("url:"+url)
         let token = Cookies.get('Authorization')
         //获取公众号用户openId
         let openId =  Cookies.get("openId")
         if(openId){
           config.headers.gzOpenId = openId
-          if(url == "/system/clientUser/clientUser"){
+          if(url == "/system/clientUser/clientUser" || url == '/system/employee/sendSmsCode'){
             //39.106.123.28/sh
+
           }else{
             $.ajax({
               type: "post",
-              url: "http://localhost:8080/system/clientUser/selectByGzOpenId",
+              url: "http://39.106.123.28/sh/system/clientUser/selectByGzOpenId",
               data: {openId:openId},
               dataType: "json",
               async:false,
@@ -42,8 +44,17 @@ export default function $axios(options) {
                     // on close
                     let path = window.location.href
                     let pathArr = path.split("/")
+                    let rePath = pathArr[pathArr.length-1]
+                    if(rePath.indexOf('healthAssessment')!= -1){
+                      //如果是体质辨识
+                      rePath = 'physiqueLink'
+                    }else if(rePath.indexOf('medicalRecordList')!= -1){
+                      rePath = 'medicalRecordListGZ'
+                    }else if(rePath.indexOf('doctorList')!= -1){
+                      rePath = 'docList'
+                    }
                     //router.push('/userRegister')
-                    router.push({path: '/userRegister', query: {rePath: pathArr[pathArr.length-1]}})
+                    router.push({path: '/userRegister', query: {rePath: rePath}})
                   });
 
                 }

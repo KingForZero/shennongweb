@@ -26,6 +26,9 @@
       <el-button type="primary" style="width:48%;" @click.native.prevent="login" :loading="loading">登 录</el-button>
       <el-button type="primary" style="width:48%;" @click="register">注 册</el-button>
     </el-form-item>
+    <div style="text-align: center">
+      <a rel="nofollow" href="http://www.beian.miit.gov.cn" target="_blank">豫ICP备19006687号</a>
+    </div>
   </el-form>
 </template>
 

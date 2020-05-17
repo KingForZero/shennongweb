@@ -85,6 +85,10 @@
       <el-form-item label="起居调理" autosize prop="dailyLife">
         <el-input type="textarea" v-model="regimenForm.dailyLife" auto-complete="off"></el-input>
       </el-form-item>
+      <el-form-item label="风险提示" autosize prop="riskWarning">
+        <el-input type="textarea" v-model="regimenForm.riskWarning" auto-complete="off"></el-input>
+      </el-form-item>
+
 		<!-- <div slot="footer" class="dialog-footer"> -->
 			<el-button :size="size" @click.native="isBohui = false">{{$t('action.cancel')}}</el-button>
 			<el-button :size="size" type="primary" @click.native="submitRegimen" :loading="editLoading">{{$t('action.submit')
@@ -370,6 +374,7 @@ export default {
         sport:'',
         feeling:'',
         dailyLife:'',
+        riskWarning:''
 			},
 			size: 'small',
 			employeeId:'',

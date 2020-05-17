@@ -99,7 +99,6 @@ export default {
         },
 
     tijiao() {
-      this.$router.push({path: this.rePath})
       if(!this.loginForm.name){
         Toast('请输入姓名')
         return
@@ -110,6 +109,14 @@ export default {
       }
       if(!this.loginForm.age){
         Toast('请输入年龄')
+        return
+      }
+      if(!this.loginForm.height){
+        Toast('请输入身高')
+        return
+      }
+      if(!this.loginForm.weight){
+        Toast('请输入体重')
         return
       }
       if(!this.loginForm.tel){

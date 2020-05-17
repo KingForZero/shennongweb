@@ -53,6 +53,15 @@ export const selectReginmenByName = (data) => {
     params:data
   })
 }
+// 根据体质名称查询风险提示
+export const selectRiskWarningByName = (data) => {
+  return axios({
+    url: '/system/physique/selectRiskWarningByName',
+    method: 'post',
+    params:data
+  })
+}
+
 //编辑养生保健方案
 
 //编辑体质（不传id新增，传id更新）

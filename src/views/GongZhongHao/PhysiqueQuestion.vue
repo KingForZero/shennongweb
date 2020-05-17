@@ -223,13 +223,13 @@
               },
               {
                 type:"D",
-                question:"您皮肤或☐唇干吗",
+                question:"您皮肤或口唇干吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
               {
                 type:"D",
-                question:"您☐唇的颜色比般人红吗",
+                question:"您口唇的颜色比般人红吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
@@ -253,7 +253,7 @@
               },
               {
                 type:"D",
-                question:"你感到☐干咽燥,总想喝水吗",
+                question:"你感到口干咽燥,总想喝水吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
@@ -319,7 +319,7 @@
               },
               {
                 type:"F",
-                question:"您感到☐苦或嘴里有异味吗",
+                question:"您感到口苦或嘴里有异味吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
@@ -388,7 +388,7 @@
               },
               {
                 type:"G",
-                question:"您☐唇颜色偏黯吗",
+                question:"您口唇颜色偏黯吗",
                 scoreSort:"asc",
                 selectIndex:-1
               },
@@ -667,31 +667,30 @@
                 tizhi = '平和质'
               }else {
                 if(b >= 40){
-                  tizhi += '气虚体质 '
+                  tizhi += '气虚体质,'
                 }
                 if(c >= 40){
-                  tizhi += '阳虚体质 '
+                  tizhi += '阳虚体质,'
                 }
                 if(d >= 40){
-                  tizhi += '阴虚质 '
+                  tizhi += '阴虚质,'
                 }
                 if(e >= 40){
-                  tizhi += '痰湿质 '
+                  tizhi += '痰湿质,'
                 }
                 if(f >= 40){
-                  tizhi += '湿热质 '
+                  tizhi += '湿热质,'
                 }
                 if(g >= 40){
-                  tizhi += '血瘀质 '
+                  tizhi += '血瘀质,'
                 }
                 if(h >= 40){
-                  tizhi += '气郁质 '
+                  tizhi += '气郁质 ,'
                 }
                 if(i >= 40){
-                  tizhi += '特禀质 '
+                  tizhi += '特禀质,'
                 }
               }
-              tizhi = '平和质,气虚体质,阳虚体质'
               let numArr = []
               numArr.push(b);
               numArr.push(c);
@@ -705,7 +704,12 @@
                 return b-a;
               })[0]
               let openId = Cookies.get('openId')
-              this.$api.physique.savePhysique({openId:openId,physique:tizhi}).then((res) => {
+              if(tizhi){
+                tizhi = tizhi.substring(0,tizhi.lastIndexOf(","))
+              }
+              // tizhi='平和质,气虚体质'
+              // high = '50'
+              this.$api.physique.savePhysique({openId:openId,physique:tizhi,high:high}).then((res) => {
                 if(res.code == 200) {
 
                 }
@@ -758,6 +762,7 @@
     color:rgba(0,0,0,1);
     opacity:0.87;
     margin: 15px auto;
+    font-size: 18px;
   }
   .result{
     color: white;
@@ -766,7 +771,7 @@
     text-align: center;
   }
   .answer{
-    border-bottom: 7px solid #85E61F;
+    border-bottom: 7px solid #e61523;
   }
   .custom-button {
     width: 26px;

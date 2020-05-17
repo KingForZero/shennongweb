@@ -216,6 +216,7 @@
           this.nameList = this.tizhi.split(",")
           if(this.tizhi){
             this.selectReginmenByName(this.nameList[0])
+            this.selectMedicalConditionByName(this.nameList[0],'1')
           }
 
       }
