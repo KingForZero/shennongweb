@@ -97,6 +97,15 @@ export const editMedicalCondition = (data) => {
     params:data
   })
 }
+//根据id删除中药调理详情
+export const deleteMedicalConditionById = (data) => {
+  return axios({
+    url: '/system/medicalCondition/deleteById',
+    method: 'post',
+    params:data
+  })
+}
+
 //根据id查询中药调理详情
 export const selectMedicalConditionDetailById = (data) => {
   return axios({

@@ -134,9 +134,9 @@
             </div>
           </van-tab>
           <van-tab title="常用中药" >
-            <div  v-for="item in yaoshanList" :key="item.name">
+            <div  v-for="item in yaoshanList" :key="item.name" style="border-bottom: 1px solid rgba(0,0,0,.1);">
                 <div style="margin: 6px 19px;">{{item.name}}</div>
-                <div style="margin: 6px 19px;">
+                <div style="margin: 6px 33px;">
                   <div style="display: flex;margin: 8px 0px;"><div class="choose"></div>用料清单</div>
                   <div class="ziTi">{{item.repertoire}}</div>
                   <div style="display: flex;margin: 8px 0px;"><div class="choose"></div>功效主治</div>

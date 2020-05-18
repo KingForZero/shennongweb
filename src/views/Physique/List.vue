@@ -115,7 +115,8 @@
             </el-table-column>
             <el-table-column property="status" label="操作">
               <template slot-scope="scope">
-                <el-button  @click="edit1(scope.row.conditionId)" type="text" size="small">编辑</el-button>
+                <el-button  @click="edit1(scope.row.conditionId)"  plain size="small">编辑</el-button>
+                <el-button  @click="del(scope.row.conditionId)" type="danger" size="small">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -135,7 +136,8 @@
             </el-table-column>
             <el-table-column property="status" label="操作">
               <template slot-scope="scope">
-                <el-button  @click="edit1(scope.row.conditionId)" type="text" size="small">编辑</el-button>
+                <el-button  @click="edit1(scope.row.conditionId)"  plain size="small">编辑</el-button>
+                <el-button  @click="del(scope.row.conditionId)" type="danger" size="small">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -153,7 +155,8 @@
             </el-table-column>
             <el-table-column property="status" label="操作">
               <template slot-scope="scope">
-                <el-button  @click="edit1(scope.row.conditionId)" type="text" size="small">编辑</el-button>
+                <el-button  @click="edit1(scope.row.conditionId)"  plain size="small">编辑</el-button>
+                <el-button  @click="del(scope.row.conditionId)" type="danger" size="small">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -171,7 +174,8 @@
             </el-table-column>
             <el-table-column property="status" label="操作">
               <template slot-scope="scope">
-                <el-button  @click="edit1(scope.row.conditionId)" type="text" size="small">编辑</el-button>
+                <el-button  @click="edit1(scope.row.conditionId)"  plain size="small">编辑</el-button>
+                <el-button  @click="del(scope.row.conditionId)" type="danger" plain size="small">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -302,21 +306,21 @@
       <el-form :model="medicalConditionForm" label-width="80px"  ref="regimenForm" :size="size"
                label-position="right" style="text-align: center">
 
-        <el-form-item label="图片">
-          <el-upload
-            :action="uploadUrl()"
-            multiple
-            accept="image/png, image/jpeg"
-            :file-list="fileList"
-            list-type="picture-card"
-            :before-upload="beforeUploadPicture"
-            :on-preview="handlePictureCardPreview"
-            :on-remove="handleRemove"
-            :on-success="uploadSuccess"
-            :show-file-list="true">
-            <i class="el-icon-plus"></i>
-          </el-upload>
-        </el-form-item>
+<!--        <el-form-item label="图片">-->
+<!--          <el-upload-->
+<!--            :action="uploadUrl()"-->
+<!--            multiple-->
+<!--            accept="image/png, image/jpeg"-->
+<!--            :file-list="fileList"-->
+<!--            list-type="picture-card"-->
+<!--            :before-upload="beforeUploadPicture"-->
+<!--            :on-preview="handlePictureCardPreview"-->
+<!--            :on-remove="handleRemove"-->
+<!--            :on-success="uploadSuccess"-->
+<!--            :show-file-list="true">-->
+<!--            <i class="el-icon-plus"></i>-->
+<!--          </el-upload>-->
+<!--        </el-form-item>-->
         <el-form-item label="名称" prop="foodHealth">
           <el-input type="textarea" v-model="medicalConditionForm.name" auto-complete="ofactiveNamef"></el-input>
         </el-form-item>
@@ -580,11 +584,11 @@ export default {
       if(this.activeName == '1'){
         this.isShowTab1 = true;
       }else if(this.activeName == '2'){
-        this.isShowTab1 = true;
+        this.isShowTab2 = true;
       }else if(this.activeName == '3'){
-        this.isShowTab1 = true;
+        this.isShowTab3 = true;
       }else if(this.activeName == '4'){
-        this.isShowTab1 = true;
+        this.isShowTab4 = true;
       }
     },
     submitRegimen(){
@@ -605,6 +609,18 @@ export default {
           this.$message({message: '操作失败, ' + res.msg, type: 'error'})
         }
         this.selectMecicalConditionList(this.physiqueId,this.activeName)
+      })
+    },
+    del(id){
+      this.$confirm('确认删除吗？', '提示', {}).then(() => {
+        this.$api.physique.deleteMedicalConditionById({id:id}).then((res) => {
+          if(res.code == 200) {
+            this.$message({ message: '操作成功', type: 'success' })
+          } else {
+            this.$message({message: '操作失败, ' + res.msg, type: 'error'})
+          }
+          this.selectMecicalConditionList(this.physiqueId,this.activeName)
+        })
       })
     },
 		handleAdd(){
