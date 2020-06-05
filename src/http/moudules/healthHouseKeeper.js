@@ -1,6 +1,6 @@
 import axios from '../axios'
 
-/* 
+/*
  * 健康管家理模块
  */
 
@@ -39,6 +39,55 @@ export const selectByYaoFang = (data) => {
 }
 //查询
 
+//查询经典处方
+export const selectRecipelList = (data) => {
+  return axios({
+    url: '/system/recipel/selectList',
+    method: 'post',
+    data
+  })
+}
+//根据id查询处方详情
+export const selectByIdRecipelList = (data) => {
+  return axios({
+    url: '/system/recipel/selectDetail',
+    method: 'post',
+    params:data
+  })
+}
+//根据id查询经典处方药品信息
+export const selectMedicById = (data) => {
+  return axios({
+    url: '/system/recipel/selectById',
+    method: 'post',
+    params:data
+  })
+}
+//根据id删除经典处方药品信息
+export const deletetMedicById = (data) => {
+  return axios({
+    url: '/system/recipel/deleteById',
+    method: 'post',
+    params:data
+  })
+}
+
+//新增经典处方基本信息
+export const addMedicById = (data) => {
+  return axios({
+    url: '/system/recipel/add',
+    method: 'post',
+    data
+  })
+}
+//新增经典处方药品信息
+export const addRecipelMedicById = (data) => {
+  return axios({
+    url: '/system/recipel/addMedical',
+    method: 'post',
+    data
+  })
+}
 
 //根据用户id查询医疗记录
 export const selectByContion = (data) => {

@@ -66,7 +66,7 @@
                 </div>
                 <div class="midTab midDiv">
                   <div style="display: flex;"><div class="choose"></div> {{item.name}}</div>
-                  <div class="ziTi van-multi-ellipsis--l2">{{item.effect}}</div>
+                  <div class="ziTi">{{item.effectStr}}</div>
                   <div class="detailButton" @click="detail(item)">查看详情</div>
                 </div>
               </div>
@@ -97,7 +97,7 @@
                 </div>
                 <div class="midTab midDiv">
                   <div style="display: flex;"><div class="choose"></div> {{item.name}}</div>
-                  <div class="ziTi van-multi-ellipsis--l2">{{item.effect}}</div>
+                  <div class="ziTi">{{item.effectStr}}</div>
                   <div class="detailButton" @click="detail(item)">查看详情</div>
                 </div>
               </div>
@@ -127,7 +127,7 @@
                 </div>
                 <div class="midTab midDiv">
                   <div style="display: flex;"><div class="choose"></div> {{item.name}}</div>
-                  <div class="ziTi van-multi-ellipsis--l2">{{item.effect}}</div>
+                  <div class="ziTi">{{item.effectStr}}</div>
                   <div class="detailButton" @click="detail(item)">查看详情</div>
                 </div>
               </div>
@@ -193,7 +193,9 @@
               this.yaoshanList = res.rows
               for (let i = 0; i < this.yaoshanList.length; i++) {
                 this.yaoshanList[i].image = "http://39.106.123.28/images/"+this.yaoshanList[i].image
-
+                if(this.yaoshanList[i].effect.length>18){
+                  this.yaoshanList[i].effectStr = this.yaoshanList[i].effect.substring(0,18)+"..."
+                }
               }
             }else{
               Toast(res.msg)

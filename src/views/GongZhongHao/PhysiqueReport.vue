@@ -80,7 +80,8 @@
         <van-button @click="reTest" type="primary" block style="width: 45%;border-radius:40px;padding-bottom: 26px;"
                     color="#4dd0e1">重新测试
         </van-button>
-          <van-button @click="clickPhysique" type="primary" block style="width: 45%;border-radius:40px;padding-bottom: 26px;"
+          <van-button v-if="healthMsg != '健康'"  @click="clickPhysique" type="primary" block
+                       style="width: 45%;border-radius:40px;padding-bottom: 26px;"
                       color="#4dd0e1">查看养生方案
           </van-button>
       </div>
@@ -191,21 +192,27 @@
           this.tizhi = this.$route.query.tizhi || ''
           this.tabList = this.tizhi.split(",")
           this.high = this.$route.query.high || 0
-          this.getRiskWarning()
-          let num = 100-this.high
-          this.healthNum = Math.round(num)
-          if(num>70){
-            this.healthMsg = "健康"
-            this.healthColor = "#67c23a"
-          }else if(num > 50 && num <= 70){
-            this.healthMsg = "亚健康"
-            this.healthColor = "#FFB540"
-          }else if(num <= 50){
-            this.healthMsg = "可能有疾病"
-            this.healthColor = "grey"
+          if(this.tizhi){
+            this.getRiskWarning()
           }
+
         this.$api.physique.selectMsgByGzOpenId({openId:Cookies.get("openId")}).then((res) => {
           if(res.code == 200) {
+            let num = 100-this.high
+            if(res.rows.allergicHistory){
+              num = num * 0.8
+            }
+            this.healthNum = Math.round(num)
+            if(num>70){
+              this.healthMsg = "健康"
+              this.healthColor = "#67c23a"
+            }else if(num > 50 && num <= 70){
+              this.healthMsg = "亚健康"
+              this.healthColor = "#FFB540"
+            }else if(num <= 50){
+              this.healthMsg = "可能有疾病"
+              this.healthColor = "grey"
+            }
             let height = res.rows.height
             let weight = res.rows.weight
             let w = this.getWeightRange(height)

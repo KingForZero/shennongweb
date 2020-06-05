@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div style="text-align: center">
-      <h3>在线咨询</h3>
-    </div>
+<!--    <div style="text-align: center">-->
+<!--      <h3>在线咨询</h3>-->
+<!--    </div>-->
     <div class="back" v-if="state != '1'">
       <div style="display: flex">
         <div style="width: 3px;height: 20px;background-color: #4DD0E1;margin-right: 4px;"></div>
@@ -23,7 +23,7 @@
         v-model="loading"
         :finished=finished
         finished-text="没有更多了"
-        @load="selectDocList"
+        @load="select"
       >
         <div v-for="item in docList" :key="item.index">
           <van-card
@@ -93,6 +93,7 @@
       this.selectDocListWeb(item.departmentOneId)
       },
       selectDocList(state){
+        this.findDepartmentOneList()
         let openId = Cookies.get("openId")
           if(state == '1'){
             //查询我的医生列表
@@ -113,7 +114,7 @@
           },
       selectDocListWeb(type){
         //查询医生列表
-        this.$api.gongZhongHao.selectDocListWeb({type:type}).then((res) => {
+        this.$api.gongZhongHao.selectDocListWeb({type:type?type:''}).then((res) => {
           if(res.code == 200) {
             let data = res.rows
             for(let i = 0;i<data.length;i++){
@@ -140,31 +141,37 @@
       },
       tw(id){
         this.$router.push({path: '/teletext', query: {id: id}})
+      },
+      select(){
+        let code = this.$route.query.code
+        let state = this.$route.query.state
+        this.state =state
+        if(Cookies.get("openId")){
+          this.selectDocList(state)
+        }else{
+          if(code){
+            this.$api.assistant.getOpenId({code:code}).then((res) => {
+              if(res.code == '200'){
+                Cookies.set("openId",res.rows.openid)
+                //获取邀请人id
+                if(res.rows.fromId){
+                  Cookies.set("fromId",res.rows.fromId)
+                }
+                this.selectDocList(state)
+              }else{
+                //Toast(res.msg)
+              }
+            })
+          }
+        }
+
       }
     },
     mounted() {
-      this.findDepartmentOneList()
+
     },
     created() {
-      let code = this.$route.query.code
-      let state = this.$route.query.state
-      this.state =state
-      if(code){
-         this.$api.assistant.getOpenId({code:code}).then((res) => {
-          if(res.code == '200'){
-            Cookies.set("openId",res.rows.openid)
-            //获取邀请人id
-            if(res.rows.fromId){
-              Cookies.set("fromId",res.rows.fromId)
-            }
-            this.selectDocList(state)
-          }else{
-            //Toast(res.msg)
-          }
-        })
-      }else {
-        this.selectDocList()
-      }
+
 
     }
   }

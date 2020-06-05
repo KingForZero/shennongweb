@@ -102,7 +102,17 @@
           }
         },
         clickPhysique(){
-          this.$router.push({path: '/physiqueQuestion',query:{userSex:this.healthRecord.userSex}})
+          let isMan = 0
+          if(this.chooseAfterValue.length>0){
+            isMan = 1
+            this.healthRecord.allergicHistory = this.chooseAfterValue.join(",")
+            this.$api.assistant.updateHealthRecord(this.healthRecord).then((res) => {
+              if(res.code == '200'){
+
+              }
+            })
+          }
+          this.$router.push({path: '/physiqueQuestion',query:{userSex:this.healthRecord.userSex,isMan:isMan}})
         },
         confirm(){
           this.tabList.push(this.bingshi)
@@ -112,6 +122,9 @@
           this.$api.physique.selectMsgByGzOpenId({openId:Cookies.get("openId")}).then((res) => {
             if(res.code == 200) {
               this.healthRecord = res.rows
+              if(res.rows.allergicHistory){
+                this.chooseAfterValue =res.rows.allergicHistory.split(",")
+              }
               if(this.reTest == '1'){
 
               }else{

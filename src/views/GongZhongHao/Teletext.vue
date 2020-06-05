@@ -78,7 +78,7 @@
             if(res.code == 200) {
               this.medicalRecord = res.rows
               //如果是免费医生则不收取费用
-              if(this.docMsg.docLevel == '0'){
+              if(this.docMsg.docLevel == '0'||this.medicalRecord.feeAmount == 0){
                 Toast("提交成功")
                 this.$router.push('/medicalRecordList')
               }else{

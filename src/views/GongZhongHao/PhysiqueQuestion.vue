@@ -498,7 +498,8 @@
             scoreH:0,
             //特禀质得分
             scoreI:0,
-            chooseAfterValue:[]
+            chooseAfterValue:[],
+            isMan:0
           }
        },
       methods:{
@@ -704,7 +705,7 @@
                 return b-a;
               })[0]
               let openId = Cookies.get('openId')
-              if(tizhi){
+              if(tizhi.lastIndexOf(",")>-1){
                 tizhi = tizhi.substring(0,tizhi.lastIndexOf(","))
               }
               // tizhi='平和质,气虚体质'
@@ -715,7 +716,7 @@
                 }
               })
 
-              this.$router.push({path: '/physiqueReport',query: {tizhi: tizhi,high:high}})
+              this.$router.push({path: '/physiqueReport',query: {tizhi: tizhi,high:high,isMan:this.isMan}})
 
             }
             }).catch(() => {
@@ -727,6 +728,7 @@
       mounted() {
           this.tabList = this.tabListOne
           let userSex = this.$route.query.userSex
+          this.isMan = this.$route.query.isMan
           if(userSex == '0'){
             this.tabListTwo.splice(21,1)
           }else if(userSex == '1'){

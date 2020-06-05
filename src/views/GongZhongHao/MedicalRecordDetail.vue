@@ -22,6 +22,8 @@
         </div>
 
         <van-cell title="主治医生" :value="medicalRecord.docName"  />
+        <van-cell title="医生建议" :value="medicalRecord.docAdvice"  />
+        <van-cell v-if="medicalRecord.isNutrition == '1'" title="点击寻找营养专家" is-link to="docList" />
         <van-cell title="临床诊断"  :value="clinical"  />
         <van-cell title="嘱托"  :value="entrust"  />
         <van-cell title="病历图片" v-if="medicalRecord.caseHistoryDoc" />
