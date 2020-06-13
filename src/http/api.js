@@ -17,6 +17,8 @@ import * as project from './moudules/project'
 import * as portalmanage from './moudules/portalmanage'
 import * as gongZhongHao from './moudules/gongZhongHao'
 import * as physique from './moudules/physique'
+import * as yingyang from './moudules/yingyang'
+import * as chanpin from './moudules/chanpin'
 
 // 默认全部导出
 export default {
@@ -35,6 +37,8 @@ export default {
     project,
     portalmanage,
     gongZhongHao,
-    physique
+    physique,
+    yingyang,
+    chanpin
 
 }

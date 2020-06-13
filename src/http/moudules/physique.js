@@ -69,7 +69,7 @@ export const selectRiskWarningByName = (data) => {
     return axios({
       url: '/system/regimen/edit',
       method: 'post',
-      params:data
+      data
     })
   }
 
