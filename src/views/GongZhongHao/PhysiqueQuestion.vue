@@ -517,7 +517,7 @@
         sumScore(totalScore,num){
           //原始分＝各个条目的分值相加
           //转化分＝[(原始分一条目数)/(条目数×4)]×100
-          return [(totalScore-num)/(num*4)]*100
+          return Number([(totalScore-num)/(num*4)]*100).toFixed(2)
         },
         pageUp(){
           this.value--
@@ -710,7 +710,7 @@
               }
               // tizhi='平和质,气虚体质'
               // high = '50'
-              this.$api.physique.savePhysique({openId:openId,physique:tizhi,high:high}).then((res) => {
+              this.$api.physique.savePhysique({openId:openId,physique:tizhi,high:high,state:Cookies.get("state")}).then((res) => {
                 if(res.code == 200) {
 
                 }

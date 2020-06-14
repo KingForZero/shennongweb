@@ -1,8 +1,8 @@
 <template>
     <div >
-      <div style="text-align: center">
-        <h3>体质辨识报告</h3>
-      </div>
+      <!--<div style="text-align: center">-->
+        <!--<h3>体质辨识报告</h3>-->
+      <!--</div>-->
 
       <div class="back" >
         <div style="display: flex;">
@@ -13,12 +13,17 @@
           <div class="tab"  v-for="(item,index) in tabList" :key="index" @click="detail(item)">{{item}}
           </div>
         </div>
-        <div v-for="item in detailArr">
+        <div v-for="item in detailArr" v-if="show">
           <div style="text-align: center">{{item.physiqueName}}</div>
           <div>体质介绍</div>
           <div style="font-weight:400;opacity: 0.6">{{item.introduce}}</div>
           <div>成因</div>
           <div style="opacity: 0.6">{{item.reason}}</div>
+          <div style="text-align: center;width: 300px;margin: 0 auto;    padding: 10px 0px;display: flex; flex-direction: row;justify-content: space-around">
+            <van-button @click="guanbi" type="primary" block style="width: 30%;border-radius:40px;padding-bottom: 26px;"
+                        color="#4dd0e1">关闭
+            </van-button>
+          </div>
         </div>
       </div>
       <div style="display: flex;justify-content: space-between;text-align: center;padding: 12px;margin: 12px auto">
@@ -82,7 +87,7 @@
         </van-button>
           <van-button v-if="healthMsg != '健康'"  @click="clickPhysique" type="primary" block
                        style="width: 45%;border-radius:40px;padding-bottom: 26px;"
-                      color="#4dd0e1">查看养生方案
+                      color="#4dd0e1">查看健康管理方案
           </van-button>
       </div>
     </div>
@@ -96,6 +101,7 @@
         name: "PhysiqueReport",
         data(){
           return{
+            show:false,
             result : [],
             tabList : [],
             chooseAfterValue:[],
@@ -127,8 +133,11 @@
           }
        },
       methods:{
+        guanbi(){
+          this.show = false
+        },
         reTest(){
-          this.$router.push({path: 'healthAssessment',query:{reTest:'1'}})
+          this.$router.push({path: 'healthAssessment',query:{reTest:'1',state:Cookies.get("state"),code:"aa"}})
         },
         getHealthColor(){
           return "green"
@@ -145,6 +154,7 @@
         },
         detail(item){
           if(this.tizhi){
+            this.show = true
             this.$api.physique.selectByName({name:item}).then((res) => {
               if(res.code == 200) {
                 this.detailArr = res.rows
@@ -196,7 +206,7 @@
             this.getRiskWarning()
           }
 
-        this.$api.physique.selectMsgByGzOpenId({openId:Cookies.get("openId")}).then((res) => {
+        this.$api.physique.selectMsgByGzOpenId({openId:Cookies.get("openId"),state:Cookies.get("state")}).then((res) => {
           if(res.code == 200) {
             let num = 100-this.high
             if(res.rows.allergicHistory){

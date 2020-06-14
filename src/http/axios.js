@@ -20,9 +20,13 @@ export default function $axios(options) {
       config => {
         let url = config.url
         console.log("url:"+url)
+        if(url == '/pay/getOpenId'||url == '/yingyangWx/getOpenId'){
+          return config
+        }
         let token = Cookies.get('Authorization')
         //获取公众号用户openId
         let openId =  Cookies.get("openId")
+        let state = Cookies.get("state")
         if(openId){
           config.headers.gzOpenId = openId
           if(url == "/system/clientUser/clientUser" || url == '/system/employee/sendSmsCode'){
@@ -31,8 +35,9 @@ export default function $axios(options) {
           }else{
             $.ajax({
               type: "post",
-              url: "http://39.106.123.28/sh/system/clientUser/selectByGzOpenId",
-              data: {openId:openId},
+               url: "http://39.106.123.28/sh/system/clientUser/selectByGzOpenId",
+              //url: "http://localhost:8080/system/clientUser/selectByGzOpenId",
+              data: {openId:openId,state: state},
               dataType: "json",
               async:false,
               success: function(data){
@@ -72,7 +77,7 @@ export default function $axios(options) {
             config.headers.Authorization = token
 
           } else if(url == '/system/employee/sendSmsCode'||url=='/system/employee/forgetPass'||url=='/system/role/findAll'||url=='/system/employee/selectAssisant'|| url=='/system/clientUser/clientUser'||
-            url == '/system/departmentOne/list' ||url == '/system/departmentTwo/selectByDepartmentOneId'||url == '/system/role/findById'||url == '/system/employee/add' ||url == '/pay/getOpenId'){
+            url == '/system/departmentOne/list' ||url == '/system/departmentTwo/selectByDepartmentOneId'||url == '/system/role/findById'||url == '/system/employee/add' ||url == '/pay/getOpenId'||url == '/yingyangWx/getOpenId'){
 
           }else{
             // 重定向到登录页面

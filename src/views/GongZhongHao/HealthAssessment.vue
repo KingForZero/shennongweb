@@ -119,7 +119,7 @@
           this.chooseAfterValue.push(this.bingshi)
         },
         selectMsgByGzOpenId(){
-          this.$api.physique.selectMsgByGzOpenId({openId:Cookies.get("openId")}).then((res) => {
+          this.$api.physique.selectMsgByGzOpenId({openId:Cookies.get("openId"),state:Cookies.get("state")}).then((res) => {
             if(res.code == 200) {
               this.healthRecord = res.rows
               if(res.rows.allergicHistory){
@@ -143,24 +143,37 @@
       },
       created() {
         let code = this.$route.query.code
+        let state = this.$route.query.state
+        if(state){
+          Cookies.set("state",state)
+        }
         //获取是否是从重新测试跳转来的标识
         this.reTest = this.$route.query.reTest
         if(code){
-          this.$api.assistant.getOpenId({code:code}).then((res) => {
-            if(res.code == '200'){
-              Cookies.set("openId",res.rows.openid)
-              //获取邀请人id
+          //state为1代表上医云的公众号 2代表北美容大的公众号
+          if(state == '1'){
+            this.$api.assistant.getOpenId({code:code}).then((res) => {
+              if(res.rows.openid){
+                Cookies.set("openId",res.rows.openid)
+              }
               if(res.rows.fromId){
                 Cookies.set("fromId",res.rows.fromId)
               }
+                this.selectMsgByGzOpenId()
+            })
+          }else if(state == '2'){
+            this.$api.assistant.getYingYangOpenId({code:code}).then((res) => {
+              if(res.rows.openid){
+                Cookies.set("openId",res.rows.openid)
+              }
+              if(res.rows.fromId){
+                Cookies.set("fromId",res.rows.fromId)
+              }
+                this.selectMsgByGzOpenId()
 
-              this.selectMsgByGzOpenId()
-            }else{
-              //Toast(res.msg)
-            }
-          })
+            })
+          }
         }
-        this.selectMsgByGzOpenId()
 
       }
     }

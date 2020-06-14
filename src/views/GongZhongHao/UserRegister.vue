@@ -127,7 +127,7 @@ export default {
         Toast('请输入验证码')
         return
       }
-
+        this.loginForm.state = Cookies.get("state")
         this.$api.user.cliengUser(this.loginForm).then((res) => {
           if(res.code == 200) {
             this.$router.push({path: this.rePath})

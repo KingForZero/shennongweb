@@ -291,3 +291,10 @@ export const getOpenId = (data) => {
     params:data
   })
 }
+export const getYingYangOpenId = (data) => {
+  return axios({
+    url: '/yingyangWx/getOpenId',
+    method: 'get',
+    params:data
+  })
+}

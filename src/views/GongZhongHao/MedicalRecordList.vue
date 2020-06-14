@@ -89,49 +89,68 @@
           this.loading = true;
           this.onLoad();
         },
-        onLoad(){
+        selectMList(state){
           if (this.refreshing) {
             this.list = [];
             this.refreshing = false;
           }
           let openId =  Cookies.get("openId")
           this.loading = false;
-            this.$api.gongZhongHao.selectMedicalRecordsGZ({openId:openId}).then((res) => {
-              if(res.code == 200) {
-                var arr = res.rows;
-                for(let i = 0;i<arr.length;i++){
-                  arr[i].createTime = timestampToTime(arr[i].createTime)
-                  arr[i].status = medicalRecordEnum.status(arr[i].recordState)
-                  if(arr[i].recordState == 8){
-                    arr[i].isPay = true
-                  }
-                  if(arr[i].recordState < 9){
-                    arr[i].isCancel = true
-                  }
+          this.$api.gongZhongHao.selectMedicalRecordsGZ({openId:openId,state:state}).then((res) => {
+            if(res.code == 200) {
+              var arr = res.rows;
+              for(let i = 0;i<arr.length;i++){
+                arr[i].createTime = timestampToTime(arr[i].createTime)
+                arr[i].status = medicalRecordEnum.status(arr[i].recordState)
+                if(arr[i].recordState == 8){
+                  arr[i].isPay = true
                 }
-                this.list = res.rows
-                this.finished = true;
+                if(arr[i].recordState < 9){
+                  arr[i].isCancel = true
+                }
               }
-            })
+              this.list = res.rows
+              this.finished = true;
+            }
+          })
           console.log("list的长度"+this.list.length)
-        }
-      },
-      created() {
+        },
+        onLoad(){
           let code = this.$route.query.code
+          let state = this.$route.query.state
+          if(state){
+            Cookies.set("state",state)
+          }
           if(code){
-            this.$api.assistant.getOpenId({code:code}).then((res) => {
-              if(res.code == '200'){
-                Cookies.set("openId",res.rows.openid)
+            //state为1代表上医云的公众号 2代表北美容大的公众号
+            if(state == '1'){
+              this.$api.assistant.getOpenId({code:code}).then((res) => {
+                if(res.rows.openid){
+                  Cookies.set("openId",res.rows.openid)
+                }
                 //获取邀请人id
                 if(res.rows.fromId){
                   Cookies.set("fromId",res.rows.fromId)
                 }
-
-              }else{
-                //Toast(res.msg)
-              }
-            })
+                this.selectMList(state)
+              })
+            }else if(state == '2'){
+              this.$api.assistant.getYingYangOpenId({code:code}).then((res) => {
+                if(res.rows.openid){
+                  Cookies.set("openId",res.rows.openid)
+                }
+                //获取邀请人id
+                if(res.rows.fromId){
+                  Cookies.set("fromId",res.rows.fromId)
+                }
+                this.selectMList(state)
+              })
+            }
           }
+        }
+      },
+      created() {
+
 
       }
 

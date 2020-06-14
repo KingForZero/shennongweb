@@ -1,5 +1,17 @@
 import axios from '../axios'
 
+
+/**
+ * 查询营养方案列表
+ * @param data
+ * @returns {Promise | Promise<unknown>}
+ */
+export const selectListGZ = () => {
+  return axios({
+    url: '/system/productMix/selectListGZ',
+    method: 'post',
+  })
+}
 /**
  * 查询产品列表
  * @param data

@@ -17,7 +17,7 @@
     <div class="back">
       <div style="display: flex">
         <div style="width: 3px;height: 20px;background-color: #4DD0E1;margin-right: 4px;"></div>
-        <div style="font-weight: bold">医生列表</div>
+        <div style="font-weight: bold">细胞营养研究中心</div>
       </div>
       <van-list
         v-model="loading"
@@ -95,7 +95,7 @@
       selectDocList(state){
         this.findDepartmentOneList()
         let openId = Cookies.get("openId")
-          if(state == '1'){
+          if(state == '4'){
             //查询我的医生列表
             this.$api.gongZhongHao.selectMyDocGZ({openid:openId}).then((res) => {
               if(res.code == 200) {
@@ -145,24 +145,36 @@
       select(){
         let code = this.$route.query.code
         let state = this.$route.query.state
+        if(state == '3' || state == '4'){
+          Cookies.set("state",1)
+        }else if(state == '2'){
+          Cookies.set("state",2)
+        }
         this.state =state
-        if(Cookies.get("openId")){
-          this.selectDocList(state)
-        }else{
-          if(code){
+        if(code){
+          //state=3代表上医云的医生列表 4代表上医云的我的医生  2代表北美容大公众号的医生列表
+          if(state == '3'||state == '4'){
             this.$api.assistant.getOpenId({code:code}).then((res) => {
-              if(res.code == '200'){
+              if(res.rows.openid){
                 Cookies.set("openId",res.rows.openid)
-                //获取邀请人id
-                if(res.rows.fromId){
-                  Cookies.set("fromId",res.rows.fromId)
-                }
-                this.selectDocList(state)
-              }else{
-                //Toast(res.msg)
               }
+              if(res.rows.fromId){
+                Cookies.set("fromId",res.rows.fromId)
+              }
+              this.selectDocList(state)
+            })
+          }else if(state == '2'){
+            this.$api.assistant.getYingYangOpenId({code:code}).then((res) => {
+              if(res.rows.openid){
+                Cookies.set("openId",res.rows.openid)
+              }
+              if(res.rows.fromId){
+                Cookies.set("fromId",res.rows.fromId)
+              }
+              this.selectDocList(state)
             })
           }
+
         }
 
       }

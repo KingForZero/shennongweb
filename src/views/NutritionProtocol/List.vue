@@ -88,8 +88,8 @@
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button  @click="detail(scope.row)" type="text" size="small">编辑</el-button>
-            <el-button  @click="del(scope.row)" type="text" size="small">删除</el-button>
+            <el-button  @click="chanpinDetail(scope.row)" type="text" size="small">编辑</el-button>
+            <el-button  @click="chanpinDel(scope.row)" type="text" size="small">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -121,7 +121,7 @@
             list-type="picture-card"
             :before-upload="beforeUploadPicture"
             :on-preview="handlePictureCardPreview"
-            :on-remove="handleRemove"
+            :on-remove="handleRemove1"
             :on-success="uploadSuccess"
             :show-file-list="true">
             <i class="el-icon-plus"></i>
@@ -161,8 +161,8 @@
             list-type="picture-card"
             :before-upload="beforeUploadPicture"
             :on-preview="handlePictureCardPreview"
-            :on-remove="handleRemove"
-            :on-success="uploadSuccess"
+            :on-remove="handleRemove1"
+            :on-success="uploadSuccess1"
             :show-file-list="true">
             <i class="el-icon-plus"></i>
           </el-upload>
@@ -174,7 +174,7 @@
           <el-input type="textarea" autosize v-model="chanPinForm.effect" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="价格" prop="note">
-          <el-input type="textarea" autosize v-model="chanPinForm.price" auto-complete="off"></el-input>
+          <el-input type="number" v-model="chanPinForm.price" auto-complete="off"></el-input>
         </el-form-item>
 
       </el-form>
@@ -254,6 +254,39 @@
       }
     },
     methods: {
+      handleRemove1(file, fileList){
+        this.fileChange1(fileList);
+      },
+      // 设置photo值
+      fileChange1(fileList) {
+        let temp_str = '';
+        if(fileList.length > 0){
+          for(let i=0; i<fileList.length; i++){
+            if(fileList[i].response){
+              if(fileList[i].response.code == 200){
+                if(i===0){
+                  temp_str += fileList[i].response.rows;
+                } else {
+                  // 最终photo的格式是所有已上传的图片的url拼接的字符串（逗号隔开）
+                  temp_str += ',' + fileList[i].response.rows;
+                }
+              }
+            }else{
+              if(i===0){
+                temp_str += fileList[i].name;
+              } else {
+                // 最终photo的格式是所有已上传的图片的url拼接的字符串（逗号隔开）
+                temp_str += ',' + fileList[i].name;
+              }
+            }
+          }
+        }
+        this.chanPinForm.image = temp_str;
+      },
+      // 上传图片成功
+      uploadSuccess1(res, file, fileList) {
+        this.fileChange1(fileList);
+      },
       // 移除图片
       handleRemove(file, fileList) {
         this.fileChange(fileList);
@@ -324,6 +357,27 @@
         }).then()
 
       },
+      chanpinDetail(row){
+
+        this.$api.chanpin.selectById({id:row.id}).then((res) => {
+          this.chanPinDialogVisible = true
+          this.chanPinForm = res.rows
+          if(res.rows.image){
+            let files=[]
+            let idArray = (res.rows.image+'').split(',')
+            for(var i=0; i<idArray.length; i++) {
+              files.push({name: idArray[i], url: "http://39.106.123.28/images/"+idArray[i]})
+            }
+            //  [{name: 'food.jpg', url: 'https://xxx.cdn.com/xxx.jpg'}]
+            this.fileList  =files
+            console.log(this.fileList);
+          }else{
+            this.fileList = []
+          }
+          // this.zhongyi(res.rows.pharmacy)
+        }).then()
+
+      },
       submitForm(){
         this.$api.yingyang.save(this.dataForm).then((res) => {
           if(res.code == 200) {
@@ -349,6 +403,7 @@
       },
       handleChanPinAdd(){
         this.chanPinDialogVisible = true
+        this.fileList = []
         this.chanPinForm = {
           id:'',
           name:'',
@@ -360,6 +415,7 @@
       },
       handleAdd(){
         this.dialogVisible = true
+        this.fileList = []
         this.dataForm = {
           id:'',
           name:'',
@@ -381,6 +437,19 @@
           })
         })
       },
+      chanpinDel(row){
+        this.$confirm('确认删除吗？', '提示', {}).then(() => {
+          this.$api.chanpin.deleteById({id:row.id}).then((res) => {
+            if(res.code == 200) {
+              this.$message({ message: '操作成功', type: 'success' })
+              this.findChanPinPage(null)
+            } else {
+              this.$message({message: '操作失败, ' + res.msg, type: 'error'})
+            }
+          })
+        })
+      },
+
       handlerNumber(val,index){
         if(this.medicalForm.medicalList[index].price&&val){
           this.medicalForm.medicalList[index].amount =

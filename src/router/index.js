@@ -22,6 +22,8 @@ import PhysiqueQuestion from "@/views/GongZhongHao/PhysiqueQuestion";
 import PhysiqueReport from "@/views/GongZhongHao/PhysiqueReport";
 import HealthProgram from "@/views/GongZhongHao/HealthProgram";
 import Reginmen from "@/views/GongZhongHao/Reginmen";
+import NutritionList from "@/views/GongZhongHao/NutritionList";
+import ChanPinList from "@/views/GongZhongHao/ChanPinList";
 
 import Cookies from "js-cookie"
 
@@ -101,7 +103,23 @@ const router = new Router({
       name: 'MedicalRecordList',
       component: MedicalRecordList,
       meta:{
-        title:'上医林健康-医疗记录列表'
+        title:'订单记录列表'
+      }
+    },
+    {
+      path: '/nutritionList',
+      name: 'NutritionList',
+      component: NutritionList,
+      meta:{
+        title:'营养方案'
+      }
+    },
+    {
+      path: '/chanPinList',
+      name: 'ChanPinList',
+      component: ChanPinList,
+      meta:{
+        title:'产品介绍'
       }
     },
     {
@@ -109,7 +127,7 @@ const router = new Router({
       name: 'MedicalRecordDetail',
       component: MedicalRecordDetail,
       meta:{
-        title:'上医林健康-医疗记录详情'
+        title:'订单记录详情'
       }
     },
     {
@@ -140,21 +158,21 @@ const router = new Router({
       name: 'HealthAssessment',
       component: HealthAssessment,
       meta:{
-        title:'上医林健康-健康评估'
+        title:'健康评估'
       }
     },{
       path: '/physiqueQuestion',
       name: 'PhysiqueQuestion',
       component: PhysiqueQuestion,
       meta:{
-        title:'上医林健康-体质问卷'
+        title:'健康状况自测'
       }
     },{
       path: '/physiqueReport',
       name: 'PhysiqueReport',
       component: PhysiqueReport,
       meta:{
-        title:'上医林健康-体质报告'
+        title:'健康报告'
       }
     },{
       path: '/reginmen',
@@ -205,6 +223,10 @@ router.beforeEach((to, from, next) => {
       next()
     }else if(to.path === '/medicalRecordDetail'){
       next()
+    }else if(to.path === '/nutritionList'){
+      next()
+    }else if(to.path === '/chanPinList'){
+      next()
     }else if(to.path === '/doctorList'){
       next()
     }else if(to.path === '/doctorDetail'){
@@ -224,19 +246,34 @@ router.beforeEach((to, from, next) => {
     } else if(to.path === '/medicalRecordListGZ'){
      //公众号我的订单按钮跳转链接
      //公众号获取用户授权openId
-      window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxee2590252a0f8e99&redirect_uri=http%3a%2f%2fsoelaine.com%2fmedicalRecordList&response_type=code&scope=snsapi_base&state=123#wechat_redirect';
+      window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxee2590252a0f8e99&redirect_uri=http%3a%2f%2fsoelaine.com%2fmedicalRecordList&response_type=code&scope=snsapi_base&state=1#wechat_redirect';
     }else if(to.path === '/docList'){
       //公众号在线咨询按钮跳转链接
       //公众号获取用户授权openId
-      window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxee2590252a0f8e99&redirect_uri=http%3a%2f%2fsoelaine.com%2fdoctorList&response_type=code&scope=snsapi_base&state=123#wechat_redirect';
+      window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxee2590252a0f8e99&redirect_uri=http%3a%2f%2fsoelaine.com%2fdoctorList&response_type=code&scope=snsapi_base&state=3#wechat_redirect';
     }else if(to.path === '/myDoc'){
       //公众号我的医生按钮跳转链接
       //公众号获取用户授权openId
-      window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxee2590252a0f8e99&redirect_uri=http%3a%2f%2fsoelaine.com%2fdoctorList&response_type=code&scope=snsapi_base&state=1#wechat_redirect';
+      window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxee2590252a0f8e99&redirect_uri=http%3a%2f%2fsoelaine.com%2fdoctorList&response_type=code&scope=snsapi_base&state=4#wechat_redirect';
     }else if(to.path === '/physiqueLink'){
       //公众号体质辨识按钮跳转链接
       //公众号获取用户授权openId
       window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxee2590252a0f8e99&redirect_uri=http%3a%2f%2fsoelaine.com%2fhealthAssessment&response_type=code&scope=snsapi_base&state=1#wechat_redirect';
+    }else if(to.path === '/yyfa'){
+      //北美公众号营养方案按钮跳转链接
+      window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx219c18e85cbbe024&redirect_uri=http%3a%2f%2fsoelaine.com%2fnutritionList&response_type=code&scope=snsapi_base&state=2#wechat_redirect';
+    }else if(to.path === '/cpjs'){
+      //北美公众号产品介绍按钮跳转链接
+      window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx219c18e85cbbe024&redirect_uri=http%3a%2f%2fsoelaine.com%2fchanPinList&response_type=code&scope=snsapi_base&state=2#wechat_redirect';
+    }else if(to.path === '/jkzc'){
+      //北美公众号健康自测按钮跳转链接
+      window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx219c18e85cbbe024&redirect_uri=http%3a%2f%2fsoelaine.com%2fhealthAssessment&response_type=code&scope=snsapi_base&state=2#wechat_redirect';
+    }else if(to.path === '/zjzx'){
+      //北美公众号专家咨询按钮跳转链接
+      window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx219c18e85cbbe024&redirect_uri=http%3a%2f%2fsoelaine.com%2fdoctorList&response_type=code&scope=snsapi_base&state=2#wechat_redirect';
+    }else if(to.path === '/ddck'){
+      //北美公众号订单查看按钮跳转链接
+      window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx219c18e85cbbe024&redirect_uri=http%3a%2f%2fsoelaine.com%2fmedicalRecordList&response_type=code&scope=snsapi_base&state=2#wechat_redirect';
     }else if(to.path === '/download'){
       next()
     }else{

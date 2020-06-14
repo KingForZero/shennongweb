@@ -40,7 +40,7 @@
 
       </div>
       <div style="margin-left: 23px;font-weight: bold">
-        中医调理
+        细胞营养方案
       </div>
       <div class="back">
         <van-tabs color="#4DD0E1" type="card" v-model="tabName"  @click="onComClick">
@@ -133,7 +133,7 @@
               </div>
             </div>
           </van-tab>
-          <van-tab title="常用中药" >
+          <van-tab title="营养素" >
             <div  v-for="item in yaoshanList" :key="item.name" style="border-bottom: 1px solid rgba(0,0,0,.1);">
                 <div style="margin: 6px 19px;">{{item.name}}</div>
                 <div style="margin: 6px 33px;">
@@ -157,7 +157,7 @@
 
 <script>
     import {Toast} from "vant";
-
+    import Cookies from "js-cookie"
     export default {
         name: "Reginmen",
         data(){
@@ -212,7 +212,7 @@
           this.$forceUpdate()
         },
         zixun(){
-          this.$router.push({path: '/doctorList'})
+          this.$router.push({path: '/doctorList',query:{state:Cookies.get("state"),code:"aa"}})
         }
       },
       mounted() {

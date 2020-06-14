@@ -44,7 +44,8 @@
         medicalRecord:{
           docId:"",
           extraMsg:"",
-          extraPic:""
+          extraPic:"",
+          state:"",
         },
         docMsg:{},
         docList:[],
@@ -55,6 +56,10 @@
     },
     methods: {
       onSubmit(){
+        if(!this.medicalRecord.extraMsg){
+          Toast("请填写内容")
+          return
+        }
         const that = this
         Toast.loading({
           message: '加载中...',
@@ -73,6 +78,8 @@
             'Content-Type': 'multipart/form-data'
           }}).then(res => {
             this.medicalRecord.extraPic = res.data.rows
+          //记录是那个公众号的记录 1上医云 2北美容大
+            this.medicalRecord.state = Cookies.get("state")
           //创建医疗记录
           this.$api.gongZhongHao.addByGZhao(this.medicalRecord).then((res) => {
             if(res.code == 200) {
@@ -80,10 +87,10 @@
               //如果是免费医生则不收取费用
               if(this.docMsg.docLevel == '0'||this.medicalRecord.feeAmount == 0){
                 Toast("提交成功")
-                this.$router.push('/medicalRecordList')
+                this.$router.push({path:'/medicalRecordList',query:{state:Cookies.get("state"),code:"aa"}})
               }else{
                 let url = window.location.href+"/"
-                this.$api.gongZhongHao.getJsSdk({"url":url}).then((res) => {
+                this.$api.gongZhongHao.getJsSdk({url:url,state:Cookies.get("state")}).then((res) => {
 
                   if(res.code == 200) {
                     this.wxshare(res.rows)
@@ -108,7 +115,7 @@
                             paySign: res.rows.paySign, // 支付签名
                             success: function (res) {
                               // 支付成功后的回调函数
-                              that.$router.push('/medicalRecordList')
+                              this.$router.push({path:'/medicalRecordList',query:{state:Cookies.get("state"),code:"aa"}})
                             }
                           });
                         });
