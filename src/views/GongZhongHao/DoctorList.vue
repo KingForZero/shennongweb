@@ -17,7 +17,7 @@
     <div class="back">
       <div style="display: flex">
         <div style="width: 3px;height: 20px;background-color: #4DD0E1;margin-right: 4px;"></div>
-        <div style="font-weight: bold">细胞营养研究中心</div>
+        <div style="font-weight: bold">{{title}}</div>
       </div>
       <van-list
         v-model="loading"
@@ -84,12 +84,14 @@
         chooseAfterValue:[],
         idx:-1,
         //是否是从我的医生来的标识
-        state:""
+        state:"",
+        title:""
       }
     },
     methods: {
       clickTab(item,index){
        this.idx = index
+        this.title = item.departmentOneName
       this.selectDocListWeb(item.departmentOneId)
       },
       selectDocList(state){
@@ -109,7 +111,11 @@
               this.finished = true
             })
           }else{
-            this.selectDocListWeb()
+            let a = {
+              "departmentOneName":"细胞营养研究中心",
+              "departmentOneId":"10"
+            }
+            this.clickTab(a,1)
           }
           },
       selectDocListWeb(type){

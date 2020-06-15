@@ -19,7 +19,7 @@
               <div style="display: flex;margin: 8px 0px;"><div class="choose"></div>组成</div>
               <div class="ziTi">{{item.form}}</div>
               <div style="display: flex;margin: 8px 0px;"><div class="choose"></div>价格</div>
-              <div class="ziTi">{{item.price}}</div>
+              <div class="ziTi">{{item.price}}美元</div>
             </div>
             <div style="margin: 6px 19px;">
               <div class="detailButton" style="text-align: center;" @click="shouqi(item)">收起</div>
