@@ -14,14 +14,17 @@
             </div>
             <div style="margin: 6px 19px;">{{item.name}}</div>
             <div style="margin: 6px 19px;">
-              <div style="display: flex;margin: 8px 0px;"><div class="choose"></div>病因</div>
+              <div style="display: flex;margin: 8px 0px;"><div class="choose"></div>病因/使用范围</div>
               <div class="ziTi">{{item.diseaseCause}}</div>
-              <div style="display: flex;margin: 8px 0px;"><div class="choose"></div>组成</div>
+              <div style="display: flex;margin: 8px 0px;"><div class="choose"></div>营养素组成</div>
               <div class="ziTi">{{item.form}}</div>
-              <div style="display: flex;margin: 8px 0px;"><div class="choose"></div>注意事项</div>
+              <div style="display: flex;margin: 8px 0px;"><div class="choose"></div>说明</div>
               <div class="ziTi">{{item.note}}</div>
             </div>
             <div style="margin: 6px 19px;">
+              <van-button @click="zixun" type="primary" block style="width: 100%;border-radius:40px;"
+                          color="#4dd0e1">健康自测
+              </van-button>
               <div class="detailButton" style="text-align: center;" @click="shouqi(item)">收起</div>
             </div>
           </div>
@@ -99,6 +102,9 @@
             }
           })
           console.log("list的长度"+this.list.length)
+        },
+        zixun(){
+          this.$router.push({path: 'healthAssessment',query:{state:Cookies.get("state"),code:"aa"}})
         },
         onLoad(){
           let code = this.$route.query.code

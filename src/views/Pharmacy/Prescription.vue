@@ -37,15 +37,15 @@
               <el-form-item>
                 <kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:role:view" type="primary" @click="findMedicalRecord(null)"/>
               </el-form-item>
-              <el-form-item label="总药费：">
-                <span>{{drugTotal}}</span>元
-              </el-form-item>
-              <el-form-item label="总加工费：">
-                <span>{{processTotal}}</span>元
-              </el-form-item>
-              <el-form-item label="总邮费：">
-                <span>{{postageTotal}}</span>元
-              </el-form-item>
+              <!--<el-form-item label="总药费：">-->
+                <!--<span>{{drugTotal}}</span>元-->
+              <!--</el-form-item>-->
+              <!--<el-form-item label="总加工费：">-->
+                <!--<span>{{processTotal}}</span>元-->
+              <!--</el-form-item>-->
+              <!--<el-form-item label="总邮费：">-->
+                <!--<span>{{postageTotal}}</span>元-->
+              <!--</el-form-item>-->
             </el-form>
           </div>
           <!--表格内容栏-->
@@ -55,7 +55,7 @@
 						<el-table-column label="患者姓名" prop="userName" width="80px"></el-table-column>
             <el-table-column label="患者电话" prop="userTel" width="120px"></el-table-column>
             <el-table-column label="药费" prop="drugAmount" width="80px"></el-table-column>
-						<!-- <el-table-column label="邮寄地址" prop="emsAddress"></el-table-column> -->
+            <el-table-column label="邮寄地址" prop="emsAddress"></el-table-column>
             <el-table-column label="剂型" prop="dosageType" :formatter="dosageTypeFormatter"></el-table-column>
 						<!-- <el-table-column label="快递单号" prop="orderId"></el-table-column> -->
             <el-table-column label="处方编号" prop="recordId"></el-table-column>
@@ -84,83 +84,83 @@
 					</el-pagination>
 					</div>
         </el-tab-pane>
-        <el-tab-pane label="健康管理师药方" name="second">
-          <div class="toolbar" style="float:left;">
-            <el-form :inline="true" :model="filtersHealth" :size="size">
-              <el-form-item>
-                <el-input v-model="filtersHealth.userName" placeholder="姓名"></el-input>
-              </el-form-item>
-              <el-form-item>
-                <el-select v-model="filtersHealth.state" placeholder="请选择">
-                  <el-option
-                    v-for="item in statesHealth"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item>
-                <el-date-picker
-                value-format="timestamp"
-                  v-model="filtersHealth.startTime"
-                  type="date"
-                  placeholder="选择日期">
-                </el-date-picker>
-              </el-form-item>
-              <el-form-item>
-                <el-date-picker
-                value-format="timestamp"
-                  v-model="filtersHealth.endTime"
-                  type="date"
-                  placeholder="选择日期">
-                </el-date-picker>
-              </el-form-item>
-              <el-form-item>
-                <kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:role:view" type="primary" @click="findChufang()"/>
-              </el-form-item>
-              <el-form-item label="总药费：">
-                <span>{{drugTotal1}}</span>元
-              </el-form-item>
-              <el-form-item label="总加工费：">
-                <span>{{processTotal1}}</span>元
-              </el-form-item>
-              <el-form-item label="总邮费：">
-                <span>{{postageTotal1}}</span>元
-              </el-form-item>
-            </el-form>
-          </div>
-          <!--表格内容栏-->
-          <el-table :data="chufangPage.rows" style="width: 100%" >
-            <el-table-column type="index" label="序号"></el-table-column>
-						<el-table-column label="ID" prop="id"></el-table-column>
-						<el-table-column label="患者姓名" prop="userName" width="80px"></el-table-column>
-            <el-table-column label="患者电话" prop="userTel" width="120px"></el-table-column>
-            <el-table-column label="药费" prop="amount" width="80px"></el-table-column>
-						<el-table-column label="邮寄地址" prop="emsAddress" ></el-table-column>
-						<el-table-column label="快递单号" prop="orderId" ></el-table-column>
-						<el-table-column label="运单号" prop="mailNo" ></el-table-column>
-						<el-table-column label="状态" prop="state" :formatter="stateFormatter">
-						</el-table-column>
-			      <el-table-column label="发货时间" prop="sendTime" :formatter="timeFormatter1"></el-table-column>
-            <el-table-column label="操作">
-            <template slot-scope="scope">
-				          <el-button  @click="yaofang1(scope.row.id)" type="text" size="small">查看药方</el-button>
-                  <el-button v-if="scope.row.state == '4'" @click="xiadan(scope.row,2)" type="text" size="small">下单</el-button>
-                  <a v-if="scope.row.state == '41'" class='download' :href=printUrl(scope.row,2) download=""  title="下载">打印运单</a>
-                  <el-button v-if="scope.row.state == '41'" @click="fahuo(scope.row,2)" type="text" size="small">已发货</el-button>
-                  <el-button v-if="scope.row.state == '41'" @click="quxiao(scope.row,2)" type="text" size="small">取消订单</el-button>
-                  <el-button v-if="scope.row.state == '5'" @click="wuliu(scope.row,2)" type="text" size="small">查看物流信息</el-button>
-              </template>
-            </el-table-column>
-					</el-table>
-					<!--分页栏-->
-					<div class="toolbar" style="padding:10px;">
-					<el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshChufang"
-						:current-page="chufangPage.pageNum" :page-size="chufangPage.pageSize" :total="chufangPage.total" style="float:right;">
-					</el-pagination>
-					</div>
-        </el-tab-pane>
+        <!--<el-tab-pane label="健康管理师药方" name="second">-->
+          <!--<div class="toolbar" style="float:left;">-->
+            <!--<el-form :inline="true" :model="filtersHealth" :size="size">-->
+              <!--<el-form-item>-->
+                <!--<el-input v-model="filtersHealth.userName" placeholder="姓名"></el-input>-->
+              <!--</el-form-item>-->
+              <!--<el-form-item>-->
+                <!--<el-select v-model="filtersHealth.state" placeholder="请选择">-->
+                  <!--<el-option-->
+                    <!--v-for="item in statesHealth"-->
+                    <!--:key="item.value"-->
+                    <!--:label="item.label"-->
+                    <!--:value="item.value">-->
+                  <!--</el-option>-->
+                <!--</el-select>-->
+              <!--</el-form-item>-->
+              <!--<el-form-item>-->
+                <!--<el-date-picker-->
+                <!--value-format="timestamp"-->
+                  <!--v-model="filtersHealth.startTime"-->
+                  <!--type="date"-->
+                  <!--placeholder="选择日期">-->
+                <!--</el-date-picker>-->
+              <!--</el-form-item>-->
+              <!--<el-form-item>-->
+                <!--<el-date-picker-->
+                <!--value-format="timestamp"-->
+                  <!--v-model="filtersHealth.endTime"-->
+                  <!--type="date"-->
+                  <!--placeholder="选择日期">-->
+                <!--</el-date-picker>-->
+              <!--</el-form-item>-->
+              <!--<el-form-item>-->
+                <!--<kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:role:view" type="primary" @click="findChufang()"/>-->
+              <!--</el-form-item>-->
+              <!--<el-form-item label="总药费：">-->
+                <!--<span>{{drugTotal1}}</span>元-->
+              <!--</el-form-item>-->
+              <!--<el-form-item label="总加工费：">-->
+                <!--<span>{{processTotal1}}</span>元-->
+              <!--</el-form-item>-->
+              <!--<el-form-item label="总邮费：">-->
+                <!--<span>{{postageTotal1}}</span>元-->
+              <!--</el-form-item>-->
+            <!--</el-form>-->
+          <!--</div>-->
+          <!--&lt;!&ndash;表格内容栏&ndash;&gt;-->
+          <!--<el-table :data="chufangPage.rows" style="width: 100%" >-->
+            <!--<el-table-column type="index" label="序号"></el-table-column>-->
+						<!--&lt;!&ndash;<el-table-column label="ID" prop="id"></el-table-column>&ndash;&gt;-->
+						<!--<el-table-column label="患者姓名" prop="userName" width="80px"></el-table-column>-->
+            <!--<el-table-column label="患者电话" prop="userTel" width="120px"></el-table-column>-->
+            <!--<el-table-column label="药费" prop="amount" width="80px"></el-table-column>-->
+						<!--<el-table-column label="邮寄地址" prop="emsAddress" ></el-table-column>-->
+						<!--<el-table-column label="快递单号" prop="orderId" ></el-table-column>-->
+						<!--<el-table-column label="运单号" prop="mailNo" ></el-table-column>-->
+						<!--<el-table-column label="状态" prop="state" :formatter="stateFormatter">-->
+						<!--</el-table-column>-->
+			      <!--<el-table-column label="发货时间" prop="sendTime" :formatter="timeFormatter1"></el-table-column>-->
+            <!--<el-table-column label="操作">-->
+            <!--<template slot-scope="scope">-->
+				          <!--<el-button  @click="yaofang1(scope.row.id)" type="text" size="small">查看药方</el-button>-->
+                  <!--<el-button v-if="scope.row.state == '4'" @click="xiadan(scope.row,2)" type="text" size="small">下单</el-button>-->
+                  <!--<a v-if="scope.row.state == '41'" class='download' :href=printUrl(scope.row,2) download=""  title="下载">打印运单</a>-->
+                  <!--<el-button v-if="scope.row.state == '41'" @click="fahuo(scope.row,2)" type="text" size="small">已发货</el-button>-->
+                  <!--<el-button v-if="scope.row.state == '41'" @click="quxiao(scope.row,2)" type="text" size="small">取消订单</el-button>-->
+                  <!--<el-button v-if="scope.row.state == '5'" @click="wuliu(scope.row,2)" type="text" size="small">查看物流信息</el-button>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
+					<!--</el-table>-->
+					<!--&lt;!&ndash;分页栏&ndash;&gt;-->
+					<!--<div class="toolbar" style="padding:10px;">-->
+					<!--<el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshChufang"-->
+						<!--:current-page="chufangPage.pageNum" :page-size="chufangPage.pageSize" :total="chufangPage.total" style="float:right;">-->
+					<!--</el-pagination>-->
+					<!--</div>-->
+        <!--</el-tab-pane>-->
     </el-tabs>
 
 
@@ -169,43 +169,8 @@
             <div  v-for="(item,index) in chufang" :key="index">
 
 
-            <el-form label-width="90px" class="demo">
+            <el-form label-width="90px" class="demo" v-if="item.pharmacy!='5' && item.pharmacy!='6'">
                   <h2 align="left">第{{index+1}}张处方</h2>
-                    <!-- <el-row :gutter="10">
-                      <el-col :span="8">
-                        <el-form-item label="姓名：">
-                          <span>{{prescribiing.userName}}</span>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="8">
-                        <el-form-item label="性别：">
-                          <span v-if="prescribiing.userSex == '0'">男</span>
-                          <span v-if="prescribiing.userSex == '1'">女</span>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="8">
-                        <el-form-item label="年龄：">
-                          <span>{{prescribiing.userAge}}</span>
-                        </el-form-item>
-                      </el-col>
-                    </el-row>
-                    <el-row :gutter="15">
-                      <el-col :span="8">
-                        <el-form-item label="主治医生：" >
-                          <span>{{prescribiing.doctorName}}</span>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="8">
-                        <el-form-item label="审核人：" >
-                          <span>{{prescribiing.apothecaryName}}</span>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="8">
-                        <el-form-item label="发药人：" >
-                          <span>{{prescribiing.dispensingName}}</span>
-                        </el-form-item>
-                      </el-col>
-                    </el-row> -->
                     <el-row :gutter="15">
                       <el-col :span="8">
                         <el-form-item label="处方日期：" >
@@ -326,6 +291,59 @@
 
 
                   </el-form>
+              <el-form label-width="90px" class="demo" v-else>
+                <h2 align="left">第{{index+1}}张处方</h2>
+
+                <el-row :gutter="15">
+                  <el-col :span="8">
+                    <el-form-item label="药费：" >
+                      <el-input :disabled="true" v-model="item.amount">
+                        <template slot="append">元</template>
+                      </el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="服务费：">
+                      <el-input  v-model="item.serviceFee" disabled>
+                        <template slot="append">%</template>
+                      </el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="邮费：" >
+                      <el-input v-model="item.postage" disabled>
+                        <template slot="append">元</template>
+                      </el-input>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+                <el-row :gutter="15">
+                  <el-col :span="16">
+                    <el-form-item label="临床诊断：" >
+                      <span>{{item.clinical}}</span>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+                <el-row :gutter="15">
+                  <el-col :span="16">
+                    <el-form-item label="嘱托：" >
+                      <span>{{item.entrust}}</span>
+                    </el-form-item>
+                  </el-col>
+
+                  <el-col :span="8">
+                    <el-form-item label="" >
+                      <!-- <el-button type="primary" @click="getPdf">生出电子处方</el-button> -->
+                      <el-button @click="chakan(item)" type="primary" plain>查看药品</el-button>
+                      <a class='download' :href='downUrl(item,item.type)' download=""  title="下载">打印</a>
+                      <!-- <a href="http://localhost:8080/system/prescribing/download" download="电子处方">下载</a> -->
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+
+
+
+              </el-form>
                   </div>
           </el-dialog>
           <el-dialog  title="药品详情"  width="60%" :visible.sync="isShowYaoping" :close-on-click-modal="false">

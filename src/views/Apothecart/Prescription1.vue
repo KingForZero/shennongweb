@@ -57,43 +57,8 @@
             <div  v-for="(item,index) in chufang" :key="index">
 
             
-            <el-form label-width="90px" class="demo">
+            <el-form label-width="90px" class="demo"  v-if="item.pharmacy!='5' && item.pharmacy!='6'">
                   <h2 align="left">第{{index+1}}张处方</h2>
-                    <!-- <el-row :gutter="10">
-                      <el-col :span="8">
-                        <el-form-item label="姓名：">
-                          <span>{{prescribiing.userName}}</span>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="8">
-                        <el-form-item label="性别：">
-                          <span v-if="prescribiing.userSex == '0'">男</span>
-                          <span v-if="prescribiing.userSex == '1'">女</span>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="8">
-                        <el-form-item label="年龄：">
-                          <span>{{prescribiing.userAge}}</span>
-                        </el-form-item>
-                      </el-col>
-                    </el-row>
-                    <el-row :gutter="15">
-                      <el-col :span="8">
-                        <el-form-item label="主治医生：" >
-                          <span>{{prescribiing.doctorName}}</span>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="8">
-                        <el-form-item label="审核人：" >
-                          <span>{{prescribiing.apothecaryName}}</span>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="8">
-                        <el-form-item label="发药人：" >
-                          <span>{{prescribiing.dispensingName}}</span>
-                        </el-form-item>
-                      </el-col>
-                    </el-row> -->
                     <el-row :gutter="15">
                       <el-col :span="8">
                         <el-form-item label="处方日期：" >
@@ -207,6 +172,62 @@
                    
                       
                   </el-form>
+              <el-form label-width="90px" class="demo" v-else>
+                <h2 align="left">第{{index+1}}张处方</h2>
+
+                <el-row :gutter="15">
+                  <el-col :span="8">
+                    <el-form-item label="处方类型：">
+                      <el-select v-model="item.pharmacy" disabled>
+                        <el-option label="国内营养素" value="5"></el-option>
+                        <el-option label="国际营养素" value="6"></el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="药费：" >
+                      <el-input :disabled="true" v-model="item.amount">
+                        <template slot="append">元</template>
+                      </el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="服务费：">
+                      <el-input  v-model="item.serviceFee" disabled>
+                        <template slot="append">%</template>
+                      </el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="邮费：" >
+                      <el-input v-model="item.postage" disabled>
+                        <template slot="append">元</template>
+                      </el-input>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+                <el-row :gutter="15">
+                  <el-col :span="16">
+                    <el-form-item label="临床诊断：" >
+                      <span>{{item.clinical}}</span>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+                <el-row :gutter="15">
+                  <el-col :span="16">
+                    <el-form-item label="嘱托：" >
+                      <span>{{item.entrust}}</span>
+                    </el-form-item>
+                  </el-col>
+
+                  <el-col :span="8">
+                    <el-form-item label="" >
+                      <!-- <el-button type="primary" @click="getPdf">生出电子处方</el-button> -->
+                      <el-button @click="chakan(item)" type="primary" plain>查看药品</el-button>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+              </el-form>
                   </div>
           </el-dialog>
           <el-dialog  title="药品详情"  width="60%" :visible.sync="isShowYaoping" :close-on-click-modal="false">

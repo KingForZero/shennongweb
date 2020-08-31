@@ -1,8 +1,8 @@
 <template>
     <div >
-      <div style="text-align: center">
-        <h3>养生方案</h3>
-      </div>
+      <!--<div style="text-align: center">-->
+        <!--<h3>养生方案</h3>-->
+      <!--</div>-->
       <van-tabs color="#4DD0E1" type="card" v-model="activeName"  @click="onClick">
         <van-tab class="tab" v-for="item in nameList" :title="item" :name="item" :key="item"></van-tab>
       </van-tabs>
@@ -175,6 +175,7 @@
        },
       methods:{
         onClick(name,title){
+          console.log(name)
          this.selectReginmenByName(name)
           this.selectMedicalConditionByName(this.activeName,1)
         },
@@ -205,7 +206,8 @@
           })
         },
         onComClick(name,title){
-          this.selectMedicalConditionByName(this.activeName,Number(name)+1)
+          console.log("aaaa"+name)
+          this.selectMedicalConditionByName(this.activeName,Number(name))
         },
         detail(item){
           item.show = true

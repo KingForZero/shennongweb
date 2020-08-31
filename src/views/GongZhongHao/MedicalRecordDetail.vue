@@ -319,7 +319,7 @@
         },
         onSelect(item,index){
           let url = window.location.href+"/"
-          this.$api.gongZhongHao.getJsSdk({"url":url}).then((res) => {
+          this.$api.gongZhongHao.getJsSdk({"url":url,state:Cookies.get("state")}).then((res) => {
 
             if(res.code == 200) {
               this.wxshare(res.rows)
