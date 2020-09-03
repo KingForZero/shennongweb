@@ -81,7 +81,7 @@
         <van-tabs v-model="active" style="margin: 30px 0">
           <van-tab :title="title(item,index)" :key="index" v-for="(item, index) in medicalList">
             <van-cell-group>
-              <van-cell v-for="item1 in item.medicineList" :key="item1.index" :title="item1.name" :value="item1.amount"  />
+              <van-cell v-for="item1 in item.medicineList" :key="item1.index" :title="item1.name" :label="item1.entrust" :value="item1.amount"  />
             </van-cell-group>
           </van-tab>
         </van-tabs>
@@ -221,7 +221,7 @@
       methods:{
 
         title(item,index){
-          return "处方"+(index+1)+"共"+item.dosage+"剂"
+          return "处方"+(index+1)
         },
         show(){
           this.isShow = true
