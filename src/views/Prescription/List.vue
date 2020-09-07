@@ -56,6 +56,8 @@
           <el-radio-group v-model="dataForm.pharmacy">
             <el-radio label="1">饮片</el-radio>
             <el-radio label="3">颗粒剂</el-radio>
+            <el-radio label="5">国际营养素</el-radio>
+            <el-radio label="6">国内营养素</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="名称" prop="name">
