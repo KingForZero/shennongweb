@@ -1,7 +1,14 @@
 <template>
   <section class="van-doc-demo-section demo-field">
     <div class="van-doc-demo-block">
-      <h2 class="van-doc-demo-block__title"><span style="color: red">*</span>病情描述</h2>
+        <h2 class="van-doc-demo-block__title" style="display: flex;justify-content:space-between">
+          <div>
+            <span style="color: red">*</span>病情描述
+          </div>
+          <div>
+            <van-button @click="muban" type="primary" size="small">使用模板</van-button>
+          </div>
+        </h2>
       <van-field
         v-model=medicalRecord.extraMsg
         rows="6"
@@ -55,6 +62,31 @@
       }
     },
     methods: {
+      muban(){
+        this.medicalRecord.extraMsg = "1、工作类别（如学生、IT人员、办公室人员等）：\n" +
+          "2、饮食检查问卷\n" +
+          "你几乎每天都食用高糖、高盐、经过加工的食品（熏肉、咸菜、火腿等）吗?  \n" +
+          "答案：\n" +
+          "你每天吸烟的数量是否超过5支?  \n" +
+          "答案：\n" +
+          "你平均几天喝一次酒、喝多少? \n" +
+          " 答案：\n" +
+          "你每周食用煎炸食品、快餐、红肉的次数是否超过2次?  \n" +
+          "答案：\n" +
+          "你的饮食中，新鲜水果和蔬所占的比例是否还不到1/3?  \n" +
+          "答案：\n" +
+          "你是否经常食用白米、面粉或面色，而不常食用全谷类食物?  \n" +
+          "答案：\n" +
+          "你每天早晚餐吗、吃什么?   答案：\n" +
+          "3、运动调查问卷\n" +
+          "你每周从事持续20分钟以上高强度体育锻炼几次？  答案：\n" +
+          "你日常有什么运动项目吗？   答案：\n" +
+          "4、既往病史：\n" +
+          "（诊断结果、恢复情况等逐条简单描述）\n" +
+          "5、当前情况（简单描述）\n" +
+          "自我感觉哪里不舒服：\n" +
+          "做过的医学检查："
+      },
       onSubmit(){
         if(!this.medicalRecord.extraMsg){
           Toast("请填写内容")
