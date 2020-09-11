@@ -5,21 +5,21 @@
         <van-cell title="电话" :value="medicalRecord.userTel"  />
         <van-cell title="创建时间" :value="medicalRecord.createTime"  />
         <van-cell title="状态" :value="medicalRecord.status"  />
-        <van-cell title="补充信息" v-if="medicalRecord.extraMsg" :value="medicalRecord.extraMsg"  />
-        <van-cell title="补充信息图片" v-if="medicalRecord.extraPic"/>
+        <!--<van-cell title="补充信息" v-if="medicalRecord.extraMsg" :value="medicalRecord.extraMsg"  />-->
+        <!--<van-cell title="补充信息图片" v-if="medicalRecord.extraPic"/>-->
 
-        <div class="van-cell" v-if="medicalRecord.extraPic">
-          <div class="van-cell__value van-cell__value--alone">
-            <van-image
-              v-for="item in extraPicList"
-              :key="item.index"
-              width="5rem"
-              height="5rem"
-              fit="contain"
-              :src="item"
-            />
-          </div>
-        </div>
+        <!--<div class="van-cell" v-if="medicalRecord.extraPic">-->
+          <!--<div class="van-cell__value van-cell__value&#45;&#45;alone">-->
+            <!--<van-image-->
+              <!--v-for="item in extraPicList"-->
+              <!--:key="item.index"-->
+              <!--width="5rem"-->
+              <!--height="5rem"-->
+              <!--fit="contain"-->
+              <!--:src="item"-->
+            <!--/>-->
+          <!--</div>-->
+        <!--</div>-->
 
         <van-cell title="主治医生" :value="medicalRecord.docName"  />
         <!--<van-cell title="医生建议" :value="medicalRecord.docAdvice"  />-->
