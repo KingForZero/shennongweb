@@ -1,13 +1,13 @@
 <template>
   <el-form style="text-align: center" :model="loginForm" :rules="fieldRules" ref="loginForm" label-position="left" label-width="0px" class="demo-ruleForm login-container">
     <!-- <span class="tool-bar">
-      <!-- 主题切换 
+      <!-- 主题切换
       <theme-picker style="float:right;" class="theme-picker" :default="themeColor" @onThemeChange="onThemeChange"></theme-picker>
       <!-- 语言切换 -->
-      <!-- <lang-selector class="lang-selector"></lang-selector>   
+      <!-- <lang-selector class="lang-selector"></lang-selector>
     </span> -->
     <img style="width:135px" :src="logoUrl"></img>
-    <h2 class="title" >上医林健康管理系统</h2>
+    <h2 class="title" >营养健康服务云平台</h2>
     <el-form-item prop="tel">
       <el-input type="text" v-model="loginForm.tel" auto-complete="off" placeholder="账号"></el-input>
     </el-form-item>
@@ -84,7 +84,7 @@ export default {
           } else {
             Cookies.set('Authorization', res.rows.token) // 放置token到Cookie
             sessionStorage.setItem('user', userInfo.tel) // 保存用户到本地会话
-            
+
             sessionStorage.setItem('employee',JSON.stringify(res.rows))
             this.currentUser = JSON.parse(sessionStorage.getItem('employee'))
             console.log(this.currentUser)
@@ -155,7 +155,7 @@ export default {
     }
   },
   mounted() {
-  
+
   },
   computed:{
     ...mapState({

@@ -3,7 +3,7 @@
     <el-carousel :interval="3000" type="card" height="500px" class="carousel">
       <el-carousel-item class="carousel-item-intro">
         <div><img src="@/assets/logo_kitty_blue.png" style="width:200px;height:120px;padding-top:15px;" /></div>
-        <h2>上医林健康管理后台</h2>
+        <h2>营养健康服务云平台</h2>
         <ul>
           <li>医生的临床疗效研究平台</li>
           <li>医生健康服务工作平台</li>

@@ -37,7 +37,7 @@ const router = new Router({
       name: 'Home',
       component: Home,
       meta:{
-        title:'上医林健康'
+        title:'营养健康服务云平台'
       },
       children: [
         {
@@ -63,7 +63,7 @@ const router = new Router({
       name: 'Login',
       component: Login,
       meta:{
-        title:'上医林健康'
+        title:'营养健康服务云平台'
       }
     },
     {
@@ -71,7 +71,7 @@ const router = new Router({
       name: 'Download',
       component: Download,
       meta:{
-        title:'上医林健康-下载'
+        title:'营养健康服务云平台-下载'
       }
     },
     {
@@ -79,7 +79,7 @@ const router = new Router({
       name: 'Register',
       component: Register,
       meta:{
-        title:'上医林健康-注册'
+        title:'营养健康服务云平台-注册'
       }
     },
     {
@@ -87,7 +87,7 @@ const router = new Router({
       name: 'ForgetPwd',
       component: ForgetPwd,
       meta:{
-        title:'上医林健康-找回密码'
+        title:'营养健康服务云平台-找回密码'
       }
     },
     {
@@ -95,7 +95,7 @@ const router = new Router({
       name: 'UserRegister',
       component: UserRegister,
       meta:{
-        title:'上医林健康-患者注册'
+        title:'营养健康服务云平台-患者注册'
       }
     },
     {
