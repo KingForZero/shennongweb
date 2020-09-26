@@ -174,7 +174,7 @@
           <el-input type="textarea" autosize v-model="chanPinForm.effect" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="价格" prop="note">
-          <el-input type="number" v-model="chanPinForm.price" auto-complete="off"></el-input>
+          <el-input  v-model="chanPinForm.price" auto-complete="off"></el-input>
         </el-form-item>
 
       </el-form>
