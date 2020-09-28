@@ -112,4 +112,11 @@ export const selectMyDocGZ = (data) => {
     params:data
   })
 }
-
+//获取分享url
+export const getTicketByOpenId = (data) => {
+  return axios({
+    url: "/yingyangWx/getTicketByOpenId",
+    method: 'post',
+    params:data
+  })
+}

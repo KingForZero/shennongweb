@@ -24,6 +24,8 @@ import HealthProgram from "@/views/GongZhongHao/HealthProgram";
 import Reginmen from "@/views/GongZhongHao/Reginmen";
 import NutritionList from "@/views/GongZhongHao/NutritionList";
 import ChanPinList from "@/views/GongZhongHao/ChanPinList";
+import Share from "@/views/GongZhongHao/Share";
+
 
 import Cookies from "js-cookie"
 
@@ -135,7 +137,7 @@ const router = new Router({
       name: 'DoctorList',
       component: DoctorList,
       meta:{
-        title:'上医林健康-医生列表'
+        title:'医生列表'
       }
     },
     {
@@ -143,14 +145,14 @@ const router = new Router({
       name: 'DoctorDetail',
       component: DoctorDetail,
       meta:{
-        title:'上医林健康-医生详情'
+        title:'医生详情'
       }
     },{
       path: '/teletext',
       name: 'Teletext',
       component: Teletext,
       meta:{
-        title:'上医林健康-图文问诊'
+        title:'图文问诊'
       }
     },
     {
@@ -179,14 +181,21 @@ const router = new Router({
       name: 'Reginmen',
       component: Reginmen,
       meta:{
-        title:'上医林健康-体质报告'
+        title:'体质报告'
       }
     },{
       path: '/healthProgram',
       name: 'HealthProgram',
       component: HealthProgram,
       meta:{
-        title:'上医林健康-体质报告'
+        title:'体质报告'
+      }
+    },{
+      path: '/fenxiang',
+      name: 'Share',
+      component: Share,
+      meta:{
+        title:'公众号分享'
       }
     },
     {
@@ -243,7 +252,9 @@ router.beforeEach((to, from, next) => {
       next()
     }else if(to.path === '/healthProgram'){
       next()
-    } else if(to.path === '/medicalRecordListGZ'){
+    }else if(to.path === '/fenxiang'){
+      next()
+    }else if(to.path === '/medicalRecordListGZ'){
      //公众号我的订单按钮跳转链接
      //公众号获取用户授权openId
       window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxee2590252a0f8e99&redirect_uri=http%3a%2f%2fsoelaine.com%2fmedicalRecordList&response_type=code&scope=snsapi_base&state=1#wechat_redirect';
@@ -274,6 +285,9 @@ router.beforeEach((to, from, next) => {
     }else if(to.path === '/ddck'){
       //北美公众号订单查看按钮跳转链接
       window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx219c18e85cbbe024&redirect_uri=http%3a%2f%2fsoelaine.com%2fmedicalRecordList&response_type=code&scope=snsapi_base&state=2#wechat_redirect';
+    }else if(to.path === '/fxgzh'){
+      //北美公众号分享公众号跳转链接
+      window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx219c18e85cbbe024&redirect_uri=http%3a%2f%2fsoelaine.com%2ffenxiang&response_type=code&scope=snsapi_base&state=2#wechat_redirect';
     }else if(to.path === '/download'){
       next()
     }else{

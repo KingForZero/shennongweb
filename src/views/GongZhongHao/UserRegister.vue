@@ -130,7 +130,11 @@ export default {
         this.loginForm.state = Cookies.get("state")
         this.$api.user.cliengUser(this.loginForm).then((res) => {
           if(res.code == 200) {
-            this.$router.push({path: this.rePath})
+            if(this.rePath){
+              this.$router.push({path: this.rePath})
+            }else{
+              window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx219c18e85cbbe024&redirect_uri=http%3a%2f%2fsoelaine.com%2fdoctorList&response_type=code&scope=snsapi_base&state=2#wechat_redirect';
+            }
           } else {
             Toast(res.msg)
           }
