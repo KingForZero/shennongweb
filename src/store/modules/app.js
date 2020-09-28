@@ -1,6 +1,6 @@
 export default {
     state: {
-        appName: "上医林健康",  // 应用名称
+        appName: "营养健康服务云平台",  // 应用名称
         themeColor: "#14889A",  // 主题颜色
         oldThemeColor: "#14889A",   // 上一次主题颜色
         collapse:false,  // 导航栏收缩状态

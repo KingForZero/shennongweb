@@ -7,6 +7,7 @@
           </div>
           <div>
             <van-button @click="muban" type="primary" size="small">使用模板</van-button>
+            <van-button @click="clearmuban" type="danger" size="small" v-if="medicalRecord.extraMsg">清除内容</van-button>
           </div>
         </h2>
       <van-field
@@ -14,7 +15,7 @@
         rows="6"
         autosize
         type="textarea"
-        placeholder="请描述您的疾病发生部位、主要症状、持续时间、已就诊的信息和希望得到的帮助"
+        placeholder="健康信息采集"
       />
     </div>
     <div class="van-doc-demo-block">
@@ -86,6 +87,9 @@
           "5、当前情况（简单描述）\n" +
           "自我感觉哪里不舒服：\n" +
           "做过的医学检查："
+      },
+      clearmuban(){
+        this.medicalRecord.extraMsg = ""
       },
       onSubmit(){
         if(!this.medicalRecord.extraMsg){

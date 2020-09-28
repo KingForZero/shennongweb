@@ -56,6 +56,8 @@
           <el-radio-group v-model="dataForm.pharmacy">
             <el-radio label="1">饮片</el-radio>
             <el-radio label="3">颗粒剂</el-radio>
+            <el-radio label="5">国际营养素</el-radio>
+            <el-radio label="6">国内营养素</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="名称" prop="name">
@@ -64,12 +66,24 @@
         <el-form-item label="病名" prop="disaster">
           <el-input type="textarea" autosize v-model="dataForm.disaster" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="功效" prop="usage">
-          <el-input type="textarea" autosize v-model="dataForm.usage" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="用法" prop="useful">
-          <el-input type="textarea" autosize v-model="dataForm.useful" auto-complete="off"></el-input>
-        </el-form-item>
+        <div v-if="dataForm.pharmacy == '5'||dataForm.pharmacy=='6'">
+          <el-form-item label="疾病描述" prop="usage">
+            <el-input type="textarea" autosize v-model="dataForm.usage" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="膳食原则" prop="useful">
+            <el-input type="textarea" autosize v-model="dataForm.useful" auto-complete="off"></el-input>
+          </el-form-item>
+        </div>
+        <div v-else>
+          <el-form-item label="功效" prop="useful">
+            <el-input type="textarea" autosize v-model="dataForm.useful" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="用法" prop="usage">
+            <el-input type="textarea" autosize v-model="dataForm.usage" auto-complete="off"></el-input>
+          </el-form-item>
+
+        </div>
+
         <el-form-item label="食材" prop="foods">
           <el-input type="textarea" autosize v-model="dataForm.foods" auto-complete="off"></el-input>
         </el-form-item>
@@ -99,7 +113,14 @@
               ></el-autocomplete>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+
+          <el-col :span="4" v-if="dataForm.pharmacy == '5'||dataForm.pharmacy=='6'">
+            <el-form-item label="规格" prop="unit">
+              <el-input v-model="item.model" disabled auto-complete="off">
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4" v-else>
             <el-form-item label="数量" :prop="'medicalList.' + index + '.number'" :rules="{
                       required: true, message: '药名不能为空', trigger: 'blur'
                     }">
@@ -289,8 +310,10 @@
         this.medicalForm.medicalList[index].tcmId = item.id
         this.medicalForm.medicalList[index].unit = item.unit
         this.medicalForm.medicalList[index].price = item.price
-        this.medicalForm.medicalList[index].number = ""
-        this.medicalForm.medicalList[index].amount = ""
+        this.medicalForm.medicalList[index].number = 1
+        this.medicalForm.medicalList[index].amount = item.price
+        this.medicalForm.medicalList[index].model = item.model
+
         // this.medicalForm.medicalList.splice(index,1,{
         //   name:item.name,
         //   unit:item.unit,
@@ -304,6 +327,7 @@
           number:'',
           unit:'',
           price:'',
+          model:'',
           amount:'',
           entrust:''
         }]
@@ -323,6 +347,7 @@
             number:'',
             unit:'',
             price:'',
+            model:'',
             amount:'',
             entrust:''
           }
@@ -344,6 +369,7 @@
               number:'',
               unit:'',
               price:'',
+              model:'',
               amount:'',
               entrust:''
             })
