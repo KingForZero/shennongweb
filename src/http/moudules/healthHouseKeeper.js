@@ -21,6 +21,14 @@ export const selectPatient = (data) => {
         data
     })
 }
+//查询我的分享
+export const selectListShare = (data) => {
+  return axios({
+    url: '/system/share/selectList',
+    method: 'post',
+    data
+  })
+}
 //保存健康指导
 export const saveHealthGuidance = (data) => {
     return axios({
