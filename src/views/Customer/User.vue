@@ -18,13 +18,13 @@
 	<el-table :data="pageRequest.rows" style="width: 100%">
 		<el-table-column type="index" label="序号">
 		</el-table-column>
-		<el-table-column property="id" label="id" >
-		</el-table-column>
+		<!--<el-table-column property="id" label="id" >-->
+		<!--</el-table-column>-->
 		<el-table-column property="userTel" label="电话">
 		</el-table-column>
 		<el-table-column property="userName" label="姓名" >
 		</el-table-column>
-		
+
 		<el-table-column property="userLevel" label="是否是会员" :formatter="statusFormat">
 		</el-table-column>
 		<el-table-column property="createTime" label="创建时间" :formatter="timeFormat">
@@ -38,7 +38,7 @@
 	</el-table>
 	<!--分页栏-->
     <div class="toolbar" style="padding:10px;">
-      <el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshPageRequest" 
+      <el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshPageRequest"
         :current-page="pageRequest.pageNum" :page-size="pageRequest.pageSize" :total="pageRequest.total" style="float:right;">
       </el-pagination>
     </div>
@@ -46,7 +46,7 @@
 	<el-dialog title="成为会员" width="40%" :visible.sync="dialogVisible" :close-on-click-modal="false">
 		<el-form :model="dataForm" :rules="rules" ref="dataForm" label-width="80px">
 			<el-form-item  label="选择管家" prop="keeperId">
-				<el-select v-model="dataForm.keeperId" placeholder="请选择" style="margin-left:-431px">
+				<el-select v-model="dataForm.keeperId" placeholder="请选择">
 					<el-option
 					v-for="item in keeperList"
 					:key="item.id"
@@ -83,7 +83,7 @@ export default {
 	data() {
 		return {
 			keeperList:[],
-			
+
 			filters: {
 				tel: ''
 			},
@@ -91,10 +91,10 @@ export default {
 			columnFilters:{},
 			pageResult: {},
 
-			
+
 			dialogVisible: false, // 新增编辑界面是否显示
 			editLoading: false,
-		
+
 			// 新增编辑界面数据
 			dataForm: {
 				clinetId: '',
@@ -103,9 +103,9 @@ export default {
 			 rules: {
 					keeperId: [
 						{ required: true, message: '请选择管家', trigger: 'blur' },
-						
+
 					],
-					
+
 				},
 			deptData: [],
 			roles: [],
@@ -126,21 +126,21 @@ export default {
 						})
 			})
 		},
-		
+
 		addVip:function (id) {
 			this.dataForm.clinetId = id
 			this.selectKeeyperList()
 			this.dialogVisible = true
 		},
 		changeDepartmentTwo: function(data){
-			 
+
 			this.$api.department.findDepartmentTwoByid({"departmentOneId":data}).then((res) => {
 				// 加载角色集合
-				this.departMentTwoList = res.rows	
-				
+				this.departMentTwoList = res.rows
+
 			})
 		},
-	
+
 		// 获取分页数据
 		findPage: function (data) {
 			if(data) {
@@ -158,20 +158,20 @@ export default {
 			this.pageRequest.pageNum = pageNum
 			this.findPage(this.pageRequest)
 		},
-	
+
 		handleUserSelectChange:function (params) {
 			// alert("111")
 		},
-		
-		selectKeeyperList:function () {	
+
+		selectKeeyperList:function () {
 			 this.$api.user.selectKeeperList({pageNum: 1,pageSize: 100}).then((res) => {
 				// 加载角色集合
-				this.keeperList = res.rows	
-				
+				this.keeperList = res.rows
+
 			})
-			
+
 		},
-	
+
 		// 编辑
 		submitForm: function () {
 			this.$refs.dataForm.validate((valid) => {
@@ -191,9 +191,9 @@ export default {
 				}
 			})
 		},
-		
-		
-		
+
+
+
 		// 会员状态格式化
       	statusFormat: function (row, column, cellValue, index){
 			switch (row.userLevel){
@@ -209,8 +209,8 @@ export default {
 				return timestampToTime(row.createTime)
 			}
       	}
-		
-		
+
+
 	},
 	mounted() {
 		this.findPage(null)
@@ -219,7 +219,7 @@ export default {
 </script>
 
 <style scoped>
-	
+
   .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
