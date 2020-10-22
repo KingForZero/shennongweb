@@ -45,6 +45,7 @@ import ThemePicker from "@/components/ThemePicker"
 import LangSelector from "@/components/LangSelector"
 import { Toast } from 'vant';
 import Cookies from "js-cookie"
+import wx from 'weixin-js-sdk';
 export default {
   name: 'Login',
   components:{
@@ -130,11 +131,41 @@ export default {
         this.loginForm.state = Cookies.get("state")
         this.$api.user.cliengUser(this.loginForm).then((res) => {
           if(res.code == 200) {
-            if(this.rePath){
-              this.$router.push({path: this.rePath})
-            }else{
-              window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx219c18e85cbbe024&redirect_uri=http%3a%2f%2fsoelaine.com%2fdoctorList&response_type=code&scope=snsapi_base&state=2#wechat_redirect';
-            }
+            let url = window.location.href+"/"
+            this.$api.gongZhongHao.getJsSdk({url:url,state:Cookies.get("state")}).then((res) => {
+              if(res.code == 200) {
+                wx.config({
+                  debug: false,
+                  appId: res.rows.appId,
+                  timestamp: res.rows.timestamp,
+                  nonceStr: res.rows.nonceStr,
+                  signature: res.rows.signature,
+                  jsApiList : ['closeWindow']
+                });
+                wx.error(function(res) {
+                  alert("出错了：" + res.errMsg);
+                });
+                wx.ready(function() {
+                  wx.checkJsApi({
+                    jsApiList : ['closeWindow'],
+                    success : function(res) {
+                    }
+                  });
+                  //退出微信浏览器
+                  wx.closeWindow();
+                });
+              }else{
+                Dialog.alert({
+                  message: res.rows.msg
+                }).then(() => {
+                  // on close
+                });
+              }
+            })
+
+
+
+
           } else {
             Toast(res.msg)
           }

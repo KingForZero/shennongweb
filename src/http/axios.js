@@ -58,8 +58,8 @@ export default function $axios(options) {
                     }else if(rePath.indexOf('doctorList')!= -1){
                       rePath = 'docList'
                     }
-                    //router.push('/userRegister')
-                    router.push({path: '/userRegister', query: {rePath: rePath}})
+                    router.push('/userRegister')
+                    //router.push({path: '/userRegister', query: {rePath: rePath}})
                   });
 
                 }
