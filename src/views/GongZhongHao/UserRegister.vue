@@ -132,28 +132,9 @@ export default {
         this.$api.user.cliengUser(this.loginForm).then((res) => {
           if(res.code == 200) {
             let url = window.location.href+"/"
-            this.$api.gongZhongHao.getJsSdk({url:url,state:Cookies.get("state")}).then((res) => {
+            this.$api.gongZhongHao.getJsSdk({"url":url,state:Cookies.get("state")}).then((res) => {
               if(res.code == 200) {
-                wx.config({
-                  debug: false,
-                  appId: res.rows.appId,
-                  timestamp: res.rows.timestamp,
-                  nonceStr: res.rows.nonceStr,
-                  signature: res.rows.signature,
-                  jsApiList : ['closeWindow']
-                });
-                wx.error(function(res) {
-                  alert("出错了：" + res.errMsg);
-                });
-                wx.ready(function() {
-                  wx.checkJsApi({
-                    jsApiList : ['closeWindow'],
-                    success : function(res) {
-                    }
-                  });
-                  //退出微信浏览器
-                  wx.closeWindow();
-                });
+                this.wxshare(res.rows)
               }else{
                 Dialog.alert({
                   message: res.rows.msg
@@ -162,10 +143,6 @@ export default {
                 });
               }
             })
-
-
-
-
           } else {
             Toast(res.msg)
           }
@@ -175,10 +152,35 @@ export default {
           type: 'error'
           })
         })
-
+    },
+    wxshare(data) {
+      var appId = data.appId;
+      var timestamp = data.timestamp;
+      var nonceStr = data.nonceStr;
+      var signature = data.signature;
+      wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: appId, // 必填，公众号的唯一标识
+        timestamp: timestamp, // 必填，生成签名的时间戳
+        nonceStr: nonceStr, // 必填，生成签名的随机串
+        signature: signature, // 必填，签名，见附录1
+        jsApiList: ['closeWindow']
+      });
+      wx.error(function(res){
+        // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+      });
+      wx.ready(function() {
+        wx.checkJsApi({
+          jsApiList : ['closeWindow'],
+          success : function(res) {
+            console.log("closeWindow成功")
+          }
+        });
+        //退出微信浏览器
+        wx.closeWindow();
+      });
 
     },
-
     fanhui() {
       this.$router.push("/login")
     },
