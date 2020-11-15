@@ -22,6 +22,9 @@
               <div class="ziTi">{{item.price}}</div>
             </div>
             <div style="margin: 6px 19px;">
+              <div class="detailButton" style="text-align: center;" @click="sale()">点击购买</div>
+            </div>
+            <div style="margin: 6px 19px;">
               <div class="detailButton" style="text-align: center;" @click="shouqi(item)">收起</div>
             </div>
           </div>
@@ -59,6 +62,19 @@
           }
         },
       methods:{
+        sale(){
+          Dialog.confirm({
+            title: '提示',
+            message: '为了保证你的健康，平台所有产品使用均需咨询专业人士',
+          })
+            .then(() => {
+              // on confirm
+              this.$router.push({path: '/doctorList'})
+            })
+            .catch(() => {
+              // on cancel
+            });
+        },
         shouqi(item){
           item.show = false
           this.$forceUpdate()
@@ -107,16 +123,29 @@
             Cookies.set("state",state)
           }
           if(code){
-            this.$api.assistant.getYingYangOpenId({code:code}).then((res) => {
-              if(res.rows.openid){
-                Cookies.set("openId",res.rows.openid)
-              }
-              //获取邀请人id
-              if(res.rows.fromId){
-                Cookies.set("fromId",res.rows.fromId)
-              }
-              this.selectList()
-            })
+            if(state == '1'){
+              this.$api.assistant.getOpenId({code:code}).then((res) => {
+                if(res.rows.openid){
+                  Cookies.set("openId",res.rows.openid)
+                }
+                if(res.rows.fromId){
+                  Cookies.set("fromId",res.rows.fromId)
+                }
+                this.selectList()
+              })
+            }else if(state == 2){
+              this.$api.assistant.getYingYangOpenId({code:code}).then((res) => {
+                if(res.rows.openid){
+                  Cookies.set("openId",res.rows.openid)
+                }
+                //获取邀请人id
+                if(res.rows.fromId){
+                  Cookies.set("fromId",res.rows.fromId)
+                }
+                this.selectList()
+              })
+            }
+
           }
         }
       },
