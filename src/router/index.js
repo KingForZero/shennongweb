@@ -270,6 +270,9 @@ router.beforeEach((to, from, next) => {
       //上医云公众号体质辨识按钮跳转链接
       //公众号获取用户授权openId
       window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxee2590252a0f8e99&redirect_uri=http%3a%2f%2fsoelaine.com%2fhealthAssessment&response_type=code&scope=snsapi_base&state=1#wechat_redirect';
+    }else if(to.path === '/gjdg'){
+      //上医云公众号产品介绍按钮跳转链接
+      window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxee2590252a0f8e99&redirect_uri=http%3a%2f%2fsoelaine.com%2fchanPinList&response_type=code&scope=snsapi_base&state=1#wechat_redirect';
     }else if(to.path === '/yyfa'){
       //北美公众号营养方案按钮跳转链接
       window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx219c18e85cbbe024&redirect_uri=http%3a%2f%2fsoelaine.com%2fnutritionList&response_type=code&scope=snsapi_base&state=2#wechat_redirect';

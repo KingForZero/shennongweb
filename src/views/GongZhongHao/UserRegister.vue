@@ -46,6 +46,7 @@ import LangSelector from "@/components/LangSelector"
 import { Toast } from 'vant';
 import Cookies from "js-cookie"
 import wx from 'weixin-js-sdk';
+import { Dialog } from 'vant';
 export default {
   name: 'Login',
   components:{
@@ -131,18 +132,24 @@ export default {
         this.loginForm.state = Cookies.get("state")
         this.$api.user.cliengUser(this.loginForm).then((res) => {
           if(res.code == 200) {
-            let url = window.location.href+"/"
-            this.$api.gongZhongHao.getJsSdk({"url":url,state:Cookies.get("state")}).then((res) => {
-              if(res.code == 200) {
-                this.wxshare(res.rows)
-              }else{
-                Dialog.alert({
-                  message: res.rows.msg
-                }).then(() => {
-                  // on close
-                });
-              }
-            })
+            Dialog.alert({
+              message: "注册成功"
+            }).then(() => {
+              // on close
+              let url = window.location.href+"/"
+              this.$api.gongZhongHao.getJsSdk({"url":url,state:Cookies.get("state")}).then((res) => {
+                if(res.code == 200) {
+                  this.wxshare(res.rows)
+                }else{
+                  Dialog.alert({
+                    message: res.rows.msg
+                  }).then(() => {
+                    // on close
+                  });
+                }
+              })
+            });
+
           } else {
             Toast(res.msg)
           }
@@ -193,6 +200,8 @@ export default {
     this.rePath = this.$route.query.rePath || ''
     let openId = this.$route.query.openId || Cookies.get("openId")
     let fromId = this.$route.query.fromId || Cookies.get("fromId")
+    let state = this.$route.query.state || Cookies.get("state")
+    Cookies.set("state",state)
     if(fromId){
       this.loginForm.fromId = fromId
     }

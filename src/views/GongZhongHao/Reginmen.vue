@@ -44,7 +44,7 @@
       </div>
       <div class="back">
         <van-tabs color="#4DD0E1" type="card" v-model="tabName"  @click="onComClick">
-          <van-tab title="药膳方案" name="1">
+          <van-tab title="中药调理" name="1">
             <div  v-for="item in yaoshanList" :key="item.name">
               <div v-if="item.show">
                 <div>
@@ -73,37 +73,7 @@
 
             </div>
           </van-tab>
-          <van-tab title="养生茶饮" name="2">
-            <div  v-for="item in yaoshanList" :key="item.name">
-              <div v-if="item.show">
-                <div>
-                  <img class="midTab" style="width: 90%;height: 152px;" :src="item.image">
-                </div>
-                <div style="margin: 6px 19px;">{{item.name}}</div>
-                <div style="margin: 6px 19px;">
-                  <div style="display: flex;margin: 8px 0px;"><div class="choose"></div>用料清单</div>
-                  <div class="ziTi">{{item.repertoire}}</div>
-                  <div style="display: flex;margin: 8px 0px;"><div class="choose"></div>烹煮方法</div>
-                  <div class="ziTi">{{item.cookingMethod}}</div>
-                  <div style="display: flex;margin: 8px 0px;"><div class="choose"></div>功效主治</div>
-                  <div class="ziTi">{{item.effect}}</div>
-                  <div style="display: flex;margin: 8px 0px;"><div class="choose"></div>说明</div>
-                  <div class="ziTi">{{item.explain}}</div>
-                </div>
-              </div>
-              <div class="yaoshan" v-else>
-                <div>
-                  <img class="midTab" style="width: 125px;height: 80px;" :src="item.image">
-                </div>
-                <div class="midTab midDiv">
-                  <div style="display: flex;"><div class="choose"></div> {{item.name}}</div>
-                  <div class="ziTi">{{item.effectStr}}</div>
-                  <div class="detailButton" @click="detail(item)">查看详情</div>
-                </div>
-              </div>
-            </div>
-          </van-tab>
-          <!--<van-tab title="穴位调理" >-->
+          <!--<van-tab title="养生茶饮" name="2">-->
             <!--<div  v-for="item in yaoshanList" :key="item.name">-->
               <!--<div v-if="item.show">-->
                 <!--<div>-->
@@ -111,10 +81,10 @@
                 <!--</div>-->
                 <!--<div style="margin: 6px 19px;">{{item.name}}</div>-->
                 <!--<div style="margin: 6px 19px;">-->
-                  <!--<div style="display: flex;margin: 8px 0px;"><div class="choose"></div>定位方法</div>-->
-                  <!--<div class="ziTi">{{item.positioningMethod}}</div>-->
-                  <!--<div style="display: flex;margin: 8px 0px;"><div class="choose"></div>操作方法</div>-->
-                  <!--<div class="ziTi">{{item.operationMethod}}</div>-->
+                  <!--<div style="display: flex;margin: 8px 0px;"><div class="choose"></div>用料清单</div>-->
+                  <!--<div class="ziTi">{{item.repertoire}}</div>-->
+                  <!--<div style="display: flex;margin: 8px 0px;"><div class="choose"></div>烹煮方法</div>-->
+                  <!--<div class="ziTi">{{item.cookingMethod}}</div>-->
                   <!--<div style="display: flex;margin: 8px 0px;"><div class="choose"></div>功效主治</div>-->
                   <!--<div class="ziTi">{{item.effect}}</div>-->
                   <!--<div style="display: flex;margin: 8px 0px;"><div class="choose"></div>说明</div>-->
@@ -133,7 +103,37 @@
               <!--</div>-->
             <!--</div>-->
           <!--</van-tab>-->
-          <van-tab title="细胞营养"  name="4">
+          <van-tab title="穴位调理" name="3">
+            <div  v-for="item in yaoshanList" :key="item.name">
+              <div v-if="item.show">
+                <div>
+                  <img class="midTab" style="width: 90%;height: 152px;" :src="item.image">
+                </div>
+                <div style="margin: 6px 19px;">{{item.name}}</div>
+                <div style="margin: 6px 19px;">
+                  <div style="display: flex;margin: 8px 0px;"><div class="choose"></div>定位方法</div>
+                  <div class="ziTi">{{item.positioningMethod}}</div>
+                  <div style="display: flex;margin: 8px 0px;"><div class="choose"></div>操作方法</div>
+                  <div class="ziTi">{{item.operationMethod}}</div>
+                  <div style="display: flex;margin: 8px 0px;"><div class="choose"></div>功效主治</div>
+                  <div class="ziTi">{{item.effect}}</div>
+                  <div style="display: flex;margin: 8px 0px;"><div class="choose"></div>说明</div>
+                  <div class="ziTi">{{item.explain}}</div>
+                </div>
+              </div>
+              <div class="yaoshan" v-else>
+                <div>
+                  <img class="midTab" style="width: 125px;height: 80px;" :src="item.image">
+                </div>
+                <div class="midTab midDiv">
+                  <div style="display: flex;"><div class="choose"></div> {{item.name}}</div>
+                  <div class="ziTi">{{item.effectStr}}</div>
+                  <div class="detailButton" @click="detail(item)">查看详情</div>
+                </div>
+              </div>
+            </div>
+          </van-tab>
+          <van-tab title="优化营养素"  name="4">
             <div  v-for="item in yaoshanList" :key="item.name" style="border-bottom: 1px solid rgba(0,0,0,.1);">
                 <div style="margin: 6px 19px;">{{item.name}}</div>
                 <div style="margin: 6px 33px;">
