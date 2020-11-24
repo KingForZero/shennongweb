@@ -69,7 +69,7 @@
           })
             .then(() => {
               // on confirm
-              this.$router.push({path: '/doctorList'})
+              window.location.href = 'http://soelaine.com/docList'
             })
             .catch(() => {
               // on cancel
