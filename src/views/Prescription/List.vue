@@ -60,17 +60,20 @@
             <el-radio label="6">国内营养素</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="名称" prop="name">
+        <el-form-item label="分类" prop="name">
           <el-input v-model="dataForm.name" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="病名" prop="disaster">
           <el-input type="textarea" autosize v-model="dataForm.disaster" auto-complete="off"></el-input>
         </el-form-item>
         <div v-if="dataForm.pharmacy == '5'||dataForm.pharmacy=='6'">
-          <el-form-item label="疾病描述" prop="usage">
+          <el-form-item label="用法" prop="usage">
+            <el-input type="textarea" autosize v-model="dataForm.model" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="描述" prop="usage">
             <el-input type="textarea" autosize v-model="dataForm.usage" auto-complete="off"></el-input>
           </el-form-item>
-          <el-form-item label="膳食原则" prop="useful">
+          <el-form-item label="其他" prop="useful">
             <el-input type="textarea" autosize v-model="dataForm.useful" auto-complete="off"></el-input>
           </el-form-item>
         </div>

@@ -255,19 +255,19 @@ router.beforeEach((to, from, next) => {
     }else if(to.path === '/fenxiang'){
       next()
     }else if(to.path === '/medicalRecordListGZ'){
-     //公众号我的订单按钮跳转链接
+     //上医云公众号我的订单按钮跳转链接
      //公众号获取用户授权openId
       window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxee2590252a0f8e99&redirect_uri=http%3a%2f%2fsoelaine.com%2fmedicalRecordList&response_type=code&scope=snsapi_base&state=1#wechat_redirect';
     }else if(to.path === '/docList'){
-      //公众号在线咨询按钮跳转链接
+      //上医云公众号在线咨询按钮跳转链接
       //公众号获取用户授权openId
       window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxee2590252a0f8e99&redirect_uri=http%3a%2f%2fsoelaine.com%2fdoctorList&response_type=code&scope=snsapi_base&state=3#wechat_redirect';
     }else if(to.path === '/myDoc'){
-      //公众号我的医生按钮跳转链接
+      //上医云公众号我的医生按钮跳转链接
       //公众号获取用户授权openId
       window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxee2590252a0f8e99&redirect_uri=http%3a%2f%2fsoelaine.com%2fdoctorList&response_type=code&scope=snsapi_base&state=4#wechat_redirect';
     }else if(to.path === '/physiqueLink'){
-      //公众号体质辨识按钮跳转链接
+      //上医云公众号体质辨识按钮跳转链接
       //公众号获取用户授权openId
       window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxee2590252a0f8e99&redirect_uri=http%3a%2f%2fsoelaine.com%2fhealthAssessment&response_type=code&scope=snsapi_base&state=1#wechat_redirect';
     }else if(to.path === '/yyfa'){

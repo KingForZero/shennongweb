@@ -25,7 +25,12 @@
         <!--<van-cell title="医生建议" :value="medicalRecord.docAdvice"  />-->
         <van-cell v-if="medicalRecord.isNutrition == '1'" title="点击寻找营养专家" is-link to="docList" />
         <van-cell title="临床诊断"  :value="clinical"  />
-        <van-cell title="嘱托"  :value="entrust"  />
+        <div  class="van-cell"><div class="van-cell__title" style="
+          padding-left: -3px;
+          padding-left: -5px;
+      "><span>嘱托</span></div><div  class="van-cell__value" style="
+          flex-basis: 175px;
+      "><span>{{entrust}}</span></div></div>
         <van-cell title="病历图片" v-if="medicalRecord.caseHistoryDoc" />
         <div class="van-cell" v-if="medicalRecord.caseHistoryDoc">
           <div class="van-cell__value van-cell__value--alone">
