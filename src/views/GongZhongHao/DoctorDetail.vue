@@ -35,9 +35,9 @@
       <div class="van-cell__label" style="margin: 16px;">
         {{data.docMark}}
       </div>
-    <h4 class="van-doc-demo-block__title">企业微信</h4>
+    <h4 class="van-doc-demo-block__title">平台顾问</h4>
     <div class="van-cell__label" style="margin: 16px;">
-      长按图片添加医生企业微信，有助于详细判断您的病情
+      长按图片咨询平台顾问，有助于详细判断您的病情
       <van-image
         width="100"
         height="100"
