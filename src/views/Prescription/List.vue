@@ -117,13 +117,13 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="4" v-if="dataForm.pharmacy == '5'||dataForm.pharmacy=='6'">
+          <el-col :span="3" v-if="dataForm.pharmacy == '5'||dataForm.pharmacy=='6'">
             <el-form-item label="规格" prop="unit">
               <el-input v-model="item.model" disabled auto-complete="off">
               </el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="4" v-else>
+          <el-col :span="3" v-else>
             <el-form-item label="数量" :prop="'medicalList.' + index + '.number'" :rules="{
                       required: true, message: '药名不能为空', trigger: 'blur'
                     }">
@@ -131,20 +131,26 @@
               </el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="3">
+            <el-form-item label="用法" prop="unit">
+              <el-input v-model="item.usage" auto-complete="off">
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="3">
             <el-form-item label="单位" prop="unit">
               <el-input v-model="item.unit" disabled auto-complete="off">
               </el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="3">
             <el-form-item label="金额" prop="amount">
               <el-input v-model="item.amount"  disabled auto-complete="off">
                 <template slot="append">元</template>
               </el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="3">
             <el-form-item label="" prop="price">
               <el-button @click="addMedical" type="primary">新增</el-button>
               <el-button @click.prevent="removeMedical(item.id,index)">删除</el-button>
