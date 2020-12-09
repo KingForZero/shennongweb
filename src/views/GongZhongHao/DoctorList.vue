@@ -146,7 +146,7 @@
         this.$router.push({path: '/doctorDetail', query: {id: id}})
       },
       tw(id){
-        this.$router.push({path: '/teletext', query: {id: id}})
+        this.$router.push({path: '/contact', query: {id: id}})
       },
       select(){
         let code = this.$route.query.code
@@ -157,31 +157,32 @@
           Cookies.set("state",2)
         }
         this.state =state
-        if(code){
-          //state=3代表上医云的医生列表 4代表上医云的我的医生  2代表北美容大公众号的医生列表
-          if(state == '3'||state == '4'){
-            this.$api.assistant.getOpenId({code:code}).then((res) => {
-              if(res.rows.openid){
-                Cookies.set("openId",res.rows.openid)
-              }
-              if(res.rows.fromId){
-                Cookies.set("fromId",res.rows.fromId)
-              }
-              this.selectDocList(state)
-            })
-          }else if(state == '2'){
-            this.$api.assistant.getYingYangOpenId({code:code}).then((res) => {
-              if(res.rows.openid){
-                Cookies.set("openId",res.rows.openid)
-              }
-              if(res.rows.fromId){
-                Cookies.set("fromId",res.rows.fromId)
-              }
-              this.selectDocList(state)
-            })
-          }
-
-        }
+        this.selectDocList(state)
+        // if(code){
+        //   //state=3代表上医云的医生列表 4代表上医云的我的医生  2代表北美容大公众号的医生列表
+        //   if(state == '3'||state == '4'){
+        //     this.$api.assistant.getOpenId({code:code}).then((res) => {
+        //       if(res.rows.openid){
+        //         Cookies.set("openId",res.rows.openid)
+        //       }
+        //       if(res.rows.fromId){
+        //         Cookies.set("fromId",res.rows.fromId)
+        //       }
+        //       this.selectDocList(state)
+        //     })
+        //   }else if(state == '2'){
+        //     this.$api.assistant.getYingYangOpenId({code:code}).then((res) => {
+        //       if(res.rows.openid){
+        //         Cookies.set("openId",res.rows.openid)
+        //       }
+        //       if(res.rows.fromId){
+        //         Cookies.set("fromId",res.rows.fromId)
+        //       }
+        //       this.selectDocList(state)
+        //     })
+        //   }
+        //
+        // }
 
       }
     },

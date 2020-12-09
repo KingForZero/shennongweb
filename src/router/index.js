@@ -25,6 +25,7 @@ import Reginmen from "@/views/GongZhongHao/Reginmen";
 import NutritionList from "@/views/GongZhongHao/NutritionList";
 import ChanPinList from "@/views/GongZhongHao/ChanPinList";
 import Share from "@/views/GongZhongHao/Share";
+import Contact from "@/views/GongZhongHao/Contact";
 
 
 import Cookies from "js-cookie"
@@ -199,6 +200,14 @@ const router = new Router({
       }
     },
     {
+      path: '/contact',
+      name: 'Contact',
+      component: Contact,
+      meta:{
+        title:'联系人'
+      }
+    },
+    {
       path: '/404',
       name: 'notFound',
       component: NotFound
@@ -253,6 +262,8 @@ router.beforeEach((to, from, next) => {
     }else if(to.path === '/healthProgram'){
       next()
     }else if(to.path === '/fenxiang'){
+      next()
+    }else if(to.path === '/contact'){
       next()
     }else if(to.path === '/medicalRecordListGZ'){
      //上医云公众号我的订单按钮跳转链接

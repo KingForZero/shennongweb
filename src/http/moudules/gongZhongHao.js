@@ -120,3 +120,27 @@ export const getTicketByOpenId = (data) => {
     params:data
   })
 }
+//查询就诊人信息
+export const selectChildUserByUserId = (data) => {
+  return axios({
+    url: "/system/clientChildUser/selectChildUserByUserId",
+    method: 'post',
+    params:data
+  })
+}
+//编辑就诊人信息
+export const editChildUser = (data) => {
+  return axios({
+    url: "/system/clientChildUser/editChildUser",
+    method: 'post',
+    data
+  })
+}
+//删除就诊人信息
+export const removeChildUser = (data) => {
+  return axios({
+    url: "/system/clientChildUser/removeChildUser",
+    method: 'post',
+    params:data
+  })
+}
