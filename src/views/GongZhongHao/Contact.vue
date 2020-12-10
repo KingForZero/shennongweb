@@ -105,7 +105,7 @@
     name: 'Contact',
     data() {
       return {
-        userId:'1327579866419978242',
+        openId:'',
         docId:'',
         minDate: new Date(1920, 0, 1),
         maxDate: new Date(),
@@ -136,8 +136,8 @@
         this.$router.push({path: '/teletext', query: {id: this.docId,userChildId:userChildId}})
       },
       selectContact(){
-
-        this.$api.gongZhongHao.selectChildUserByUserId({userId:this.userId}).then((res) => {
+        this.openId = Cookies.get("openId")
+        this.$api.gongZhongHao.selectChildUserByUserId({openId:this.openId}).then((res) => {
           if(res.code == 200) {
             let data = res.rows
             this.contactList = data
@@ -145,7 +145,7 @@
         })
       },
       editContact(){
-        this.contact.parentUserId = this.userId
+        this.contact.openId = this.openId
         this.$api.gongZhongHao.editChildUser(this.contact).then((res) => {
           if(res.code == 200) {
             this.show = false

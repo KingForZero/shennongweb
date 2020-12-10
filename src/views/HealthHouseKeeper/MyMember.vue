@@ -1027,6 +1027,7 @@
           </el-dialog>
 		  <!--新增健康健康方案页-->
           <el-dialog  title="健康方案"  width="90%" :visible.sync="isShowProgramme" :close-on-click-modal="false" @close='closeProgrammeDialog'>
+
             <el-form :model="programmeForm" label-width="80px"  :size="size" label-position="right">
               <el-form-item label="ID"  v-if="false">
                 <el-input v-model="programmeForm.id"  auto-complete="off"></el-input>

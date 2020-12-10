@@ -59,7 +59,8 @@
         docList:[],
         loading: false,
         finished: false,
-        fileList:[]
+        fileList:[],
+        userChildId:''
       }
     },
     methods: {
@@ -116,6 +117,7 @@
             this.medicalRecord.extraPic = res.data.rows
           //记录是那个公众号的记录 1上医云 2北美容大
             this.medicalRecord.state = Cookies.get("state")
+            this.medicalRecord.userChildId = this.userChildId
           //创建医疗记录
           this.$api.gongZhongHao.addByGZhao(this.medicalRecord).then((res) => {
             if(res.code == 200) {
@@ -216,6 +218,7 @@
     },
     mounted() {
       this.selectById(this.$route.query.id)
+      this.userChildId = this.$route.query.userChildId
     }
   }
 </script>

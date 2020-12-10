@@ -4,15 +4,15 @@
 <!--      <h3>在线咨询</h3>-->
 <!--    </div>-->
     <div class="back" v-if="state != '1'">
-      <div style="display: flex">
-        <div style="width: 3px;height: 20px;background-color: #4DD0E1;margin-right: 4px;"></div>
-        <div style="font-weight: bold">选择科室</div>
-      </div>
-      <div class="base1">
-        <div class="tab" :class="{choose:idx==index}" v-for="(item,index) in departMentOneList"
-             :key="index"
-             @click="clickTab(item,index)">{{item.departmentOneName}}</div>
-      </div>
+      <!--<div style="display: flex">-->
+        <!--<div style="width: 3px;height: 20px;background-color: #4DD0E1;margin-right: 4px;"></div>-->
+        <!--<div style="font-weight: bold">选择科室</div>-->
+      <!--</div>-->
+      <!--<div class="base1">-->
+        <!--<div class="tab" :class="{choose:idx==index}" v-for="(item,index) in departMentOneList"-->
+             <!--:key="index"-->
+             <!--@click="clickTab(item,index)">{{item.departmentOneName}}</div>-->
+      <!--</div>-->
     </div>
     <div class="back">
       <div style="display: flex">
@@ -112,7 +112,7 @@
             })
           }else{
             let a = {
-              "departmentOneName":"细胞营养研究中心",
+              "departmentOneName":"细胞营养健康研究中心",
               "departmentOneId":"10"
             }
             this.clickTab(a,1)
@@ -157,32 +157,32 @@
           Cookies.set("state",2)
         }
         this.state =state
-        this.selectDocList(state)
-        // if(code){
-        //   //state=3代表上医云的医生列表 4代表上医云的我的医生  2代表北美容大公众号的医生列表
-        //   if(state == '3'||state == '4'){
-        //     this.$api.assistant.getOpenId({code:code}).then((res) => {
-        //       if(res.rows.openid){
-        //         Cookies.set("openId",res.rows.openid)
-        //       }
-        //       if(res.rows.fromId){
-        //         Cookies.set("fromId",res.rows.fromId)
-        //       }
-        //       this.selectDocList(state)
-        //     })
-        //   }else if(state == '2'){
-        //     this.$api.assistant.getYingYangOpenId({code:code}).then((res) => {
-        //       if(res.rows.openid){
-        //         Cookies.set("openId",res.rows.openid)
-        //       }
-        //       if(res.rows.fromId){
-        //         Cookies.set("fromId",res.rows.fromId)
-        //       }
-        //       this.selectDocList(state)
-        //     })
-        //   }
-        //
-        // }
+        // this.selectDocList(state)
+        if(code){
+          //state=3代表上医云的医生列表 4代表上医云的我的医生  2代表北美容大公众号的医生列表
+          if(state == '3'||state == '4'){
+            this.$api.assistant.getOpenId({code:code}).then((res) => {
+              if(res.rows.openid){
+                Cookies.set("openId",res.rows.openid)
+              }
+              if(res.rows.fromId){
+                Cookies.set("fromId",res.rows.fromId)
+              }
+              this.selectDocList(state)
+            })
+          }else if(state == '2'){
+            this.$api.assistant.getYingYangOpenId({code:code}).then((res) => {
+              if(res.rows.openid){
+                Cookies.set("openId",res.rows.openid)
+              }
+              if(res.rows.fromId){
+                Cookies.set("fromId",res.rows.fromId)
+              }
+              this.selectDocList(state)
+            })
+          }
+
+        }
 
       }
     },
