@@ -55,13 +55,13 @@
 						<el-table-column label="患者姓名" prop="userName" width="80px"></el-table-column>
             <el-table-column label="患者电话" prop="userTel" width="120px"></el-table-column>
             <el-table-column label="药费" prop="drugAmount" width="80px"></el-table-column>
-            <el-table-column label="邮寄地址" prop="emsAddress"></el-table-column>
-            <el-table-column label="剂型" prop="dosageType" :formatter="dosageTypeFormatter"></el-table-column>
+            <el-table-column label="邮寄地址" prop="emsAddress" width="150px" show-overflow-tooltip></el-table-column>
+            <el-table-column label="剂型" prop="dosageType" width="80px" :formatter="dosageTypeFormatter"></el-table-column>
 						<!-- <el-table-column label="快递单号" prop="orderId"></el-table-column> -->
-            <el-table-column label="处方编号" prop="recordId"></el-table-column>
-						<el-table-column label="运单号" prop="mailNo"></el-table-column>
+            <!--<el-table-column label="处方编号" prop="recordId"></el-table-column>-->
+						<el-table-column label="运单号" prop="mailNo" width="80px"></el-table-column>
 						<el-table-column label="状态" prop="recordState" :formatter="recordStateFormatter" width="80px"></el-table-column>
-            <el-table-column label="发货时间" prop="sendTime" :formatter="timeFormatter1"></el-table-column>
+            <el-table-column label="发货时间" prop="sendTime" width="80px" :formatter="timeFormatter1"></el-table-column>
 			      <!-- <el-table-column label="审核人" prop="auditName" width="80px"></el-table-column> -->
             <el-table-column label="操作">
             <template slot-scope="scope">
