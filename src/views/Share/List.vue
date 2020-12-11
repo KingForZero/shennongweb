@@ -23,133 +23,38 @@
       </el-table-column>
       <!--		<el-table-column property="id" label="id" >-->
       <!--		</el-table-column>-->
-      <el-table-column property="tel" label="电话" width="200px">
+      <el-table-column property="tel" label="电话">
       </el-table-column>
-      <el-table-column property="name" label="姓名" show-overflow-tooltip>
+      <el-table-column property="name" label="姓名">
       </el-table-column>
 
       <el-table-column label="状态" prop="status" :formatter="recordStateFormatter"></el-table-column>
-      <!--<el-table-column label="操作">-->
-        <!--<template slot-scope="scope">-->
-          <!--<el-button  @click="detail(scope.row)" type="text" size="small">编辑</el-button>-->
-          <!--<el-button  @click="del(scope.row)" type="text" size="small">删除</el-button>-->
-        <!--</template>-->
-      <!--</el-table-column>-->
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <el-button  @click="detail(scope.row)" type="text" size="small">查看记录</el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <!--分页栏-->
-        <div class="toolbar" style="padding:10px;">
-          <el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshPageRequest"
-            :current-page="pageRequest.pageNum" :page-size="pageRequest.pageSize" :total="pageResult.total" style="float:right;">
-          </el-pagination>
-        </div>
-    <!--详情界面-->
-    <el-dialog title="编辑" width="50%" :visible.sync="dialogVisible" :close-on-click-modal="false">
-      <el-form :model="dataForm" label-width="80px" :rules="dataFormRules" ref="dataForm" :size="size"
-               label-position="right">
-        <el-form-item label="ID" prop="id" v-if="false">
-          <el-input v-model="dataForm.physiqueId" :disabled="true" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="类型" prop="pharmacy">
-          <el-radio-group v-model="dataForm.pharmacy">
-            <el-radio label="1">饮片</el-radio>
-            <el-radio label="3">颗粒剂</el-radio>
-            <el-radio label="5">国际营养素</el-radio>
-            <el-radio label="6">国内营养素</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="名称" prop="name">
-          <el-input v-model="dataForm.name" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="病名" prop="disaster">
-          <el-input type="textarea" autosize v-model="dataForm.disaster" auto-complete="off"></el-input>
-        </el-form-item>
-        <div v-if="dataForm.pharmacy == '5'||dataForm.pharmacy=='6'">
-          <el-form-item label="疾病描述" prop="usage">
-            <el-input type="textarea" autosize v-model="dataForm.usage" auto-complete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="膳食原则" prop="useful">
-            <el-input type="textarea" autosize v-model="dataForm.useful" auto-complete="off"></el-input>
-          </el-form-item>
-        </div>
-        <div v-else>
-          <el-form-item label="功效" prop="useful">
-            <el-input type="textarea" autosize v-model="dataForm.useful" auto-complete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="用法" prop="usage">
-            <el-input type="textarea" autosize v-model="dataForm.usage" auto-complete="off"></el-input>
-          </el-form-item>
+    <div class="toolbar" style="padding:10px;">
+      <el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshPageRequest"
+        :current-page="pageRequest.pageNum" :page-size="pageRequest.pageSize" :total="pageResult.total" style="float:right;">
+      </el-pagination>
+    </div>
 
-        </div>
-
-        <el-form-item label="食材" prop="foods">
-          <el-input type="textarea" autosize v-model="dataForm.foods" auto-complete="off"></el-input>
-        </el-form-item>
-      </el-form>
-      <div style="text-align: right">
-        <el-button @click="add" type="primary">查看药品</el-button>
-      </div>
-      <div  style="text-align: center" class="dialog-footer">
-        <el-button :size="size" @click.native="dialogVisible = false">{{$t('action.cancel')}}</el-button>
-        <el-button :size="size" type="primary" @click.native="submitForm" :loading="editLoading">{{$t('action.submit')}}</el-button>
-      </div>
-    </el-dialog>
-    <!--新增药方页-->
-    <el-dialog  title="电子处方"  width="90%" :visible.sync="isShow" :close-on-click-modal="false" @close='closeDialog'>
-      <el-form :model="medicalForm" label-width="80px" ref="medicalForm" :size="size" label-position="right">
-        <el-row v-for="(item,index) in medicalForm.medicalList" :key="index">
-          <el-col :span="5">
-            <el-form-item label="药名" :prop="'medicalList.' + index + '.name'" :rules="{
-                      required: true, message: '药名不能为空', trigger: 'blur'
-                    }">
-              <el-autocomplete style="width:100%"
-                               v-model="item.name"
-                               :fetch-suggestions="querySearch"
-                               placeholder="请输入药名"
-                               @select="((item)=>{handleSelect(item, index)})"
-                               :trigger-on-focus="false"
-              ></el-autocomplete>
-            </el-form-item>
-          </el-col>
-
-          <el-col :span="4" v-if="dataForm.pharmacy == '5'||dataForm.pharmacy=='6'">
-            <el-form-item label="规格" prop="unit">
-              <el-input v-model="item.model" disabled auto-complete="off">
-              </el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4" v-else>
-            <el-form-item label="数量" :prop="'medicalList.' + index + '.number'" :rules="{
-                      required: true, message: '药名不能为空', trigger: 'blur'
-                    }">
-              <el-input type="number" v-model="item.number" v-on:input="((val)=>{handlerNumber(val, index)})">
-              </el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4">
-            <el-form-item label="单位" prop="unit">
-              <el-input v-model="item.unit" disabled auto-complete="off">
-              </el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4">
-            <el-form-item label="金额" prop="amount">
-              <el-input v-model="item.amount"  disabled auto-complete="off">
-                <template slot="append">元</template>
-              </el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4">
-            <el-form-item label="" prop="price">
-              <el-button @click="addMedical" type="primary">新增</el-button>
-              <el-button @click.prevent="removeMedical(item.id,index)">删除</el-button>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
-      <div style="text-align: center">
-        <el-button :size="size" @click.native="isShow = false">{{$t('action.cancel')}}</el-button>
-        <el-button :size="size" type="primary" @click.native="submitMedicalForm" :loading="editLoading">{{$t('action.submit')}}</el-button>
-      </div>
+    <el-dialog title="开单记录" width="90%" :visible.sync="dialogVisible" :close-on-click-modal="false">
+      <el-table :data="recordList" style="width: 100%">
+        <el-table-column type="index" label="序号" >
+        </el-table-column>
+        <!--		<el-table-column property="id" label="id" >-->
+        <!--		</el-table-column>-->
+        <el-table-column property="userName" label="姓名">
+        </el-table-column>
+        <el-table-column property="drugAmount" label="药费">
+        </el-table-column>
+        <el-table-column label="创建时间" prop="createTime" :formatter="timeFormatter">
+        </el-table-column>
+      </el-table>
     </el-dialog>
   </div>
 </template>
@@ -185,6 +90,7 @@
         operation: false, // true:新增, false:编辑
         dialogVisible: false, // 新增编辑界面是否显示
         editLoading: false,
+        recordList:[],
         dataForm:{
           id:'',
           name:'',
@@ -209,208 +115,18 @@
       }
     },
     methods: {
-      submitForm(){
-        this.dataForm.type = this.type
-        this.$api.healthHouseKeeper.addMedicById(this.dataForm).then((res) => {
-          if(res.code == 200) {
-            this.$message({ message: '操作成功', type: 'success' })
-            this.dialogVisible = false
-            this.findPage(null)
-          } else {
-            this.$message({message: '操作失败, ' + res.msg, type: 'error'})
-          }
-        }).then()
 
-      },
-      handleAdd(){
-        this.dialogVisible = true
-        this.dataForm = {
-          id:'',
-          name:'',
-          disaster:'',
-          usage:'',
-          useful:'',
-          foods:''
-        }
-      },
-      del(row){
-        this.$confirm('确认删除吗？', '提示', {}).then(() => {
-          this.$api.healthHouseKeeper.deletetMedicById({id:row.id}).then((res) => {
-            if(res.code == 200) {
-              this.$message({ message: '操作成功', type: 'success' })
-              this.findPage(null)
-            } else {
-              this.$message({message: '操作失败, ' + res.msg, type: 'error'})
-            }
-          })
-        })
-      },
-      // 编辑
-      submitMedicalForm: function () {
-        for(let a of this.medicalForm.medicalList){
-          a.recipelId = this.dataForm.id
-        }
-        this.$refs.medicalForm.validate((valid) => {
-          if (valid) {
-            this.$confirm('确认提交吗？', '提示', {}).then(() => {
-              console.log(this.medicalForm.medicalList)
-              this.$api.healthHouseKeeper.addRecipelMedicById(this.medicalForm.medicalList).then((res) => {
-                if(res.code == 200) {
-                  this.$message({ message: '操作成功', type: 'success' })
-                  this.isShow = false
-                } else {
-                  this.$message({message: '操作失败, ' + res.msg, type: 'error'})
-                }
-                // this.findMedicalPage(null)
-              })
-            })
-          }
-        })
-      },
-      handlerNumber(val,index){
-        if(this.medicalForm.medicalList[index].price&&val){
-          this.medicalForm.medicalList[index].amount =
-            (Number.parseFloat(val)*Number.parseFloat(this.medicalForm.medicalList[index].price)).toFixed(2)
-        }
-      },
-      //加载中医库
-      zhongyi(type){
-        if(type == 3){
-          type = 4
-        }
-        this.$api.healthHouseKeeper.selectList({type:type}).then((res) => {
-          if(res.code == '200'){
-            this.restaurants = res.rows
-            this.restaurants = this.restaurants.map(obj => {
-              return{
-                ...obj,
-                value:obj.name
-              }
-            })
-
-          }
-        })
-      },
-      //远程搜索中医库
-      querySearch(queryString, cb) {
-        var restaurants = this.restaurants;
-        var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
-        // 调用 callback 返回建议列表的数据
-        cb(results);
-      },
-      createFilter(queryString) {
-        return (restaurant) => {
-          return (restaurant.name.toLowerCase().indexOf(queryString.toLowerCase()) > -1);
-        };
-      },
-      handleSelect(item,index) {
-        this.medicalForm.medicalList[index].tcmId = item.id
-        this.medicalForm.medicalList[index].unit = item.unit
-        this.medicalForm.medicalList[index].price = item.price
-        this.medicalForm.medicalList[index].number = 1
-        this.medicalForm.medicalList[index].amount = item.price
-        this.medicalForm.medicalList[index].model = item.model
-
-        // this.medicalForm.medicalList.splice(index,1,{
-        //   name:item.name,
-        //   unit:item.unit,
-        //   price:item.price
-        // })
-      },
-      closeDialog(){
-        this.medicalForm.medicalList = [{
-          id:'',
-          name:'',
-          number:'',
-          unit:'',
-          price:'',
-          model:'',
-          amount:'',
-          entrust:''
-        }]
-      },
-      removeMedical(id,index){
-        if(this.medicalForm.medicalList.length==1){
-          this.$message({message: '至少保留一项', type: 'error'})
-        }else{
-          this.medicalForm.medicalList.splice(index,1)
-        }
-      },
-      addMedical(){
-        this.medicalForm.medicalList.push(
-          {
-            id:'',
-            name:'',
-            number:'',
-            unit:'',
-            price:'',
-            model:'',
-            amount:'',
-            entrust:''
-          }
-        )
-      },
-      add(){
-        if(!this.dataForm.id){
-          this.$message({message: '请先保存基本信息 ', type: 'error'})
-          return
-        }
-        this.zhongyi(this.dataForm.pharmacy)
-        this.$api.healthHouseKeeper.selectMedicById({id:this.dataForm.id}).then((res) => {
-          if(res.rows.length>0){
-            this.medicalForm.medicalList = res.rows
-          }else if(res.rows.length==0 && this.medicalForm.medicalList.length == 0){
-            this.medicalForm.medicalList.push({
-              id:'',
-              name:'',
-              number:'',
-              unit:'',
-              price:'',
-              model:'',
-              amount:'',
-              entrust:''
-            })
-          }
-        }).then()
-        this.isShow = true
-      },
       detail(row){
 
-        this.$api.healthHouseKeeper.selectByIdRecipelList({id:row.id}).then((res) => {
+        this.$api.healthHouseKeeper.selectByUserIdWeb({userId:row.userId}).then((res) => {
           this.dialogVisible = true
-          this.dataForm = res.rows
-          // this.zhongyi(res.rows.pharmacy)
+          this.recordList = res.rows
         }).then()
 
       },
-      change(value){
-        console.log(value)
-        if('经典处方'==value){
-          this.type = '1'
-          this.findPage(null)
-        }else if('养生保健处方' == value){
-          this.type = '3'
-          this.findPage(null)
-        }
+      timeFormatter:function(row) {
+        return timestampToTime(row.createTime)
       },
-      selectMecicalConditionList(physiqueId,type){
-        this.$api.physique.selectMedicalConditionById({id:physiqueId,type:type}).then((res) => {
-          if(res.code == 200) {
-            if(type == '1'){
-              this.pageTab1Result = res
-            }else if(type == '2'){
-              this.pageTab2Result = res
-            }else if(type == '3'){
-              this.pageTab3Result = res
-            }else if(type == '4'){
-              this.pageTab4Result = res
-            }
-          } else {
-            this.$message({message: '操作失败, ' + res.msg, type: 'error'})
-          }
-        })
-      },
-
       findPage: function (data) {
         if(data !== null) {
           this.pageRequest = data.pageRequest
@@ -430,22 +146,6 @@
         this.pageRequest.pageNum  = pageNum
         this.findPage(null)
       },
-      //医疗记录状态格式化
-      recordStateFormatter:function(row){
-        switch (row.status){
-          case '0':
-            return "已邀请";
-          case '1':
-            return "已注册";
-          case '2':
-            return "审核通过";
-          case '3':
-            return "审核不通过";
-          case '4':
-            return "已下单";
-        }
-      },
-
     },
     mounted() {
       this.findPage(null);

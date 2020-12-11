@@ -45,6 +45,14 @@ export const selectByYaoFang = (data) => {
         data
     })
 }
+//查询医疗记录
+export const selectByUserIdWeb = (data) => {
+  return axios({
+    url: '/bussiness/medicalRecords/selectByUserIdWeb',
+    method: 'post',
+    params:data
+  })
+}
 //查询
 
 //查询经典处方
