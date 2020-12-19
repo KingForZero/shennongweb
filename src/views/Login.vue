@@ -17,8 +17,7 @@
     <el-form-item >
       <el-col>
            <router-link tag='a' :to="'/forgetPwd'" >忘记密码？</router-link>
-           <a href="app/上医云.apk" download="">下载医生app</a>
-            <a href="#" @click="download">下载页面</a>
+           <a href="https://m3w.cn/__uni__d7fa1b1" download="">下载医生app</a>
       </el-col>
     </el-form-item>
     <!-- <el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox> -->

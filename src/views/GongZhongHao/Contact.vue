@@ -19,7 +19,7 @@
         <span v-if="i!=0" @click.stop="removeContact(item.userChildId)" style="margin-left:10px;color: red">删除</span>
       </div>
     </div>
-    <van-popup closeable v-model="show" style="width: 80%;height: 35%">
+    <van-popup position="top" closeable v-model="show" style="height: 50%">
         <div style="margin-top: 39px;"> </div>
       <van-cell-group>
         <van-field
