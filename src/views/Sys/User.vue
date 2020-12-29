@@ -36,8 +36,7 @@
                     <el-radio label="1">女</el-radio>
                   </el-radio-group>
 			</el-form-item>
-			</el-form-item>
-				<el-form-item label="企业微信id">
+      <el-form-item label="企业微信id">
 				<el-input v-model="dataForm.plugid" auto-complete="off"></el-input>
 			</el-form-item>
 			<el-form-item label="序号" prop="sort">
@@ -62,6 +61,9 @@
                     <el-radio label="3">审核驳回</el-radio>
                   </el-radio-group>
 			</el-form-item>
+      <el-form-item label="驳回原因" prop="failMsg" v-if="dataForm.state == '3'">
+        <el-input v-model="dataForm.failMsg" auto-complete="off"></el-input>
+      </el-form-item>
 			<el-form-item label="头像" prop="name">
 				<el-upload
 				accept="image/*"

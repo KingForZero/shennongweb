@@ -4,11 +4,18 @@
     <div class="toolbar" style="float:left;padding-top:10px;padding-left:15px;">
       <el-form :inline="true" :model="filters" :size="size">
           <el-form-item>
-            <el-input v-model="filters.tel" placeholder="电话"></el-input>
+            <el-date-picker
+              v-model="value1"
+              type="daterange"
+              align="right"
+              unlink-panels
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              value-format="yyyy-MM-dd"
+              :picker-options="pickerOptions">
+            </el-date-picker>
           </el-form-item>
-        <el-form-item>
-          <el-input v-model="filters.name" placeholder="姓名"></el-input>
-        </el-form-item>
           <el-form-item>
             <kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:role:view" type="primary" @click="findPage(null)"/>
           </el-form-item>
@@ -25,10 +32,15 @@
       <!--		</el-table-column>-->
       <el-table-column property="tel" label="电话">
       </el-table-column>
-      <el-table-column property="name" label="姓名">
+      <el-table-column property="docName" label="姓名">
       </el-table-column>
-
-      <el-table-column label="状态" prop="status" :formatter="recordStateFormatter"></el-table-column>
+      <el-table-column property="total" label="开单金额">
+      </el-table-column>
+      <el-table-column property="docTotal" label="邀请医生开单金额">
+      </el-table-column>
+      <el-table-column property="userTotal" label="邀请患者开单金额">
+      </el-table-column>
+      <!--<el-table-column label="状态" prop="status" :formatter="recordStateFormatter"></el-table-column>-->
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button  @click="detail(scope.row)" type="text" size="small">查看记录</el-button>
@@ -76,6 +88,34 @@
         down(row){
           return "http://39.106.123.28/images/"+row.fileUrl
         },
+        pickerOptions: {
+          shortcuts: [{
+            text: '最近一周',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit('pick', [start, end]);
+            }
+          }, {
+            text: '最近一个月',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit('pick', [start, end]);
+            }
+          }, {
+            text: '最近三个月',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit('pick', [start, end]);
+            }
+          }]
+        },
+        value1: [],
         isShow:false,
         radio:'经典处方',
         activeName:"1",
@@ -117,8 +157,7 @@
     methods: {
 
       detail(row){
-
-        this.$api.healthHouseKeeper.selectByUserIdWeb({userId:row.userId}).then((res) => {
+        this.$api.healthHouseKeeper.selectByUserIdWeb({userId:row.docId}).then((res) => {
           this.dialogVisible = true
           this.recordList = res.rows
         }).then()
@@ -132,13 +171,21 @@
           this.pageRequest = data.pageRequest
         }
         this.pageRequest.columnFilters = {}
-        if(this.filters.tel){
-          this.pageRequest.columnFilters.tel = {name:'tel',value:this.filters.tel}
+        if(this.value1){
+          this.filters.startTime  = this.value1[0]
+          this.filters.endTime  = this.value1[1]
+        }else{
+          this.filters.startTime  = ""
+          this.filters.endTime  = ""
         }
-        if(this.filters.name){
-          this.pageRequest.columnFilters.name = {name:'name',value:this.filters.name}
+
+        if(this.filters.startTime){
+          this.pageRequest.columnFilters.startTime = {name:'startTime',value:this.filters.startTime}
         }
-        this.$api.healthHouseKeeper.selectListShare(this.pageRequest).then((res) => {
+        if(this.filters.endTime){
+          this.pageRequest.columnFilters.endTime = {name:'endTime',value:this.filters.endTime}
+        }
+        this.$api.healthHouseKeeper.totalStatic(this.pageRequest).then((res) => {
           this.pageResult = res
         }).then(data!=null?data.callback:'')
       },
@@ -146,21 +193,7 @@
         this.pageRequest.pageNum  = pageNum
         this.findPage(null)
       },
-      //医疗记录状态格式化
-      recordStateFormatter:function(row){
-        switch (row.status){
-          case '0':
-            return "已邀请";
-          case '1':
-            return "已注册";
-          case '2':
-            return "审核通过";
-          case '3':
-            return "审核不通过";
-          case '4':
-            return "已下单";
-        }
-      }
+
     },
     mounted() {
       this.findPage(null);

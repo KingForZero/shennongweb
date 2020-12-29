@@ -66,13 +66,14 @@
             <el-table-column label="操作">
             <template slot-scope="scope">
 				          <el-button  @click="yaofang(scope.row)" type="text" size="small">查看药方</el-button>
-                  <el-button v-if="scope.row.recordState == '9' && scope.row.pharmacyType == '1'" @click="xiadan(scope.row,1)" type="text" size="small">下单</el-button>
+                  <!--<el-button v-if="scope.row.recordState == '9' && scope.row.pharmacyType == '1'" @click="xiadan(scope.row,1)" type="text" size="small">下单</el-button>-->
+                  <el-button v-if="scope.row.recordState == '9' && scope.row.pharmacyType == '1'" @click="order(scope.row,1)" type="text" size="small">下单</el-button>
                   <el-button v-if="scope.row.recordState == '9' && scope.row.pharmacyType == '1'" @click="bohui(scope.row)" type="text" size="small">驳回</el-button>
                   <a v-if="scope.row.recordState == '91' && scope.row.pharmacyType == '1'" class='download' :href=printUrl(scope.row,1) download=""  title="下载">打印运单</a>
                   <el-button v-if="scope.row.recordState == '91'" @click="fahuo(scope.row,1)" type="text" size="small">已发货</el-button>
                   <el-button v-if="scope.row.recordState == '9' && scope.row.pharmacyType == '2'" @click="fahuo(scope.row,1)" type="text" size="small">已发货</el-button>
                   <el-button v-if="scope.row.recordState == '91' && scope.row.pharmacyType == '1' " @click="quxiao(scope.row,1)" type="text" size="small">取消订单</el-button>
-                  <el-button v-if="scope.row.recordState == '11' && scope.row.pharmacyType == '1'" @click="wuliu(scope.row,1)" type="text" size="small">查看物流信息</el-button>
+                  <el-button v-if="scope.row.recordState == '10'  && scope.row.pharmacyType == '1'" @click="wuliu(scope.row,1)" type="text" size="small">查看物流信息</el-button>
                   <el-button v-if="scope.row.recordState == '7'" @click="huajia(scope.row,1)" type="text" size="small">划价</el-button>
               </template>
             </el-table-column>
@@ -412,18 +413,31 @@
             </div>
           </el-dialog>
           <!--划价-->
-          <el-dialog  title="划价"  width="60%" :visible.sync="isShowHuajia" :close-on-click-modal="false">
-            <el-form :model="huajiaForm" label-width="80px" ref="huajiaForm" :size="size" label-position="right">
+        <el-dialog  title="划价"  width="60%" :visible.sync="isShowHuajia" :close-on-click-modal="false">
+          <el-form :model="huajiaForm" label-width="80px" ref="huajiaForm" :size="size" label-position="right">
 
-              <el-form-item label="药费：" >
-                <el-input type="text" v-model="huajiaForm.price"  auto-complete="off"></el-input>
-              </el-form-item>
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-              <el-button :size="size" @click.native="isShowHuajia = false">{{$t('action.cancel')}}</el-button>
-              <el-button :size="size" type="primary" @click.native="submitHuajia">{{$t('action.submit')}}</el-button>
-            </div>
-          </el-dialog>
+            <el-form-item label="药费：" >
+              <el-input type="text" v-model="huajiaForm.price"  auto-complete="off"></el-input>
+            </el-form-item>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button :size="size" @click.native="isShowHuajia = false">{{$t('action.cancel')}}</el-button>
+            <el-button :size="size" type="primary" @click.native="submitHuajia">{{$t('action.submit')}}</el-button>
+          </div>
+        </el-dialog>
+    <!--发货-->
+    <el-dialog  title="发货"  width="60%" :visible.sync="isShowOrder" :close-on-click-modal="false">
+      <el-form :model="orderForm" label-width="80px" ref="fahuoForm" :size="size" label-position="right">
+
+        <el-form-item label="运单号：" >
+          <el-input type="text" v-model="orderForm.mailNo"  auto-complete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button :size="size" @click.native="isShowOrder = false">{{$t('action.cancel')}}</el-button>
+        <el-button :size="size" type="primary" @click.native="submitOrder">{{$t('action.submit')}}</el-button>
+      </div>
+    </el-dialog>
 
   </div>
 </template>
@@ -464,6 +478,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
           pageSize:10,
 
         },
+        isShowOrder:false,
          columnFilters1:{
 
           },
@@ -480,6 +495,10 @@ import InquirySheet from "@/views/Core/InquirySheet"
           id:'',
           type:'',
           price:''
+        },
+        orderForm:{
+          recordId:'',
+          mailNo:''
         },
         bohuiForm:{
           	recordId:'',
@@ -642,6 +661,18 @@ import InquirySheet from "@/views/Core/InquirySheet"
                 this.findChufang(null)
               })
     },
+      submitOrder(){
+      this.$api.assistant.order(this.orderForm).then((res) => {
+        if(res.code == 200) {
+          this.$message({ message: '操作成功', type: 'success' })
+        } else {
+          this.$message({message: '操作失败, ' + res.msg, type: 'error'})
+        }
+        this.isShowOrder = false
+        this.findMedicalRecord(null)
+        this.findChufang(null)
+      })
+    },
     submitHuajia(){
 				this.$api.assistant.pricing(this.huajiaForm).then((res) => {
                 if(res.code == 200) {
@@ -681,6 +712,10 @@ import InquirySheet from "@/views/Core/InquirySheet"
                   this.$message({message: '操作失败, ' + res.msg, type: 'error'})
                 }
               })
+    },
+    order(row,type){
+        this.isShowOrder = true
+        this.orderForm.recordId = row.recordId
     },
     xiadan(row,type){
       let a

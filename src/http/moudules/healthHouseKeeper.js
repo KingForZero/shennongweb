@@ -29,6 +29,14 @@ export const selectListShare = (data) => {
     data
   })
 }
+//查询工作量统计
+export const totalStatic = (data) => {
+  return axios({
+    url: '/bussiness/medicalRecords/totalStatic',
+    method: 'post',
+    data
+  })
+}
 //保存健康指导
 export const saveHealthGuidance = (data) => {
     return axios({

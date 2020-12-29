@@ -222,6 +222,15 @@ export const send = (data) => {
     params:data
   })
 }
+//下单
+export const order = (data) => {
+  return axios({
+    url: '/bussiness/medicalRecords/order',
+    method: 'post',
+    params:data
+  })
+}
+
 //根据id查询个人档案
 export const selectHealthRecord = (data) => {
   return axios({
