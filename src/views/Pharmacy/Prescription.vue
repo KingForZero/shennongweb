@@ -386,11 +386,10 @@
           <el-dialog  title="物流信息"  width="60%" :visible.sync="isShowWuliu" :close-on-click-modal="false">
             <div class="block">
               <el-timeline>
-                <el-timeline-item :timestamp="item.accept_time" placement="top" v-for="item in wuliuList" :key="item.accept_time">
+                <el-timeline-item :timestamp="item.ftime" placement="top" v-for="item in wuliuList" :key="item.ftime">
                   <el-card>
-                    <p>时间：{{item.accept_time}}</p>
-                    <p>地点：{{item.accept_address}}</p>
-                    <p>描述：{{item.remark}}</p>
+                    <p>时间：{{item.ftime}}</p>
+                    <p>描述：{{item.context}}</p>
                   </el-card>
                 </el-timeline-item>
               </el-timeline>
@@ -426,9 +425,18 @@
           </div>
         </el-dialog>
     <!--发货-->
-    <el-dialog  title="发货"  width="60%" :visible.sync="isShowOrder" :close-on-click-modal="false">
+    <el-dialog  title="发货"  width="30%" :visible.sync="isShowOrder" :close-on-click-modal="false">
       <el-form :model="orderForm" label-width="80px" ref="fahuoForm" :size="size" label-position="right">
-
+        <el-form-item label="快递公司：" >
+          <el-select v-model="orderForm.type" placeholder="请选择">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="运单号：" >
           <el-input type="text" v-model="orderForm.mailNo"  auto-complete="off"></el-input>
         </el-form-item>
@@ -625,7 +633,35 @@ import InquirySheet from "@/views/Core/InquirySheet"
         prescribiing:{},
         fileList1:[],
         isShowYaoping:false,
-        chufang:[]
+        chufang:[],
+        options: [{
+          value: 'yuantong',
+          label: '圆通速递'
+        }, {
+          value: 'shunfeng',
+          label: '顺丰速运'
+        }, {
+          value: 'yunda',
+          label: '韵达快递'
+        }, {
+          value: 'zhongtong',
+          label: '中通快递'
+        }, {
+          value: 'huitongkuaidi',
+          label: '百世快递'
+        }, {
+          value: 'shentong',
+          label: '申通快递'
+        }, {
+          value: 'jd',
+          label: '京东物流'
+        }, {
+          value: 'ems',
+          label: 'EMS'
+        }, {
+          value: 'tiantian',
+          label: '天天快递'
+        }],
 
       }
     },
