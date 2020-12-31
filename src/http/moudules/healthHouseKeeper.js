@@ -61,6 +61,14 @@ export const selectByUserIdWeb = (data) => {
     params:data
   })
 }
+//查询邀请记录详情
+export const selectTotalDetailByDocId = (data) => {
+  return axios({
+    url: '/bussiness/medicalRecords/selectTotalDetailByDocId',
+    method: 'post',
+    params:data
+  })
+}
 //查询
 
 //查询经典处方

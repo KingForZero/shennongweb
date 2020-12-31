@@ -384,16 +384,21 @@
         </el-dialog>
          <!--物流信息-->
           <el-dialog  title="物流信息"  width="60%" :visible.sync="isShowWuliu" :close-on-click-modal="false">
-            <div class="block">
-              <el-timeline>
-                <el-timeline-item :timestamp="item.ftime" placement="top" v-for="item in wuliuList" :key="item.ftime">
-                  <el-card>
-                    <p>时间：{{item.ftime}}</p>
-                    <p>描述：{{item.context}}</p>
-                  </el-card>
-                </el-timeline-item>
-              </el-timeline>
-            </div>
+            <el-tabs>
+              <el-tab-pane v-for="(value, key) in wuliuList" :label="key" :key="key">
+                <div class="block">
+                  <el-timeline>
+                    <el-timeline-item :timestamp="item.ftime" placement="top" v-for="item in value" :key="item.ftime">
+                      <el-card>
+                        <p>时间：{{item.ftime}}</p>
+                        <p>描述：{{item.context}}</p>
+                      </el-card>
+                    </el-timeline-item>
+                  </el-timeline>
+                </div>
+              </el-tab-pane>
+            </el-tabs>
+
 
             <div slot="footer" class="dialog-footer">
               <el-button :size="size" type="primary" @click.native="isShowWuliu = false">确定</el-button>
@@ -425,21 +430,32 @@
           </div>
         </el-dialog>
     <!--发货-->
-    <el-dialog  title="发货"  width="30%" :visible.sync="isShowOrder" :close-on-click-modal="false">
-      <el-form :model="orderForm" label-width="80px" ref="fahuoForm" :size="size" label-position="right">
-        <el-form-item label="快递公司：" >
-          <el-select v-model="orderForm.type" placeholder="请选择">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="运单号：" >
-          <el-input type="text" v-model="orderForm.mailNo"  auto-complete="off"></el-input>
-        </el-form-item>
+    <el-dialog  title="发货"  width="30%" :visible.sync="isShowOrder" :close-on-click-modal="false" :before-close="close">
+      <el-form :model="orderForm" label-width="100px" ref="orderForm" :size="size" label-position="right">
+        <div v-for="(order,index) in orderForm.ems" :key="order.key">
+          <el-form-item label="快递公司：" :prop="'ems.' + index + '.type'" :rules="{
+          required: true, message: '快递公司不能为空', trigger: 'blur'
+        }">
+            <el-select v-model="order.type" placeholder="请选择">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="运单号：" :prop="'ems.' + index + '.mailNo'" :rules="{
+          required: true, message: '运单号不能为空', trigger: 'blur'
+        }">
+            <el-input  v-model="order.mailNo" ></el-input>
+          </el-form-item>
+        </div>
+        <div style="text-align: center">
+          <el-button @click="delEms">删除</el-button>
+          <el-button @click="addEms">增加</el-button>
+        </div>
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button :size="size" @click.native="isShowOrder = false">{{$t('action.cancel')}}</el-button>
@@ -506,7 +522,11 @@ import InquirySheet from "@/views/Core/InquirySheet"
         },
         orderForm:{
           recordId:'',
-          mailNo:''
+          ems:[{
+            type:'',
+            mailNo:'',
+            key:Date.now()
+          }]
         },
         bohuiForm:{
           	recordId:'',
@@ -666,6 +686,20 @@ import InquirySheet from "@/views/Core/InquirySheet"
       }
     },
     methods: {
+      close(done){
+        this.orderForm.ems=[{type:'',mailNo:'',key:Date.now()}]
+        this.$refs['orderForm'].resetFields();
+        done()
+      },
+      delEms(){
+        var length = this.orderForm.ems.length
+        if (length > 1) {
+          this.orderForm.ems.splice(length-1, 1)
+        }
+      },
+      addEms(){
+        this.orderForm.ems.push({type:'',mailNo:'',key:Date.now()})
+      },
       chakan(item){
         this.prescribiing = item
         this.findMedicalPage(null)
@@ -698,16 +732,24 @@ import InquirySheet from "@/views/Core/InquirySheet"
               })
     },
       submitOrder(){
-      this.$api.assistant.order(this.orderForm).then((res) => {
-        if(res.code == 200) {
-          this.$message({ message: '操作成功', type: 'success' })
-        } else {
-          this.$message({message: '操作失败, ' + res.msg, type: 'error'})
-        }
-        this.isShowOrder = false
-        this.findMedicalRecord(null)
-        this.findChufang(null)
-      })
+        this.$refs['orderForm'].validate((valid) => {
+          if (valid) {
+            this.$api.assistant.order(this.orderForm).then((res) => {
+              if(res.code == 200) {
+                this.$message({ message: '操作成功', type: 'success' })
+              } else {
+                this.$message({message: '操作失败, ' + res.msg, type: 'error'})
+              }
+              this.isShowOrder = false
+              this.findMedicalRecord(null)
+              this.findChufang(null)
+            })
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+
     },
     submitHuajia(){
 				this.$api.assistant.pricing(this.huajiaForm).then((res) => {

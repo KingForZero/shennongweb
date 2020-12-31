@@ -1,6 +1,6 @@
 import axios from '../axios'
 
-/* 
+/*
  * 助理模块
  */
 
@@ -227,7 +227,7 @@ export const order = (data) => {
   return axios({
     url: '/bussiness/medicalRecords/order',
     method: 'post',
-    params:data
+    data
   })
 }
 
@@ -265,7 +265,7 @@ export const pricing = (data) => {
     method: 'post',
     params:data
   })
-  
+
 }
 //药房下单
 export const xiadan = (data) => {
@@ -290,7 +290,7 @@ export const wuliu = (data) => {
     method: 'post',
     params:data
   })
-  
+
 }
 //查询物流信息
 export const getOpenId = (data) => {

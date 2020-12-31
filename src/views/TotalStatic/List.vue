@@ -19,11 +19,15 @@
           <el-form-item>
             <kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:role:view" type="primary" @click="findPage(null)"/>
           </el-form-item>
+        <el-form-item>
+          <kt-button icon="fa fa-plus" label="导出"  type="primary" @click="derive()"/>
+        </el-form-item>
         <!--<el-form-item>-->
           <!--<kt-button icon="fa fa-plus" :label="$t('action.add')" perms="sys:user:add" type="primary" @click="handleAdd" />-->
         <!--</el-form-item>-->
       </el-form>
     </div>
+
 
     <el-table :data="pageResult.rows" style="width: 100%">
       <el-table-column type="index" label="序号" >
@@ -36,9 +40,9 @@
       </el-table-column>
       <el-table-column property="total" label="开单金额">
       </el-table-column>
-      <el-table-column property="docTotal" label="邀请医生开单金额">
+      <el-table-column property="docTotal" label="一级邀请医生开单金额">
       </el-table-column>
-      <el-table-column property="userTotal" label="邀请患者开单金额">
+      <el-table-column property="erjiDocTotal" label="二级邀请医生开单金额">
       </el-table-column>
       <!--<el-table-column label="状态" prop="status" :formatter="recordStateFormatter"></el-table-column>-->
       <el-table-column label="操作">
@@ -54,19 +58,33 @@
       </el-pagination>
     </div>
 
-    <el-dialog title="开单记录" width="90%" :visible.sync="dialogVisible" :close-on-click-modal="false">
-      <el-table :data="recordList" style="width: 100%">
-        <el-table-column type="index" label="序号" >
-        </el-table-column>
-        <!--		<el-table-column property="id" label="id" >-->
-        <!--		</el-table-column>-->
-        <el-table-column property="userName" label="姓名">
-        </el-table-column>
-        <el-table-column property="drugAmount" label="药费">
-        </el-table-column>
-        <el-table-column label="创建时间" prop="createTime" :formatter="timeFormatter">
-        </el-table-column>
-      </el-table>
+    <el-dialog title="记录详情" width="90%" :visible.sync="dialogVisible" :close-on-click-modal="false">
+      <el-tabs>
+        <el-tab-pane label="我的记录">
+          <el-table :data="recordList.myList" style="width: 100%">
+            <el-table-column property="userName" label="姓名">
+            </el-table-column>
+            <el-table-column property="total" label="金额">
+            </el-table-column>
+          </el-table>
+        </el-tab-pane>
+        <el-tab-pane label="一级邀请记录">
+          <el-table :data="recordList.shareDocList" style="width: 100%">
+            <el-table-column property="docName" label="姓名">
+            </el-table-column>
+            <el-table-column property="total" label="金额">
+            </el-table-column>
+          </el-table>
+        </el-tab-pane>
+        <el-tab-pane label="二级邀请记录">
+          <el-table :data="recordList.erjiShareDocList" style="width: 100%">
+            <el-table-column property="docName" label="姓名">
+            </el-table-column>
+            <el-table-column property="total" label="金额">
+            </el-table-column>
+          </el-table>
+        </el-tab-pane>
+      </el-tabs>
     </el-dialog>
   </div>
 </template>
@@ -155,9 +173,19 @@
       }
     },
     methods: {
-
+      derive(){
+        let userId = JSON.parse(sessionStorage.getItem("employee")).id
+        window.location.href="http://localhost:8080/bussiness/medicalRecords/exportStatic?userId="+userId
+      },
       detail(row){
-        this.$api.healthHouseKeeper.selectByUserIdWeb({userId:row.docId}).then((res) => {
+        if(this.value1){
+          this.filters.startTime  = this.value1[0]
+          this.filters.endTime  = this.value1[1]
+        }else{
+          this.filters.startTime  = ""
+          this.filters.endTime  = ""
+        }
+        this.$api.healthHouseKeeper.selectTotalDetailByDocId({docId:row.docId,startTime:this.filters.startTime,endTime:this.filters.endTime}).then((res) => {
           this.dialogVisible = true
           this.recordList = res.rows
         }).then()
