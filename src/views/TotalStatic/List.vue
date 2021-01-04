@@ -175,7 +175,7 @@
     methods: {
       derive(){
         let userId = JSON.parse(sessionStorage.getItem("employee")).id
-        window.location.href="http://localhost:8080/bussiness/medicalRecords/exportStatic?userId="+userId
+        window.location.href="http://39.106.123.28/sh/bussiness/medicalRecords/exportStatic?userId="+userId
       },
       detail(row){
         if(this.value1){
