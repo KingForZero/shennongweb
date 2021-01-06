@@ -323,53 +323,62 @@
           })
         },
         onSelect(item,index){
-          let url = window.location.href+"/"
-          this.$api.gongZhongHao.getJsSdk({"url":url,state:Cookies.get("state")}).then((res) => {
-
-            if(res.code == 200) {
-              this.wxshare(res.rows)
-
-              let data = {
-                amount: this.medicalRecord.total,
-                MRecordId: this.medicalRecord.recordId,
-                openId: Cookies.get("openId"),
-                payType: 2,
-                address: item.address,
-                appId:res.rows.appId
-              }
-              this.$api.gongZhongHao.wxpay(data).then((res) => {
-                if(res.code == 200){
-                  wx.ready(function () {
-
-                    wx.chooseWXPay({
-                      appId:res.rows.appId,
-                      timestamp: res.rows.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
-                      nonceStr: res.rows.nonceStr, // 支付签名随机串，不长于 32 位
-                      package: res.rows.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
-                      signType: res.rows.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
-                      paySign: res.rows.paySign, // 支付签名
-                      success: function (res) {
-                        // 支付成功后的回调函数
-                        this.getRecordDetail()
-                        this.isShowAdress = false
-                        this.payText = "已支付"
-                        this.isJY = true
-                      }
-                    });
-                  });
+          //如果费用为0则跳过支付
+          if(Number(this.medicalRecord.total) - 0 > 0){
+            let url = window.location.href+"/"
+            this.$api.gongZhongHao.getJsSdk({"url":url,state:Cookies.get("state")}).then((res) => {
+              if(res.code == 200) {
+                this.wxshare(res.rows)
+                let data = {
+                  amount: this.medicalRecord.total,
+                  MRecordId: this.medicalRecord.recordId,
+                  openId: Cookies.get("openId"),
+                  payType: 2,
+                  address: item.address,
+                  appId:res.rows.appId
                 }
-              })
+                this.$api.gongZhongHao.wxpay(data).then((res) => {
+                  if(res.code == 200){
+                    wx.ready(function () {
 
-            }else{
-              Dialog.alert({
-                message: res.rows.msg
-              }).then(() => {
-                // on close
-              });
-            }
-          })
+                      wx.chooseWXPay({
+                        appId:res.rows.appId,
+                        timestamp: res.rows.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+                        nonceStr: res.rows.nonceStr, // 支付签名随机串，不长于 32 位
+                        package: res.rows.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
+                        signType: res.rows.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+                        paySign: res.rows.paySign, // 支付签名
+                        success: function (res) {
+                          // 支付成功后的回调函数
+                          this.getRecordDetail()
+                          this.isShowAdress = false
+                          this.payText = "已支付"
+                          this.isJY = true
+                        }
+                      });
+                    });
+                  }
+                })
 
-
+              }else{
+                Dialog.alert({
+                  message: res.rows.msg
+                }).then(() => {
+                  // on close
+                });
+              }
+            })
+          }else{
+            this.$api.gongZhongHao.payWithZero({"recordId":this.medicalRecord.recordId,"address":item.address}).then((res) => {
+              if(res.code == 200){
+                // 支付成功后的回调函数
+                this.getRecordDetail()
+                this.isShowAdress = false
+                this.payText = "已支付"
+                this.isJY = true
+              }
+            })
+          }
         },
         wxshare(data) {
           var appId = data.appId;

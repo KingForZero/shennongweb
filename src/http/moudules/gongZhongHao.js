@@ -72,6 +72,14 @@ export const wxpay = (data) => {
     params:data
   })
 }
+//支付
+export const payWithZero = (data) => {
+  return axios({
+    url: '/bussiness/medicalRecords/payWithZero',
+    method: 'post',
+    params:data
+  })
+}
 //取消医疗记录
 export const cancel = (data) => {
   return axios({
