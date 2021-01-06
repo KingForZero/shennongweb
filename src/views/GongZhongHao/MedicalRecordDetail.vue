@@ -62,7 +62,7 @@
         <van-cell title="服务费":value="medicalRecord.postage"  />
         <van-cell title="折扣系数":value="medicalRecord.discount"  />
         <van-cell title="邮寄地址" :value="medicalRecord.emsAddress"  />
-
+        <van-cell v-if="medicalRecord.recordState == '10'" title="查看物流" is-link :to="'wuliu?recordId='+medicalRecord.recordId" />
       </van-cell-group>
       <van-tabbar>
 

@@ -44,7 +44,7 @@ export const editProtocol = (data) => {
   return axios({
     url: '/system/protocol/edit',
     method: 'post',
-    params:data
+    data
   })
 }
 

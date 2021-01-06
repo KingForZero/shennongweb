@@ -26,6 +26,7 @@ import NutritionList from "@/views/GongZhongHao/NutritionList";
 import ChanPinList from "@/views/GongZhongHao/ChanPinList";
 import Share from "@/views/GongZhongHao/Share";
 import Contact from "@/views/GongZhongHao/Contact";
+import Wuliu from "@/views/GongZhongHao/Wuliu";
 
 
 import Cookies from "js-cookie"
@@ -206,6 +207,13 @@ const router = new Router({
       meta:{
         title:'联系人'
       }
+    },{
+      path: '/wuliu',
+      name: 'Wuliu',
+      component: Wuliu,
+      meta:{
+        title:'物流信息'
+      }
     },
     {
       path: '/404',
@@ -264,6 +272,8 @@ router.beforeEach((to, from, next) => {
     }else if(to.path === '/fenxiang'){
       next()
     }else if(to.path === '/contact'){
+      next()
+    }else if(to.path === '/wuliu'){
       next()
     }else if(to.path === '/medicalRecordListGZ'){
      //上医云公众号我的订单按钮跳转链接

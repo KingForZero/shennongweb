@@ -784,12 +784,12 @@ import InquirySheet from "@/views/Core/InquirySheet"
       }
       this.isShowWuliu = true
       this.$api.assistant.wuliu({"recordId":a,type:type}).then((res) => {
-                if(res.code == 200) {
-                  this.wuliuList = res.rows
-                } else {
-                  this.$message({message: '操作失败, ' + res.msg, type: 'error'})
-                }
-              })
+        if(res.code == 200) {
+          this.wuliuList = res.rows
+        } else {
+          this.$message({message: '操作失败, ' + res.msg, type: 'error'})
+        }
+      })
     },
     order(row,type){
         this.isShowOrder = true
