@@ -61,7 +61,9 @@
         <van-cell title="加工费" :value="medicalRecord.processCost"  />
         <van-cell title="服务费":value="medicalRecord.postage"  />
         <van-cell title="折扣系数":value="medicalRecord.discount"  />
-        <van-cell title="邮寄地址" :value="medicalRecord.emsAddress"  />
+        <van-cell title="邮寄姓名" :value="medicalRecord.emailName"  />
+        <van-cell title="邮寄电话" :value="medicalRecord.emailTel"  />
+        <van-cell title="邮寄地址" :value="medicalRecord.emailAddress"  />
         <van-cell v-if="medicalRecord.recordState == '10'" title="查看物流" is-link :to="'wuliu?recordId='+medicalRecord.recordId" />
       </van-cell-group>
       <van-tabbar>
@@ -98,15 +100,41 @@
         position="bottom"
         :style="{ height: '50%' }"
       >
-        <van-address-list
-          v-model="chosenAddressId"
-          :list="addressList"
-          @edit="onEdit"
-          @add="onAdd"
-          @select="onSelect"
-          style="margin-bottom: 60px;margin-top: 20px"
-        >
-        </van-address-list>
+        <!--<van-address-list-->
+          <!--v-model="chosenAddressId"-->
+          <!--:list="addressList"-->
+          <!--@edit="onEdit"-->
+          <!--@add="onAdd"-->
+          <!--@select="onSelect"-->
+          <!--style="margin-bottom: 60px;margin-top: 20px"-->
+        <!--&gt;-->
+
+        <!--</van-address-list>-->
+        <div style="margin-top: 40px; margin-left: 10px; margin-right: 10px; margin-bottom: 58px">
+          <div v-for="(item,index) in addressList" style="margin: 14px 0">
+            <div style="display: flex;justify-content:space-between;" @click="onSelect(item,index)">
+              <div>
+                <div>
+                  <span>{{item.name}}</span>
+                  <span>{{item.tel}}</span>
+                </div>
+                <div>{{item.address}}</div>
+              </div>
+              <div>
+                <van-button style="width:77px;" round type="primary" size="mini">使用</van-button>
+              </div>
+            </div>
+            <div style="text-align: right">
+              <van-button @click="onEdit(item,index)" plain type="info" size="mini">编辑</van-button>
+              <van-button @click="onDelete(item,index)" plain type="warning" size="mini">删除</van-button>
+            </div>
+
+            <div style="height: 5px;background-color: #f1e5e5;margin-top: 8px"></div>
+          </div>
+        </div>
+        <div class="button_botoom">
+          <van-button type="danger" style="width: 100%" round @click="onAdd">新增地址</van-button>
+        </div>
       </van-popup>
       <van-popup
         v-model="isShow111"
@@ -123,6 +151,34 @@
         :style="{ height: '40%' }"
       >
         <div class="van-address-edit">
+          <div class="van-cell van-address-edit-detail">
+            <div class="van-cell__value van-cell__value--alone">
+              <div class="van-cell van-field">
+                <div class="van-cell__title van-field__label">
+                  <span>姓名</span>
+                </div>
+                <div class="van-cell__value">
+                  <div class="van-field__body">
+                      <input v-model="address.name" placeholder="姓名" class="van-field__control" style="height: 25px;"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="van-cell van-address-edit-detail">
+            <div class="van-cell__value van-cell__value--alone">
+              <div class="van-cell van-field">
+                <div class="van-cell__title van-field__label">
+                  <span>电话</span>
+                </div>
+                <div class="van-cell__value">
+                  <div class="van-field__body">
+                      <input v-model="address.tel" placeholder="电话" class="van-field__control" style="height: 25px;"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="van-address-edit__fields">
             <div role="button" tabindex="0" class="van-cell van-cell--clickable van-field" @click="editAd">
               <div class="van-cell__title van-field__label">
@@ -188,7 +244,9 @@
               cityName:"",
               countyCode:"",
               countyName:"",
-              detailAddress:""
+              detailAddress:"",
+              name:"",
+              tel:""
             },
             addressBefore:"",
             addressBack:"",
@@ -238,9 +296,6 @@
               this.addressListVO = this.copyArray(res.rows)
               let arr = res.rows
               for(var i = 0;i<arr.length;i++) {
-                arr[i].id = i
-                arr[i].name = ""
-                arr[i].tel = ""
                 arr[i].address = arr[i].provinceName + arr[i].cityName + arr[i].countyName + arr[i].detailAddress
               }
               //用于页面组件调用
@@ -263,6 +318,13 @@
         },
         copyArray(arr){
           return JSON.parse(JSON.stringify(arr));
+        },
+        onDelete(item,index){
+          this.$api.gongZhongHao.del({id:item.id}).then((res) => {
+            if(res.code == 200) {
+              this.getAddressList(this.userId)
+            }
+          })
         },
         onEdit(item,index){
           let arr = this.addressListVO
@@ -334,7 +396,7 @@
                   MRecordId: this.medicalRecord.recordId,
                   openId: Cookies.get("openId"),
                   payType: 2,
-                  address: item.address,
+                  address: item.id,
                   appId:res.rows.appId
                 }
                 this.$api.gongZhongHao.wxpay(data).then((res) => {
@@ -369,7 +431,7 @@
               }
             })
           }else{
-            this.$api.gongZhongHao.payWithZero({"recordId":this.medicalRecord.recordId,"address":item.address}).then((res) => {
+            this.$api.gongZhongHao.payWithZero({"recordId":this.medicalRecord.recordId,"address":item.id}).then((res) => {
               if(res.code == 200){
                 // 支付成功后的回调函数
                 this.getRecordDetail()
@@ -478,5 +540,14 @@
 </script>
 
 <style scoped>
-
+  .button_botoom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0 16px;
+    background-color: #fff;
+  }
 </style>

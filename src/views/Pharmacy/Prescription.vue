@@ -55,7 +55,9 @@
 						<el-table-column label="患者姓名" prop="userName" ></el-table-column>
             <el-table-column label="患者电话" prop="userTel" ></el-table-column>
             <el-table-column label="药费" prop="drugAmount" ></el-table-column>
-            <el-table-column label="邮寄地址" prop="emsAddress"  show-overflow-tooltip></el-table-column>
+            <el-table-column label="邮寄姓名" prop="emailName" ></el-table-column>
+            <el-table-column label="邮寄电话" prop="emailTel" ></el-table-column>
+            <el-table-column label="邮寄地址" prop="emailAddress"  show-overflow-tooltip></el-table-column>
             <!--<el-table-column label="剂型" prop="dosageType"  :formatter="dosageTypeFormatter"></el-table-column>-->
 						<!-- <el-table-column label="快递单号" prop="orderId"></el-table-column> -->
             <!--<el-table-column label="处方编号" prop="recordId"></el-table-column>-->

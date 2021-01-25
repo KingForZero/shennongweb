@@ -56,6 +56,14 @@ export const list = (data) => {
     params:data
   })
 }
+//查询收获地址
+export const del = (data) => {
+  return axios({
+    url: '/system/address/delete',
+    method: 'post',
+    params:data
+  })
+}
 //获取jssdk签名
 export const getJsSdk = (data) => {
   return axios({
