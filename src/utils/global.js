@@ -5,9 +5,10 @@
  */
 
  // 后台管理系统服务器地址
-export const baseUrl = process.env.API_ROOT
+//export const baseUrl = process.env.API_ROOT
+export const baseUrl = window.location.origin+"/sh"
 export const backupBaseUrl = ""
-export const imageUrl = "http://39.106.123.28/images/"
+export const imageUrl = window.location.origin+"/images/"
 
 export default {
     baseUrl,
