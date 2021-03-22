@@ -27,6 +27,7 @@ import ChanPinList from "@/views/GongZhongHao/ChanPinList";
 import Share from "@/views/GongZhongHao/Share";
 import Contact from "@/views/GongZhongHao/Contact";
 import Wuliu from "@/views/GongZhongHao/Wuliu";
+import Assessment from "@/views/GongZhongHao/Assessment";
 
 
 import Cookies from "js-cookie"
@@ -214,6 +215,13 @@ const router = new Router({
       meta:{
         title:'物流信息'
       }
+    },{
+      path: '/assessment',
+      name: 'Assessment',
+      component: Assessment,
+      meta:{
+        title:'健康评估'
+      }
     },
     {
       path: '/404',
@@ -275,6 +283,8 @@ router.beforeEach((to, from, next) => {
       next()
     }else if(to.path === '/wuliu'){
       next()
+    }else if(to.path === '/assessment'){
+      next()
     }else if(to.path === '/medicalRecordListGZ'){
      //上医云公众号我的订单按钮跳转链接
      //公众号获取用户授权openId
@@ -287,6 +297,10 @@ router.beforeEach((to, from, next) => {
       //上医云公众号我的医生按钮跳转链接
       //公众号获取用户授权openId
       window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxee2590252a0f8e99&redirect_uri=http%3a%2f%2fsoelaine.com%2fdoctorList&response_type=code&scope=snsapi_base&state=4#wechat_redirect';
+    }else if(to.path === '/myAssessment'){
+      //上医云公众号健康评估按钮跳转链接
+      //公众号获取用户授权openId
+      window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxee2590252a0f8e99&redirect_uri=http%3a%2f%2fsoelaine.com%2fassessment&response_type=code&scope=snsapi_base&state=1#wechat_redirect';
     }else if(to.path === '/physiqueLink'){
       //上医云公众号体质辨识按钮跳转链接
       //公众号获取用户授权openId

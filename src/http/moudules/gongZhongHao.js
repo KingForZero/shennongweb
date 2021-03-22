@@ -7,6 +7,14 @@ export const selectMedicalRecordsGZ = (data) => {
     params:data
   })
 }
+//查询健康评估
+export const selectAssessmentGZ = (data) => {
+  return axios({
+    url: '/system/healthAssessment/selectListGZ',
+    method: 'post',
+    params:data
+  })
+}
 //创建医疗记录
 export const addByGZhao = (data) => {
   return axios({
