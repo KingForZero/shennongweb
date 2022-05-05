@@ -106,6 +106,7 @@
     data() {
       return {
         openId:'',
+        state:'',
         docId:'',
         minDate: new Date(1920, 0, 1),
         maxDate: new Date(),
@@ -137,7 +138,8 @@
       },
       selectContact(){
         this.openId = Cookies.get("openId")
-        this.$api.gongZhongHao.selectChildUserByUserId({openId:this.openId}).then((res) => {
+        this.state = Cookies.get("state")
+        this.$api.gongZhongHao.selectChildUserByUserId({openId:this.openId,state:this.state}).then((res) => {
           if(res.code == 200) {
             let data = res.rows
             this.contactList = data
@@ -146,6 +148,7 @@
       },
       editContact(){
         this.contact.openId = this.openId
+        this.contact.state = this.state
         this.$api.gongZhongHao.editChildUser(this.contact).then((res) => {
           if(res.code == 200) {
             this.show = false

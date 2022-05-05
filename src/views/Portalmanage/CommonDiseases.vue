@@ -3,13 +3,13 @@
     <!--工具栏-->
     <div class="toolbar" style="float:left;padding-top:10px;padding-left:15px;">
       <el-form :inline="true" :model="filters" :size="size">
-        
+
           <el-form-item>
             <kt-button icon="fa fa-plus" :label="$t('action.add')" perms="sys:user:add" type="primary" @click="handleAdd" />
           </el-form-item>
       </el-form>
     </div>
-    
+
     <!--表格内容栏-->
     <kt-table permsEdit="sys:user:edit" permsDelete="sys:user:delete" :showOperation="false" :customEditeAndDelete="true"
               :data="pageResult" :columns="filterColumns"
@@ -193,7 +193,7 @@
         return content;
       },
       uploadUrl(){
-        return "http://39.106.123.28/sh/system/upload";
+        return "http://baxitang.com/sh/system/upload";
       },
       // 上传图片前调用方法
       beforeUploadPicture(file) {
@@ -365,7 +365,7 @@
         let files=[]
         let idArray = (params.row.img+'').split(',')
         for(var i=0; i<idArray.length; i++) {
-          files.push({name: idArray[i], url: 'http://39.106.123.28/images/'+idArray[i]})
+          files.push({name: idArray[i], url: 'http://baxitang.com/images/'+idArray[i]})
         }
         //  [{name: 'food.jpg', url: 'https://xxx.cdn.com/xxx.jpg'}]
         this.fileList  =files

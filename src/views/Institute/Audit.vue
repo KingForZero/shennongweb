@@ -117,7 +117,7 @@ export default {
 	data() {
 		return {
 			down(row){
-			return "http://39.106.123.28/images/"+row.fileUrl
+			return "http://baxitang.com/images/"+row.fileUrl
 		},
 			isBohui:false,
 			bohuiForm:{

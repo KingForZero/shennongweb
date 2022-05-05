@@ -360,7 +360,7 @@ export default {
 	data() {
 		return {
 			down(row){
-			return "http://39.106.123.28/images/"+row.fileUrl
+			return "http://baxitang.com/images/"+row.fileUrl
 		},
       isShowImage:false,
       isShowTab1:false,
@@ -472,7 +472,7 @@ export default {
     },
     uploadUrl(){
       //return baseUrl+"/system/upload";
-      return "http://39.106.123.28/sh/system/upload"
+      return "http://baxitang.com/sh/system/upload"
     },
     selectMecicalConditionList(physiqueId,type){
       this.$api.physique.selectMedicalConditionById({id:physiqueId,type:type}).then((res) => {
@@ -513,7 +513,7 @@ export default {
             let files=[]
             let idArray = (res.rows.image+'').split(',')
             for(var i=0; i<idArray.length; i++) {
-              files.push({name: idArray[i], url: "http://39.106.123.28/images/"+idArray[i]})
+              files.push({name: idArray[i], url: "http://baxitang.com/images/"+idArray[i]})
             }
             //  [{name: 'food.jpg', url: 'https://xxx.cdn.com/xxx.jpg'}]
             this.fileList  =files

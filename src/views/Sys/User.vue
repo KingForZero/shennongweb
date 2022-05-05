@@ -296,7 +296,7 @@ export default {
 			},
 			uploadUrl(){
 				//return baseUrl+"/system/upload";
-				return "http://39.106.123.28/sh/system/upload";
+				return "http://baxitang.com/sh/system/upload";
 			},
 
 			handleAvatarSuccess(res, file) {

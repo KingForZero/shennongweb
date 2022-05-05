@@ -35,7 +35,7 @@ export default function $axios(options) {
           }else{
             $.ajax({
               type: "post",
-               url: "http://39.106.123.28/sh/system/clientUser/selectByGzOpenId",
+               url: "http://baxitang.com/sh/system/clientUser/selectByGzOpenId",
               //url: "http://localhost:8080/system/clientUser/selectByGzOpenId",
               data: {openId:openId,state: state},
               dataType: "json",

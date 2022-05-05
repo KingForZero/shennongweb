@@ -69,7 +69,7 @@
           })
             .then(() => {
               // on confirm
-              window.location.href = 'http://soelaine.com/docList'
+              window.location.href = 'http://baxitang.com/docList'
             })
             .catch(() => {
               // on cancel
@@ -103,7 +103,7 @@
             if(res.code == 200) {
               var arr = res.rows;
               for(let i = 0;i<arr.length;i++){
-                arr[i].image = "http://39.106.123.28/images/"+arr[i].image
+                arr[i].image = "http://baxitang.com/images/"+arr[i].image
                 if(arr[i].effect.length>18){
                   arr[i].effectSub = arr[i].effect.substring(0,18)+"..."
                 }else{

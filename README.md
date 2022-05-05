@@ -9,20 +9,20 @@ body为
              {
                  "type": "view",
                  "name": "医疗记录",
-                 "url": "http://soelaine.com/medicalRecordListGZ"
+                 "url": "http://baxitang.com/medicalRecordListGZ"
              }
          ]
      }
-     
+
  ```
  获取token
- 
+
  https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx219c18e85cbbe024&secret=7090441bc943abf24aba924743fe611c
- 
+
  菜单配置
- 
+
  https://api.weixin.qq.com/cgi-bin/menu/create?access_token=37_iDrSqYG7vM7i-yJnO4NGmO7aDm2LIkzYY9ie6-nrJmm03YTEKm_Ykd462V6ZxwITD6HPzgY1LX2w14CxbIzn13n5OFKJkA-bjMB2dMCVtpw1v7vq0K3-oGZfT9OfrQf7PTjwBlRefEsjn7F6PKWgAEAVQC
- 
+
  body
  ```
   {
@@ -45,7 +45,7 @@ body为
                        "name": "服务内容",
                        "media_id": "tMxb2UBoHxlxBeLOk9OAxJ8N1u2GvrGHsT65QcsAHcI"
                    }
-                   
+
                ]
            },
            {
@@ -54,7 +54,7 @@ body为
                    {
                        "type": "view",
                        "name": "营养方案",
-                       "url": "http://soelaine.com/yyfa"
+                       "url": "http://baxitang.com/yyfa"
                    },
                   {
                        "type": "view",
@@ -74,26 +74,26 @@ body为
                    {
                        "type": "view",
                        "name": "健康自测",
-                       "url": "http://soelaine.com/jkzc"
+                       "url": "http://baxitang.com/jkzc"
                    },
                    {
                        "type": "view",
                        "name": "专家咨询",
-                       "url": "http://soelaine.com/zjzx"
+                       "url": "http://baxitang.com/zjzx"
                    },
                    {
                        "type": "view",
                        "name": "订单查看",
-                       "url": "http://soelaine.com/ddck"
+                       "url": "http://baxitang.com/ddck"
                    },
                    {
                        "type": "view",
                        "name": "国际代购",
-                       "url": "http://soelaine.com/cpjs"
+                       "url": "http://baxitang.com/cpjs"
                    }
                ]
            }
        ]
    }
 ```
- 
+

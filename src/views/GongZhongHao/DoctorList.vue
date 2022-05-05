@@ -112,7 +112,7 @@
             })
           }else{
             let a = {
-              "departmentOneName":"细胞营养健康研究中心",
+              "departmentOneName":"运动营养健康服务中心",
               "departmentOneId":"10"
             }
             this.clickTab(a,1)

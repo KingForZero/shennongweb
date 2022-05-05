@@ -15,7 +15,7 @@
 			<el-form-item>
 				<kt-button icon="fa fa-plus" :label="$t('action.add')" perms="sys:user:add" type="primary" @click="handleAdd" />
 			</el-form-item>
-			
+
 		</el-form>
 	</div>
 	<!-- <div class="toolbar" style="float:right;padding-top:10px;padding-right:15px;">
@@ -44,7 +44,7 @@
 		</el-table-column>
 		<el-table-column property="fileUrl" label="课题文件" >
 			<template slot-scope="scope">
-				
+
 				<a class='download' :href='down(scope.row)' download=""  title="下载">下载</a>
 			</template>
 		</el-table-column>
@@ -69,7 +69,7 @@
 	</el-table>
 	<!--分页栏-->
     <div class="toolbar" style="padding:10px;">
-      <el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshPageRequest" 
+      <el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshPageRequest"
         :current-page="pageRequest.pageNum" :page-size="pageRequest.pageSize" :total="pageResult.total" style="float:right;">
       </el-pagination>
     </div>
@@ -167,7 +167,7 @@
 				</el-table>
 				<!--分页栏-->
 				<div class="toolbar" style="padding:10px;">
-				<el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshUserPageRequest" 
+				<el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshUserPageRequest"
 					:current-page="userPageRequest.pageNum" :page-size="userPageRequest.pageSize" :total="userResult.total" style="float:right;">
 				</el-pagination>
 				</div>
@@ -179,7 +179,7 @@
 						<el-form-item>
 							<el-button @click="addAllUser">添加患者</el-button>
 						</el-form-item>
-						
+
 					</el-form>
 				</div>
 				<el-table :data="userResult.rows" style="width: 100%">
@@ -214,7 +214,7 @@
 				</el-table>
 				<!--分页栏-->
 				<div class="toolbar" style="padding:10px;">
-				<el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshUserPageRequest" 
+				<el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshUserPageRequest"
 					:current-page="userPageRequest.pageNum" :page-size="userPageRequest.pageSize" :total="userResult.total" style="float:right;">
 				</el-pagination>
 				</div>
@@ -223,7 +223,7 @@
 
 			</el-tab-pane> -->
 		</el-tabs>
-		
+
 	</el-dialog>
 	<!--选择患者界面/在我的患者中选择-->
 	<el-dialog :title="operation?'新增':'编辑'" width="80%" :visible.sync="isShowUser" :close-on-click-modal="false">
@@ -242,7 +242,7 @@
 					<el-form-item>
 						<el-button @click="xuanzhong">选中</el-button>
 					</el-form-item>
-					
+
 				</el-form>
 			</div>
 
@@ -282,7 +282,7 @@
 			</el-table>
 			<!--分页栏-->
 			<div class="toolbar" style="padding:10px;">
-			<el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshClientPageRequest" 
+			<el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshClientPageRequest"
 				:current-page="clientPageRequest.pageNum" :page-size="clientPageRequest.pageSize" :total="clientPageResult.total" style="float:right;">
 			</el-pagination>
 			</div>
@@ -307,7 +307,7 @@
 					<el-form-item>
 						<el-button @click="showKun">在病历库中搜索</el-button>
 					</el-form-item>
-					
+
 				</el-form>
 			</div>
 
@@ -347,7 +347,7 @@
 			</el-table>
 			<!--分页栏-->
 			<div class="toolbar" style="padding:10px;">
-			<el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshClientAllPageRequest" 
+			<el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshClientAllPageRequest"
 				:current-page="clientAllPageRequest.pageNum" :page-size="clientAllPageRequest.pageSize" :total="clientAllPageResult.total" style="float:right;">
 			</el-pagination>
 			</div>
@@ -369,8 +369,8 @@
 					<el-form-item>
 						<el-button @click="xuanzhong">选中</el-button>
 					</el-form-item>
-					
-					
+
+
 				</el-form>
 			</div>
 
@@ -410,7 +410,7 @@
 			</el-table>
 			<!--分页栏-->
 			<div class="toolbar" style="padding:10px;">
-			<el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshKunPageRequest" 
+			<el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshKunPageRequest"
 				:current-page="kunPageRequest.pageNum" :page-size="kunPageRequest.pageSize" :total="kunPageResult.total" style="float:right;">
 			</el-pagination>
 			</div>
@@ -488,7 +488,7 @@
                       </el-form-item>
                     </el-col>
                   </el-row>
-                  <el-row :gutter="15">   
+                  <el-row :gutter="15">
                     <el-col :span="8">
                       <el-form-item label="年龄：" >
                         <el-input
@@ -625,7 +625,7 @@
                         <!-- <span>{{healthRecord.eat}}</span> -->
                       </el-form-item>
                     </el-col>
-                    
+
                   </el-row>
 
                   <h2 align="left">病史</h2>
@@ -667,7 +667,7 @@
                       <el-form-item label="">
                         <el-input type="textarea" :rows="4" :disabled="true" v-model="healthRecord.keeperRemarks"></el-input>
                       </el-form-item>
-                      
+
                     </el-col>
                   </el-row>
                   <el-button type="primary" @click="saveHealthRecord">保存</el-button>
@@ -690,7 +690,7 @@
                   </template>
                 </el-table-column>
               </el-table>
-              
+
           </el-dialog>
           <el-dialog  title="新增既往病史"  width="40%" :visible.sync="isShowAddHistory" :close-on-click-modal="false">
             <el-form :model="historyForm" label-width="80px"  ref="historyForm" :size="size" label-position="right">
@@ -814,7 +814,7 @@ export default {
 			isShowHistory:false,
 			historyForm:{},
 			historyList:[]
-			
+
 		}
 	},
 	methods: {
@@ -838,7 +838,7 @@ export default {
 							} else {
 								this.$message({message: '操作失败, ' + res.msg, type: 'error'})
 							}
-							
+
 						})
         this.isShowAddHistory = false
       },
@@ -858,8 +858,8 @@ export default {
 				} else {
 					this.$message({message: '操作失败, ' + res.msg, type: 'error'})
 				}
-			
-			})        
+
+			})
       },
 		saveHealthRecord(){
          //查询个人档案
@@ -963,8 +963,8 @@ export default {
                 }else{
                   this.isAllergicHistory=false
                 }
-              }	
-              
+              }
+
             })
 		},
 		telChange(val){
@@ -978,7 +978,7 @@ export default {
 			} else {
 				this.$message({message: '查询用户信息失败, ' + res.msg, type: 'error'})
 			}
-			
+
 		})
       },
 		// 编辑
@@ -1038,7 +1038,7 @@ export default {
 					}
 				})
 			}
-			
+
 		},
 		handleSelectionChange(val) {
         	this.multipleSelection = val;
@@ -1057,7 +1057,7 @@ export default {
 			this.findUserPage()
       	},
 		down(row){
-			return "http://39.106.123.28/images/"+row.fileUrl
+			return "http://baxitang.com/images/"+row.fileUrl
 		},
 		dateFormat: function (row, column, cellValue, index){
 			if(row[column.property]){
@@ -1071,7 +1071,7 @@ export default {
 			if(row.createTime){
 				return timestampToTime(row.createTime)
 			}else{
-				
+
 			}
 		},
 		imgUtil(value){
@@ -1079,7 +1079,7 @@ export default {
 				let files2=[]
 				let idArray1 = value.split(',')
 				for(var i=0; i<idArray1.length; i++) {
-					files2.push("http://39.106.123.28/images/"+idArray1[i])
+					files2.push("http://baxitang.com/images/"+idArray1[i])
 				}
 				return files2
 			}
@@ -1087,7 +1087,7 @@ export default {
 		caozuo(row){
 			this.projectId = row.id
 			this.findUserPage(null)
-			
+
 
 			this.isShow = true
 		},
@@ -1107,7 +1107,7 @@ export default {
 		},
 			uploadUrl(){
 				// return baseUrl+"/system/upload";
-				return "http://39.106.123.28/sh/system/upload";
+				return "http://baxitang.com/sh/system/upload";
 			},
 			handleAvatarSuccess(res, file) {
 				this.dataForm.fileUrl = res.rows;
@@ -1147,13 +1147,13 @@ export default {
 			}
 		},
 		//获取所有患者的分页数据
-		
+
 		findKunPage: function (data) {
 			if(this.kunFilters.keywords){
 				if(data) {
 					this.kunPageRequest = data
 				}
-		
+
 				this.kunPageRequest.columnFilters = {keywords: {name:'keywords', value:this.kunFilters.keywords}}
 				this.$api.user.selectKun(this.kunPageRequest).then((res) => {
 					this.kunPageResult = res
@@ -1162,15 +1162,15 @@ export default {
 			}else{
 				this.$message({message: '请输入关键字！' , type: 'error'})
 			}
-			
+
 		},
-		
+
 		refreshKunPageRequest: function(pageNum){
 			this.kunPageRequest.pageNum  = pageNum
 			this.findKunPage()
 		},
 		//获取所有患者的分页数据
-		
+
 		findAllCliengPage: function (data) {
 			if(data) {
 				this.clientAllPageRequest = data
@@ -1185,7 +1185,7 @@ export default {
 
 			// }).then(data!=null?data.callback:'')
 		},
-		
+
 		refreshClientAllPageRequest: function(pageNum){
 			this.clientAllPageRequest.pageNum  = pageNum
 			this.findAllCliengPage()
@@ -1225,7 +1225,7 @@ export default {
 				this.pageResult = res
 			}).then(data!=null?data.callback:'')
 		},
-		
+
 		submitGuanChaForm: function () {
 			this.$confirm('确认提交吗？', '提示', {}).then(() => {
 				this.$api.project.update(this.guanChaForm).then((res) => {
@@ -1262,7 +1262,7 @@ export default {
 				}
 			})
 		},
-		
+
 		refreshUserPageRequest: function(pageNum){
 			this.userPageRequest.pageNum  = pageNum
 			this.findUserPage()
@@ -1282,7 +1282,7 @@ export default {
 									break;
 							}
       	},
-		
+
 	},
 	mounted() {
 		this.findPage(null);
@@ -1305,7 +1305,7 @@ export default {
 	.demo .el-form-item__content{
 		text-align: left
 	}
-	
+
   .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
@@ -1341,5 +1341,5 @@ export default {
     margin-bottom: 0;
     width: 48%;
   }
-  
+
 </style>

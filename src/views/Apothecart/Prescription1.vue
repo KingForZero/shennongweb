@@ -22,11 +22,11 @@
       </el-form>
     </div>
     <div class="toolbar" style="float:right;padding-top:10px;padding-right:15px;">
-      
+
     </div>
     <!--表格内容栏-->
     <el-table :data="medicalRecordPage.rows" style="width: 100%">
-						
+
             <el-table-column type="index" label="序号"></el-table-column>
 						<!-- <el-table-column label="ID" prop="recordId"></el-table-column> -->
 						<el-table-column label="患者姓名" prop="userName"></el-table-column>
@@ -49,14 +49,14 @@
 					</el-table>
 					<!--分页栏-->
 					<div class="toolbar" style="padding:10px;">
-					<el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshMedicalRecord" 
+					<el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshMedicalRecord"
 						:current-page="medicalRecordPage.pageNum" :page-size="medicalRecordPage.pageSize" :total="medicalRecordPage.total" style="float:right;">
 					</el-pagination>
 					</div>
           <el-dialog  title="电子处方"  width="80%" :visible.sync="showYaoFang" :close-on-click-modal="false">
             <div  v-for="(item,index) in chufang" :key="index">
 
-            
+
             <el-form label-width="90px" class="demo"  v-if="item.pharmacy!='5' && item.pharmacy!='6'">
                   <h2 align="left">第{{index+1}}张处方</h2>
                     <el-row :gutter="15">
@@ -65,7 +65,7 @@
                           <el-input v-model="item.recipeDate" disabled></el-input>
                         </el-form-item>
                       </el-col>
-                      
+
                       <el-col :span="8">
                         <el-form-item label="药房：" >
                            <span v-if="item.pharmacy == '1'">桐君堂</span>
@@ -169,8 +169,8 @@
                         <el-button @click="chakan(item)" type="primary">查看药品</el-button>
                       </el-col>
                     </el-row>
-                   
-                      
+
+
                   </el-form>
               <el-form label-width="90px" class="demo" v-else>
                 <h2 align="left">第{{index+1}}张处方</h2>
@@ -266,9 +266,9 @@
           </el-dialog>
           <el-dialog  title="选择药房"  width="20%" :visible.sync="isShow" :close-on-click-modal="false">
             <el-form :model="yaofangForm" label-width="100px" :rules="yaofangFormRules" ref="yaofangForm" :size="size" label-position="right">
-              
+
               <el-form-item label="请输入折扣" prop="discount">
-                  
+
                    <el-input-number v-model="yaofangForm.discount" :precision="2" :step="0.1" :max="1"></el-input-number>
                 </el-form-item>
                  <el-form-item label="请预估邮费" prop="postage">
@@ -276,7 +276,7 @@
                      <template slot="append">元</template>
                    </el-input>
                 </el-form-item>
-               
+
             </el-form>
             <div slot="footer" class="dialog-footer">
               <el-button :size="size" @click.native="isShow = false">{{$t('action.cancel')}}</el-button>
@@ -369,9 +369,9 @@ import InquirySheet from "@/views/Core/InquirySheet"
         filters: {
           userName: '',
           recordState:'5,6,7,8,9,91,10,11,12'
-        }, 
+        },
         columnFilters:{
-          
+
         },
         columns: [],
         filterColumns: [],
@@ -394,7 +394,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
             { required: true, message: '请填写邮费', trigger: 'blur' }
           ]
         },
-        
+
         // 新增编辑界面数据
         medicalForm: {
           id: '',
@@ -439,7 +439,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
         this.$api.assistant.selectYaofang().then((res) => {
 				if(res.code == '200'){
 					this.yaofangList = res.rows
-				}	
+				}
 			})
       },
       showHealthRecord(userId){
@@ -447,7 +447,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
 			this.$api.assistant.selectHealthRecord({userId:userId}).then((res) => {
 				if(res.code == '200'){
 					this.healthRecord = res.rows
-				}	
+				}
 			})
       },
 		reject(row){
@@ -482,12 +482,12 @@ import InquirySheet from "@/views/Core/InquirySheet"
           }
       })
     },
-    
+
     auditTimeFormatter:function(row) {
       if(row.auditTime){
         return timestampToTime(row.createTime)
       }else{
-        
+
       }
 		},
 		audit(row,value){
@@ -538,7 +538,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
           this.$api.healthHouseKeeper.selectInquirySheetById({id:id}).then((res) => {
             if(res.code == '200'){
               this.inquirySheet = res.rows
-            }	
+            }
           })
           this.isShowSheet = true
         },
@@ -587,7 +587,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
 			},
       uploadUrl(){
         //return baseUrl+"/system/upload";
-        return "http://39.106.123.28/sh/system/upload"
+        return "http://baxitang.com/sh/system/upload"
 			},
       editMedical:function (row) {
         this.medicalForm = Object.assign(this.medicalForm,row)
@@ -610,7 +610,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
         for (let k in this.medicalForm) {
           this.medicalForm[k] = ''
       }
-			  this.isShow = true	
+			  this.isShow = true
       },
       chakan(item){
         this.prescribiing = item
@@ -623,12 +623,12 @@ import InquirySheet from "@/views/Core/InquirySheet"
       this.$api.healthHouseKeeper.selectByRecordIdPrescribing({recordId:value}).then((res) => {
             if(res.code == '200'){
               this.chufang = res.rows
-              
+
               this.showYaoFang = true
-            }	
+            }
           })
         this.recordId = value
-       
+
       },
       //获取文档内容
       getContent: function(){
@@ -648,12 +648,12 @@ import InquirySheet from "@/views/Core/InquirySheet"
         this.$api.healthHouseKeeper.selectByContion(this.medicalRecordPage).then((res) => {
           if(res.code == '200'){
             this.medicalRecordPage = res
-          }	
+          }
         })
       },
       // 获取药方分页数据
       findMedicalPage: function (data) {
-     
+
         this.$api.assistant.selectMedicalAll({recordId:this.prescribiing.id}).then((res) => {
           this.medicalPage = res
         })
@@ -724,7 +724,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
       if(row.createTime){
         return timestampToTime(row.createTime)
       }else{
-        
+
       }
 		},
 		activeFormatter:function(row){
@@ -747,7 +747,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
 					break;
 				default :
 						return '未知'
-				
+
 			}
           	return format(row[column.property])
       	},
@@ -804,7 +804,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
           return "已取消";
 			}
 		}
-		
+
     },
     mounted() {
       this.findMedicalRecord(null)

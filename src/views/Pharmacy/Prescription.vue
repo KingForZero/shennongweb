@@ -714,11 +714,11 @@ import InquirySheet from "@/views/Core/InquirySheet"
         }else if(type == '2'){
           a = row.id
         }
-        return 'http://39.106.123.28/sh/bussiness/medicalRecords/print?recordId='+a+'&type='+type
+        return 'http://baxitang.com/sh/bussiness/medicalRecords/print?recordId='+a+'&type='+type
         //return 'http://localhost:8080/bussiness/medicalRecords/print?recordId='+a+'&type='+type
       },
       downUrl(data,type){
-          return 'http://39.106.123.28/sh/system/prescribing/download?recordId='+data.id+'&type='+type
+          return 'http://baxitang.com/sh/system/prescribing/download?recordId='+data.id+'&type='+type
           //return 'http://localhost:8080/system/prescribing/download?recordId='+data.id+'&type='+type
       },
 		submitFahuoForm(){
@@ -968,7 +968,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
 			},
       uploadUrl(){
         //return baseUrl+"/system/upload";
-        return "http://39.106.123.28/sh/system/upload"
+        return "http://baxitang.com/sh/system/upload"
 			},
       editMedical:function (row) {
         this.medicalForm = Object.assign(this.medicalForm,row)
@@ -1033,7 +1033,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
                 let files1=[]
                 let idArray1 = (res.rows.docPic+'').split(',')
                 for(var i=0; i<idArray1.length; i++) {
-                  files1.push({name: idArray1[i], url: "http://39.106.123.28/images/"+idArray1[i]})
+                  files1.push({name: idArray1[i], url: "http://baxitang.com/images/"+idArray1[i]})
                 }
                 //  [{name: 'food.jpg', url: 'https://xxx.cdn.com/xxx.jpg'}]
                 this.fileList1  =files1

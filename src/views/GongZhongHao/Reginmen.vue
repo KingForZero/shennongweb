@@ -193,7 +193,7 @@
             if(res.code == 200) {
               this.yaoshanList = res.rows
               for (let i = 0; i < this.yaoshanList.length; i++) {
-                this.yaoshanList[i].image = "http://39.106.123.28/images/"+this.yaoshanList[i].image
+                this.yaoshanList[i].image = "http://baxitang.com/images/"+this.yaoshanList[i].image
                 if(this.yaoshanList[i].effect.length>18){
                   this.yaoshanList[i].effectStr = this.yaoshanList[i].effect.substring(0,18)+"..."
                 }else{

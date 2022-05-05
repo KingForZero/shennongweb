@@ -106,7 +106,7 @@
        // Cookies.set("openId","oULFM0cZmGlfC5nMaQnyeuSBNWAQ")
         let docId =  this.$route.query.id
         this.medicalRecord.docId = docId
-        let url = "http://39.106.123.28/sh/system/batchUpload"
+        let url = "http://baxitang.com/sh/system/batchUpload"
         let fd = new FormData()
         for(let i = 0;i<this.fileList.length;i++){
           fd.append("file",this.fileList[i].file)

@@ -177,7 +177,7 @@
         return content;
       },
       uploadUrl(){
-        return "http://39.106.123.28/sh/system/upload";
+        return "http://baxitang.com/sh/system/upload";
       },
       // 上传图片前调用方法
       beforeUploadPicture(file) {
@@ -349,7 +349,7 @@
         let files=[]
         let idArray = (params.row.goodsImg+'').split(',')
         for(var i=0; i<idArray.length; i++) {
-          files.push({name: idArray[i], url: 'http://39.106.123.28/images/'+idArray[i]})
+          files.push({name: idArray[i], url: 'http://baxitang.com/images/'+idArray[i]})
         }
         //  [{name: 'food.jpg', url: 'https://xxx.cdn.com/xxx.jpg'}]
         this.fileList  =files

@@ -3,7 +3,7 @@
     :loading="loading" :disabled="!hasPerms(perms)" @click="handleClick">
     {{label}}
   </el-button> -->
-  
+
   <div>
     <el-form label-width="170px" class="demo">
 						<h2 align="left">基本信息</h2>
@@ -96,7 +96,7 @@
 								</el-form-item>
 							</el-col>
             </el-row>
-            
+
             <el-row>
               <el-col>
 								<el-form-item label="伴随症状：">
@@ -111,7 +111,7 @@
 								</el-form-item>
 							</el-col>
             </el-row>
-            
+
 						<h2 align="left">基础问诊</h2>
 						<el-row>
 							<el-col>
@@ -282,7 +282,7 @@
 								</el-form-item>
 							</el-col>
 						</el-row>
-						
+
             <h2 align="left">一般问诊</h2>
             <el-row>
 							<el-col>
@@ -372,7 +372,7 @@
 						<el-row>
 							<el-col>
 								<div>7、有无关节活动不利</div>
-								
+
 								<el-form-item label="">
 									<el-radio-group v-model="inquirySheet.isJoint">
                     <el-radio label="0">无</el-radio>
@@ -695,7 +695,7 @@
 						<el-button type="primary" @click="fanhui" >返回</el-button>
 					</el-form>
   </div>
- 
+
 </template>
 <script>
 import { timestampToDate } from "@/utils/datetime"
@@ -707,7 +707,7 @@ export default {
   },
   data: function () {
     return {
-      
+
     }
 	},
 	methods:{
@@ -719,7 +719,7 @@ export default {
 				let files2=[]
 				let idArray1 = value.split(',')
 				for(var i=0; i<idArray1.length; i++) {
-					files2.push("http://39.106.123.28/images/"+idArray1[i])
+					files2.push("http://baxitang.com/images/"+idArray1[i])
 				}
 				return files2
 			}
@@ -737,7 +737,7 @@ export default {
 		}
 	},
 	filters:{
-	
+
 		timeStatus:function(value){
 			if(value){
 				return timestampToTime(value)

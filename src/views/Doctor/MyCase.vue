@@ -1203,7 +1203,7 @@ export default {
                 let files=[]
                 let idArray = (row.extraPic+'').split(',')
                 for(var i=0; i<idArray.length; i++) {
-                  files.push({name: idArray[i], url: "http://39.106.123.28/images/"+idArray[i]})
+                  files.push({name: idArray[i], url: "http://baxitang.com/images/"+idArray[i]})
                 }
                 //  [{name: 'food.jpg', url: 'https://xxx.cdn.com/xxx.jpg'}]
                 this.fileList  =files
@@ -1213,7 +1213,7 @@ export default {
                 let files1=[]
                 let idArray1 = (row.docPic+'').split(',')
                 for(var i=0; i<idArray1.length; i++) {
-                  files1.push({name: idArray1[i], url: "http://39.106.123.28/images/"+idArray1[i]})
+                  files1.push({name: idArray1[i], url: "http://baxitang.com/images/"+idArray1[i]})
                 }
                 //  [{name: 'food.jpg', url: 'https://xxx.cdn.com/xxx.jpg'}]
                 this.fileList1  =files1
@@ -1223,7 +1223,7 @@ export default {
                 let files2=[]
                 let idArray1 = (row.caseHistoryDoc+'').split(',')
                 for(var i=0; i<idArray1.length; i++) {
-                  files2.push({name: idArray1[i], url: "http://39.106.123.28/images/"+idArray1[i]})
+                  files2.push({name: idArray1[i], url: "http://baxitang.com/images/"+idArray1[i]})
                 }
                 //  [{name: 'food.jpg', url: 'https://xxx.cdn.com/xxx.jpg'}]
                 this.fileList2  =files2
@@ -1823,7 +1823,7 @@ export default {
 				let files2=[]
 				let idArray1 = value.split(',')
 				for(var i=0; i<idArray1.length; i++) {
-					files2.push("http://39.106.123.28/images/"+idArray1[i])
+					files2.push("http://baxitang.com/images/"+idArray1[i])
 				}
 				return files2
 			}

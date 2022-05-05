@@ -1191,7 +1191,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
 				let files2=[]
 				let idArray1 = value.split(',')
 				for(var i=0; i<idArray1.length; i++) {
-					files2.push("http://39.106.123.28/images/"+idArray1[i])
+					files2.push("http://baxitang.com/images/"+idArray1[i])
 				}
 				return files2
 			}
@@ -1674,7 +1674,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
                 let files=[]
                 let idArray = (res.rows.extraPic+'').split(',')
                 for(var i=0; i<idArray.length; i++) {
-                  files.push({name: idArray[i], url: "http://39.106.123.28/images/"+idArray[i]})
+                  files.push({name: idArray[i], url: "http://baxitang.com/images/"+idArray[i]})
                 }
                 //  [{name: 'food.jpg', url: 'https://xxx.cdn.com/xxx.jpg'}]
                 this.fileList  =files
@@ -1684,7 +1684,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
                 let files1=[]
                 let idArray1 = (res.rows.docPic+'').split(',')
                 for(var i=0; i<idArray1.length; i++) {
-                  files1.push({name: idArray1[i], url: "http://39.106.123.28/images/"+idArray1[i]})
+                  files1.push({name: idArray1[i], url: "http://baxitang.com/images/"+idArray1[i]})
                 }
                 //  [{name: 'food.jpg', url: 'https://xxx.cdn.com/xxx.jpg'}]
                 this.fileList1  =files1
@@ -1694,7 +1694,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
                 let files2=[]
                 let idArray1 = (res.rows.caseHistoryDoc+'').split(',')
                 for(var i=0; i<idArray1.length; i++) {
-                  files2.push({name: idArray1[i], url: "http://39.106.123.28/images/"+idArray1[i]})
+                  files2.push({name: idArray1[i], url: "http://baxitang.com/images/"+idArray1[i]})
                 }
                 //  [{name: 'food.jpg', url: 'https://xxx.cdn.com/xxx.jpg'}]
                 this.fileList2  =files2
@@ -1775,7 +1775,7 @@ import InquirySheet from "@/views/Core/InquirySheet"
       },
       uploadUrl(){
         // return baseUrl+"/system/upload";
-        return "http://39.106.123.28/sh/system/upload";
+        return "http://baxitang.com/sh/system/upload";
 			},
 	editMedical:function (row) {
 	this.medicalForm = Object.assign(this.medicalForm,row)

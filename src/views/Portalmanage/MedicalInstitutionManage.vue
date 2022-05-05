@@ -8,7 +8,7 @@
         </el-form-item>
       </el-form>
     </div>
-    
+
     <!--表格内容栏-->
     <kt-table permsEdit="sys:user:edit" permsDelete="sys:user:delete" :showOperation="false" :customEditeAndDelete="true"
               :data="pageResult" :columns="filterColumns"
@@ -156,7 +156,7 @@
         return content;
       },
       uploadUrl(){
-        return "http://39.106.123.28/sh/system/upload";
+        return "http://baxitang.com/sh/system/upload";
       },
       // 上传图片前调用方法
       beforeUploadPicture(file) {

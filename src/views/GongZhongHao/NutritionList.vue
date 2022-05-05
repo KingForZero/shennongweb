@@ -90,7 +90,7 @@
             if(res.code == 200) {
               var arr = res.rows;
               for(let i = 0;i<arr.length;i++){
-                arr[i].image = "http://39.106.123.28/images/"+arr[i].image
+                arr[i].image = "http://baxitang.com/images/"+arr[i].image
                 if(arr[i].diseaseCause.length>18){
                   arr[i].diseaseCauseSub = arr[i].diseaseCause.substring(0,18)+"..."
                 }else{

@@ -74,7 +74,7 @@
     data() {
       return {
         down(row){
-          return "http://39.106.123.28/images/"+row.fileUrl
+          return "http://baxitang.com/images/"+row.fileUrl
         },
         isShow:false,
         radio:'经典处方',

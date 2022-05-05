@@ -12,7 +12,7 @@
 			<el-form-item>
 				<kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:role:view" type="primary" @click="findPage(null)"/>
 			</el-form-item>
-			
+
 		</el-form>
 	</div>
 
@@ -47,7 +47,7 @@
 	</el-table>
 	<!--分页栏-->
     <div class="toolbar" style="padding:10px;">
-      <el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshPageRequest" 
+      <el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshPageRequest"
         :current-page="pageRequest.pageNum" :page-size="pageRequest.pageSize" :total="pageResult.total" style="float:right;">
       </el-pagination>
     </div>
@@ -67,7 +67,7 @@
                   </template>
                 </el-table-column>
               </el-table>
-              
+
           </el-dialog>
           <el-dialog  title="新增既往病史"  width="80%" :visible.sync="isShowAddHistory" :close-on-click-modal="false">
             <el-form :model="historyForm" label-width="80px"  ref="historyForm" :size="size" label-position="right">
@@ -208,7 +208,7 @@
 								<el-form-item label="">
 									<el-input type="textarea" :rows="4" v-model="healthRecord.keeperRemarks"></el-input>
 								</el-form-item>
-								
+
 							</el-col>
 						</el-row>
 					</el-form>
@@ -234,7 +234,7 @@
                       <el-form-item label="用户电话：" >
                          <span>{{props.row.userTel}}</span>
                       </el-form-item>
-                      
+
                     </el-col>
                     <el-col :span="8">
                       <el-form-item label="状态：">
@@ -300,7 +300,7 @@
                     </el-col>
                   </el-row>
                   <el-row :gutter="15">
-                    
+
                     <el-col :span="8">
                       <el-form-item label="是否转诊：">
                         <span v-if="props.row.changeDoc == '1'">是</span>
@@ -365,7 +365,7 @@
 					</el-table>
 					<!--分页栏-->
 					<div class="toolbar" style="padding:10px;">
-					<el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshMedicalPageRequest" 
+					<el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshMedicalPageRequest"
 						:current-page="medicalRecordPage.pageNum" :page-size="medicalRecordPage.pageSize" :total="medicalRecordPage.total" style="float:right;">
 					</el-pagination>
 					</div>
@@ -431,7 +431,7 @@
 								<!-- <el-button :size="size" type="primary" @click.native="submitHealthGuidance" :loading="editLoading">{{$t('action.submit')}}</el-button> -->
 							</div>
 						</el-form>
-					
+
 				</el-tab-pane>
 				<el-tab-pane label="健康日志" name="fourth">
 					<!--工具栏-->
@@ -480,7 +480,7 @@
 					</el-table>
 					<!--分页栏-->
 					<div class="toolbar" style="padding:10px;">
-					<el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshHealthLog" 
+					<el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshHealthLog"
 						:current-page="healthLogPage.pageNum" :page-size="healthLogPage.pageSize" :total="healthLogPage.total" style="float:right;">
 					</el-pagination>
 					</div>
@@ -515,7 +515,7 @@
 					</el-table>
 					<!--分页栏-->
 					<div class="toolbar" style="padding:10px;">
-					<el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshAssessment" 
+					<el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshAssessment"
 						:current-page="assessmentResult.pageNum" :page-size="assessmentResult.pageSize" :total="assessmentResult.total" style="float:right;">
 					</el-pagination>
 					</div>
@@ -549,18 +549,18 @@
 					</el-table>
 					<!--分页栏-->
 					<div class="toolbar" style="padding:10px;">
-					<el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshChufang" 
+					<el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshChufang"
 						:current-page="chufangPage.pageNum" :page-size="chufangPage.pageSize" :total="chufangPage.total" style="float:right;">
 					</el-pagination>
 					</div>
 				</el-tab-pane>
-				
+
 			</el-tabs>
 		</template>
 	</el-dialog>
 	<!--健康指导新增编辑界面-->
 	<el-dialog :title="operation?'新增':'编辑'" width="40%" :visible.sync="isHealthGuidance" :close-on-click-modal="false">
-		
+
 	</el-dialog>
 	<!-- 健康评估页面 -->
 	<el-dialog title="健康评估" width="40%" :visible.sync="isHealthAssessment" :close-on-click-modal="false">
@@ -718,7 +718,7 @@
                       </el-table>
                       <!--分页栏-->
                         <div class="toolbar" style="padding:10px;">
-                          <el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshMedicalPageRequest" 
+                          <el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshMedicalPageRequest"
                             :current-page="medicalPage.pageNum" :page-size="medicalPage.pageSize" :total="medicalPage.total" style="float:right;">
                           </el-pagination>
                         </div>
@@ -828,7 +828,7 @@
                       </el-table>
                       <!--分页栏-->
                         <div class="toolbar" style="padding:10px;">
-                          <el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshMedicalPageRequest" 
+                          <el-pagination layout="total, prev, pager, next, jumper" @current-change="refreshMedicalPageRequest"
                             :current-page="medicalPage.pageNum" :page-size="medicalPage.pageSize" :total="medicalPage.total" style="float:right;">
                           </el-pagination>
                         </div>
@@ -867,7 +867,7 @@
               <el-button :size="size" type="primary" @click.native="submitMedicalForm" :loading="editLoading">{{$t('action.submit')}}</el-button>
             </div>
           </el-dialog>
-					
+
 					<!--新增健康评估页-->
           <el-dialog  title="健康评估"  width="30%" :visible.sync="isShowAssessment" :close-on-click-modal="false" @close='closeDialog'>
             <el-form :model="assessmentForm" label-width="80px" :rules="assessmentRules" ref="assessmentForm" :size="size" label-position="right">
@@ -877,7 +877,7 @@
               <el-form-item label="健康评估" prop="healthMsg">
 				  			<el-input type="textarea" v-model="assessmentForm.healthMsg"  auto-complete="off"></el-input>
               </el-form-item>
-             
+
             </el-form>
             <div slot="footer" class="dialog-footer">
               <el-button :size="size" @click.native="isShowAssessment = false">{{$t('action.cancel')}}</el-button>
@@ -1030,7 +1030,7 @@ export default {
 							} else {
 								this.$message({message: '操作失败, ' + res.msg, type: 'error'})
 							}
-							
+
 						})
         this.isShowAddHistory = false
       },
@@ -1045,7 +1045,7 @@ export default {
 				let files2=[]
 				let idArray1 = value.split(',')
 				for(var i=0; i<idArray1.length; i++) {
-					files2.push("http://39.106.123.28/images/"+idArray1[i])
+					files2.push("http://baxitang.com/images/"+idArray1[i])
 				}
 				return files2
 			}
@@ -1065,10 +1065,10 @@ export default {
 							} else {
 								this.$message({message: '操作失败, ' + res.msg, type: 'error'})
 							}
-							
+
 						})
         this.isShowHistory = true
-        
+
       },
 		clickTab(targetName){
         if("1"===targetName.paneName){
@@ -1111,7 +1111,7 @@ export default {
           return false;
         }
 		},
-		
+
 		closeDialog(){
 				this.assessmentForm.id = ''
 			this.assessmentForm.healthMsg = ''
@@ -1128,7 +1128,7 @@ export default {
                 }
 									this.refreshAssessment(1)
 									this.isShowAssessment = false
-										
+
               })
             })
           }
@@ -1141,7 +1141,7 @@ export default {
 		},
 		addAssessment(){
 			this.isShowAssessment = true
-			
+
 		},
 		changeExpand(row, expandedRows){
 			if(row.extraPic){
@@ -1149,7 +1149,7 @@ export default {
                 let files=[]
                 let idArray = (row.extraPic+'').split(',')
                 for(var i=0; i<idArray.length; i++) {
-                  files.push({name: idArray[i], url: "http://39.106.123.28/images/"+idArray[i]})
+                  files.push({name: idArray[i], url: "http://baxitang.com/images/"+idArray[i]})
                 }
                 //  [{name: 'food.jpg', url: 'https://xxx.cdn.com/xxx.jpg'}]
                 this.fileList  =files
@@ -1159,7 +1159,7 @@ export default {
                 let files1=[]
                 let idArray1 = (row.docPic+'').split(',')
                 for(var i=0; i<idArray1.length; i++) {
-                  files1.push({name: idArray1[i], url: "http://39.106.123.28/images/"+idArray1[i]})
+                  files1.push({name: idArray1[i], url: "http://baxitang.com/images/"+idArray1[i]})
                 }
                 //  [{name: 'food.jpg', url: 'https://xxx.cdn.com/xxx.jpg'}]
                 this.fileList1  =files1
@@ -1169,13 +1169,13 @@ export default {
                 let files2=[]
                 let idArray1 = (row.caseHistoryDoc+'').split(',')
                 for(var i=0; i<idArray1.length; i++) {
-                  files2.push({name: idArray1[i], url: "http://39.106.123.28/images/"+idArray1[i]})
+                  files2.push({name: idArray1[i], url: "http://baxitang.com/images/"+idArray1[i]})
                 }
                 //  [{name: 'food.jpg', url: 'https://xxx.cdn.com/xxx.jpg'}]
                 this.fileList2  =files2
               }
 		},
-		
+
 		fasong(id){
 			this.$api.healthHouseKeeper.pushYf({id:id}).then((res) => {
             if(res.code == '200'){
@@ -1188,7 +1188,7 @@ export default {
 						}
 							this.findChufang(this.chufangPage)
 			})
-		
+
 		},
 		editMedical:function (row) {
         this.medicalForm = Object.assign(this.medicalForm,row)
@@ -1212,7 +1212,7 @@ export default {
 			 done();
 		},
 		submitMedicalForm: function () {
-			
+
         this.medicalForm.medicalRecordId = this.recordId
         this.$refs.medicalForm.validate((valid) => {
           if (valid) {
@@ -1250,9 +1250,9 @@ export default {
                 }
               })
 
-            }	
+            }
           })
-			  this.isShow = true	
+			  this.isShow = true
 		  },
 		bc(){
 			//新增电子处方
@@ -1272,7 +1272,7 @@ export default {
           })
       },
 		chufangDiag(){
-			
+
 			this.prescribiing = {}
 			this.recordId = ''
 			this.prescribiing.recordId = this.userId
@@ -1288,7 +1288,7 @@ export default {
 			this.$api.assistant.updateHealthRecord(this.healthRecord).then((res) => {
 				if(res.code == '200'){
 					this.$message({ message: '操作成功', type: 'success' })
-				}	
+				}
 			})
 		},
 		isShowSheetMethod(value){
@@ -1298,7 +1298,7 @@ export default {
 			this.$api.healthHouseKeeper.selectInquirySheetById({id:id}).then((res) => {
 				if(res.code == '200'){
 					this.inquirySheet = res.rows
-				}	
+				}
 			})
 			this.isShowSheet = true
 		},
@@ -1313,7 +1313,7 @@ export default {
 				if(res.code == '200'){
 					this.healthLogPage = res
 					this.healthLogPage.columnFilters = this.columnFilters
-				}	
+				}
 			})
 		},
 		activeEdit(row){
@@ -1341,7 +1341,7 @@ export default {
 				if (valid) {
 					this.$confirm('确认提交吗？', '提示', {}).then(() => {
 						this.editLoading = true
-						
+
 						this.$api.healthHouseKeeper.saveHealthGuidance(this.healthAssessmentForm).then((res) => {
 							this.editLoading = false
 							if(res.code == 200) {
@@ -1422,7 +1422,7 @@ export default {
 				if(res.code == '200'){
 					this.medicalRecordPage = res
 					this.medicalRecordPage.columnFilters = data.columnFilters
-				}	
+				}
 			})
 		},
 		// 获取会员健康指导分页数据
@@ -1430,7 +1430,7 @@ export default {
 			this.$api.healthHouseKeeper.selectPage({userId:data}).then((res) => {
 				if(res.code == '200'){
 					this.healthGuidanceForm = res.rows
-				}	
+				}
 			})
 		},
 		//获取健康日志分页数据
@@ -1439,17 +1439,17 @@ export default {
 				if(res.code == '200'){
 					this.healthLogPage = res
 					this.healthLogPage.columnFilters = data.columnFilters
-				}	
+				}
 			})
 		},
-		
+
 		//获取健康评估分页数据
 		findAssessment:function(data){
 			this.$api.healthHouseKeeper.selectassessmentPage(data).then((res) => {
 				if(res.code == '200'){
 					this.assessmentResult = res
 					this.assessmentResult.columnFilters = data.columnFilters
-				}	
+				}
 			})
 		},
 		//获取保健品分页数据
@@ -1458,7 +1458,7 @@ export default {
 				if(res.code == '200'){
 					this.chufangPage = res
 					this.chufangPage.columnFilters = data.columnFilters
-				}	
+				}
 			})
 		},
 
@@ -1468,7 +1468,7 @@ export default {
       		this.$api.healthHouseKeeper.selectPrescribing({id:value}).then((res) => {
             if(res.code == '200'){
               this.prescribiing = res.rows
-            }	
+            }
           })
 			this.recordId = value
 			this.findMedicalPage(null)
@@ -1480,7 +1480,7 @@ export default {
       		this.$api.healthHouseKeeper.selectByRecordIdPrescribing({recordId:value}).then((res) => {
             if(res.code == '200'){
               this.prescribiing = res.rows
-            }	
+            }
           })
 			this.recordId = value
 			this.findMedicalPage(null)
@@ -1556,7 +1556,7 @@ export default {
       	},
 		// 我的会员列表换页刷新
 		refreshPageRequest: function (pageNum) {
-			
+
 			this.pageRequest.pageNum = pageNum
 			this.findPage()
 		},
@@ -1580,7 +1580,7 @@ export default {
 			this.assessmentResult.pageNum = pageNum
 			this.findAssessment(this.assessmentResult)
 		},
-		
+
 		//保健品电子处方换页刷新
 		refreshChufang: function(pageNum) {
 			this.chufangPage.pageNum = pageNum
@@ -1588,7 +1588,7 @@ export default {
 		},
 		//点击会员id触发的事件
 		xiangqing:function(index,row){
-			
+
 			this.assessmentForm.userId = row.userId
 			this.assessmentForm.userName = row.userName
 			this.userId = row.userId
@@ -1599,7 +1599,7 @@ export default {
 			this.$api.assistant.selectHealthRecord({userId:row.userId}).then((res) => {
 				if(res.code == '200'){
 					this.healthRecord = res.rows
-				}	
+				}
 			})
 			//查询医疗记录
 			this.medicalRecordPage.columnFilters = {userId: {name:'userId', value:row.userId}}
@@ -1673,7 +1673,7 @@ export default {
 					return "已取消";
 			}
 		}
-		
+
 	},
 	mounted() {
 		this.findPage(null);
@@ -1736,7 +1736,7 @@ export default {
 	.demo .el-form-item__content{
 		text-align: left
 	}
-	
+
   .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
@@ -1772,5 +1772,5 @@ export default {
     margin-bottom: 0;
     width: 48%;
   }
-  
+
 </style>
